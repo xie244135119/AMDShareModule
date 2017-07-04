@@ -1,0 +1,297 @@
+//
+//  AMDShareManager.m
+//  AppMicroDistribution
+//
+//  Created by SunSet on 15-5-31.
+//  Copyright (c) 2015年 SunSet. All rights reserved.
+//
+
+#import "AMDShareManager.h"
+//#import <ShareSDKConnector/ShareSDKConnector.h>
+//#import "WXApi.h"
+//#import <TencentOpenAPI/QQApiInterface.h>
+//#import <TencentOpenAPI/TencentOAuth.h>
+//#import <TencentOpenAPI/QQApiInterface.h>
+#import "WXApi.h"
+//#import "MultiProjectManager.h"
+#import "WeiboSDK.h"
+//#import <ShareSDK/ShareSDK+Base.h>
+//#import "AMDPayService.h"
+//#import "AMDCommonClass.h"
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKConnector/ShareSDKConnector.h>
+//#import "AMDUIFactory.h"
+#import <ShareSDK/ShareSDK+Base.h>
+//#import <ShareSDKExtension/SSEThirdPartyLoginHelper.h>
+#import "MShareManager.h"
+#import "MShareStaticMethod.h"
+#import "NSObject+ShareBindValue.h"
+#import "MShareTool.h"
+
+
+@interface AMDShareManager()
+
+@end
+
+@implementation AMDShareManager
+
+
+// 授权登录--统一处理
++ (void)getUserInfoFormWeiChat:(AMDWechatLoginHandle)handle
+{
+//    NSLog(@"当前版本 ：%@",[ShareSDK sdkVer]);
+    // 授权登录
+    [ShareSDK getUserInfo:SSDKPlatformTypeWechat onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+        // 取消授权
+        [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
+        //
+        handle(state==SSDKResponseStateSuccess,user.rawData,error);
+    }];
+}
+
+
+// 显示内容
++ (void)showStringWithDict:(NSDictionary *)dict
+{
+    NSArray *allkeys = dict.allKeys;
+    NSMutableString *str = [[NSMutableString alloc]init];
+    for (NSString *key in allkeys) {
+        [str appendFormat:@"%@=%@,",key,dict[key]];
+    }
+    
+    //
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:str message:nil delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+
+// 取消授权
++ (void)cancelWechatAuthWithType
+{
+    //如果微信已授权
+    if ([ShareSDK hasAuthorized:SSDKPlatformTypeWechat]) {
+        [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
+    }
+}
+
+// 九图分享
++ (void)openWechat
+{
+    [WXApi openWXApp];
+}
+
+
+#pragma mark - PrivateAPI
+//sharesdk分享错误
++ (NSString *)shareErrorWithCode:(NSInteger)code
+{
+    NSDictionary *errorlist = [[NSDictionary alloc]initWithContentsOfFile:GetFilePath(@"ShareErrorCodeList.plist")];
+    NSString *errorcode = [[NSString alloc]initWithFormat:@"%li",(long)code];
+    NSDictionary *param = errorlist[errorcode];
+    if (param == nil) {
+        return @"分享失败";
+    }
+    return param[@"description"];
+}
+
+
+
+#pragma mark
+#pragma mark - 全新的shareSDK体系
++ (void)config
+{
+    // 配置连接 @"db1e4895e49d"[[MultiProjectManager globalConfigFile] shareSDKAppKey]
+    [ShareSDK registerApp:[MShareManager shareInstance].appKeyDelegate.appkey activePlatforms:@[@(SSDKPlatformTypeSinaWeibo),@(SSDKPlatformTypeQQ),@(SSDKPlatformTypeWechat)]
+                 onImport:^(SSDKPlatformType platformType) {
+        switch (platformType)
+        {
+            case SSDKPlatformTypeWechat:
+                [ShareSDKConnector connectWeChat:[WXApi class]];
+//                [ShareSDKConnector connectWeChat:[WXApi class] delegate:[AMDPayService sharedAMDPayService]];
+                break;
+            case SSDKPlatformTypeQQ:
+                [ShareSDKConnector connectQQ:NSClassFromString(@"QQApiInterface") tencentOAuthClass:NSClassFromString(@"TencentOAuth")];
+                break;
+            case SSDKPlatformTypeSinaWeibo:
+                [ShareSDKConnector connectWeibo:[WeiboSDK class]];
+                break;
+            default:
+                break;
+        }
+    } onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo) {
+        switch (platformType)
+        {
+            case SSDKPlatformTypeSinaWeibo:
+                //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+                [appInfo SSDKSetupSinaWeiboByAppKey:[MShareManager shareInstance].appKeyDelegate.sinaAppKey
+                                          appSecret:[MShareManager shareInstance].appKeyDelegate.sinaAppSecret
+                                        redirectUri:[MShareManager shareInstance].appKeyDelegate.sinaRedirectUri
+                                           authType:SSDKAuthTypeBoth];
+                break;
+            case SSDKPlatformTypeWechat:
+                [appInfo SSDKSetupWeChatByAppId:[MShareManager shareInstance].appKeyDelegate.wechatAppKey
+                                      appSecret:[MShareManager shareInstance].appKeyDelegate.wechatAppSecret];
+                break;
+            case SSDKPlatformTypeQQ:
+                [appInfo SSDKSetupQQByAppId:[MShareManager shareInstance].appKeyDelegate.qqAppKey
+                                     appKey:[MShareManager shareInstance].appKeyDelegate.qqAppSecret
+                                   authType:SSDKAuthTypeBoth];
+                break;
+            default:
+                break;
+        }
+    }];
+}
+
+
+// shareSDK V3.X版本
++ (void)shareType:(AMDShareType)shareType content:(NSString *)content title:(NSString *)title imageUrl:(NSString *)imageurl infoUrl:(NSString *)infourl
+{
+    //字符截取处理规则(复制不截取)
+    if (shareType != AMDShareTypeCopy) {
+        // 标题不能超过20个字 详细内容不能超过140个字
+        title = title.length > 30?[title substringToIndex:30]:title;
+        content = content.length > 40?[content substringToIndex:40]:content;
+    }
+
+    // 卡片分享的时候处理图片裁剪--保证小比例图片分享
+    if (infourl.length > 0) {
+        if ([imageurl rangeOfString:@"?imageView2"].length == 0 &&  ![imageurl hasPrefix:@"local:"]) {
+            imageurl = [imageurl stringByAppendingString:@"?imageView2/1/w/80/h/80"];
+        }
+    }
+    
+    // 分享内容拼接规则
+    if (shareType == AMDShareTypeSina || shareType == AMDShareTypeCopy) {
+        // 如果内容中含有http
+        if ([content rangeOfString:@"http"].length == 0 && infourl.length > 0) {
+            content = [content stringByAppendingFormat:@" %@",infourl];
+        }
+    }
+    
+    SSDKPlatformType platformtype = 0;
+    switch (shareType) {
+        case AMDShareTypeQQ:        //qq
+            platformtype = SSDKPlatformSubTypeQQFriend;
+            break;
+        case AMDShareTypeQQZone:    //qq空间
+            platformtype = SSDKPlatformSubTypeQZone;
+            break;
+        case AMDShareTypeSina:      //新浪微博
+            platformtype = SSDKPlatformTypeSinaWeibo;
+//            content = [content stringByAppendingFormat:@" %@",infourl];
+            break;
+        case AMDShareTypeWeChatSession:         //微信好友
+            platformtype = SSDKPlatformSubTypeWechatSession;
+            break;
+        case AMDShareTypeweChatTimeline:        //微信朋友圈
+            platformtype = SSDKPlatformSubTypeWechatTimeline;
+            break;
+        case AMDShareTypeCopy:              //复制
+        {
+//            platformtype = SSDKPlatformTypeCopy;
+            //调用系统剪切板
+                if (content.length == 0) return;
+            
+                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                pasteboard.string = content;
+            [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"复制成功"];
+                return;
+        }
+            break;
+        default:
+            break;
+    }
+    
+    
+    //参数处理 如果内容、标题、infourl为空 即为图片分享
+    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+
+    if (content.length<=0&& title.length<=0&& infourl.length<=0) {
+        //1、创建分享参数（必要）
+        [shareParams SSDKSetupShareParamsByText:platformtype ==SSDKPlatformTypeSinaWeibo?@"分享给您一张图片～": nil
+                                         images:[self shareImagePathWithUrl:imageurl]
+                                            url:nil
+                                          title:nil
+                                           type:SSDKContentTypeImage];
+    }else{
+        //1、创建分享参数（必要）
+        [shareParams SSDKSetupShareParamsByText:content
+                                         images:[self shareImagePathWithUrl:imageurl]
+                                            url:infourl.length==0?nil:[NSURL URLWithString:infourl]
+                                          title:title
+                                           type:SSDKContentTypeAuto];
+    }
+
+    [ShareSDK share:platformtype parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
+        switch (state) {
+            case SSDKResponseStateSuccess:{//成功
+                //微博添加有量福利团关注
+                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"分享成功"];
+            }
+                break;
+            case SSDKResponseStateFail:{//失败
+                //                [AMDUIFactory makeToken:nil message:[self shareErrorWithCode:error.code]];
+                
+                [[MShareTool sharedMShareTool]  showAlertTitle:[self shareErrorWithCode:error.code] Message:nil
+                                                               action:^(NSInteger index) {
+                                                                   
+                                                               } cancelBt:nil otherButtonTitles:@"确认", nil];
+//                NSLog(@"分享失败 %@ %li",error.localizedDescription,(long)error.code);
+            }
+                break;
+            case SSDKResponseStateCancel:{//取消
+//                if (shareType == SSDKPlatformTypeSinaWeibo) {
+                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"取消分享"];
+//                }
+            }
+                break;
+            default:
+                break;
+        }
+    }];
+        [shareParams SSDKEnableUseClientShare];
+}
+
+// 分享图片
++ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl
+{
+    // 自动调用图片类型
+    [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil];
+}
+
+
+
+
+//返回分享的图片实例
++ (id)shareImagePathWithUrl:(NSString *)imageurl
+{
+    if (imageurl.length == 0) {
+        return nil;
+    }
+    //有前缀 local--本地图片
+    if ([imageurl hasPrefix:@"local:"]) {
+        NSString *url = [imageurl substringFromIndex:6];
+        UIImage *image = [[UIImage alloc]initWithContentsOfFile:url];
+        return image;
+    }
+//    imageurl = [[NSString alloc]initWithString:[NSString stringWithFormat:@"%@?imageView2/1/w/%.0d/h/%.0d", imageurl,200,200]];
+
+    return imageurl;
+}
+
+
+
+@end
+
+
+
+
+
+
+
+
+
+
+
+
