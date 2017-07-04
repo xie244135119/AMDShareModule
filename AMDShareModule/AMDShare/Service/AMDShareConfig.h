@@ -18,5 +18,10 @@ typedef NS_ENUM(NSUInteger, AMDShareType) {
     AMDShareTypeSina,                           //新浪微博
 };
 
+typedef NS_ENUM(NSUInteger, AMDShareResponseState) {
+    AMDShareResponseSuccess,
+    AMDShareResponseFail,
+    AMDShareResponseCancel,
+};
 
 #endif /* AMDShareConfig_h */

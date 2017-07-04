@@ -9,9 +9,9 @@
 #import "ViewController.h"
 #import "AMDShareController.h"
 #import "MShareManager.h"
-#import "AMDShareMaterialController.h"
+//#import "AMDShareMaterialController.h"
 
-@interface ViewController ()<MShareRequestDelegate>
+@interface ViewController ()
 {
 
 }
@@ -21,7 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [MShareManager shareInstance].requestDelegare = self;;
     [self.navigationController setNavigationBarHidden:YES];
     UIButton *bt = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
     bt.backgroundColor = [UIColor redColor];
@@ -32,23 +31,19 @@
 
 
 - (void)click {
-    AMDShareController *VC = [[AMDShareController alloc]init];
+    AMDShareController *VC = [AMDShareController shareViewControllerForServiceType:@"com.share.default"];
+    VC.shareTitle = @"mingcheng ";
+    VC.shareContent = @"neirong";
+    VC.shareUrl = @"www.baidu.com";
+    VC.shareShortUrl = @"www.baidu.com";
+    VC.shareImageUrls = @[@"www.tupian.com"];
+//    VC.customIntentIdentifiers = @[@1,@2,@3];
+    VC.shareSource = 1;
+    VC.handleShareAction = ^(AMDShareType shareType, NSString *alertTitle) {
+        
+    };
     [self presentViewController:VC animated:NO completion:nil];
 }
 
--(void)click2{
-    AMDShareMaterialController *VC = [[AMDShareMaterialController alloc]init];
-    [self presentViewController:VC animated:NO completion:nil];
-}
-
-
-#pragma mark - MShareRequestDelegate
--(void)initShareViewWithType:(void(^)(AMDShareViewFrom type))type{
-    type(AMDShareViewFromTempGoods);
-}
-
--(void)getShareSource:(void (^)(NSString *, AMDShareToType, NSString *, NSString *, NSString *, NSArray *, NSArray *, NSString *, NSString *))source{
-    source(@"id",ShareToUMSDK,@"fdasf",@"dasfdasf",@"fsadfds",@[@"dasfsad"],@[@"dfasfdas"],@"1231321",@"fasdfadsfdsaf");
-}
 
 @end

@@ -13,6 +13,7 @@
 #import "MShareStaticMethod.h"
 #import "MShareManager.h"
 #import "MShareTool.h"
+#import "SDWebImageManager.h"
 
 
 @interface AMDShareMaterialViewModel()
@@ -26,12 +27,7 @@
     __weak UIView *_currentBackView;
 }
 
-// 一组图片地址
-@property(nonatomic, strong) NSArray *shareImageUrls;
-// 分享内容
-@property(nonatomic, copy) NSString *shareContent;
-// 分享链接
-@property(nonatomic, copy) NSString *shareUrl;
+
 
 @end
 
@@ -51,7 +47,6 @@
     _senderController = (AMDRootViewController *)self.senderController;
     [self initContentView];
     [self initMembory];
-    [self getShareSource];
 }
 
 
@@ -59,6 +54,11 @@
 - (void)initContentView
 {
 //    self.backgroundColor = [UIColor clearColor];
+    //点击添加手势
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
+    recognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+    [recognizer setNumberOfTapsRequired:1];
+    [_senderController.contentView addGestureRecognizer:recognizer];
     
     //截取上个界面的画面做背景
     UIImageView *imageBack = [[UIImageView alloc]init];
@@ -254,7 +254,7 @@
                 }
                 else {
                     [weakself hide];
-                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"图片加载失败，请重试"];
+//                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"图片加载失败，请重试"];
                 }
             }];
         }
@@ -265,7 +265,7 @@
             [self saveImagesToAlbumWithUrls:self.shareImageUrls completion:^(NSError *error) {
                 if (error == nil) {
                     [weakself pasteText:weakself.shareContent];
-                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"图片已保存到本地，文字已复制到粘贴板"];
+//                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"图片已保存到本地，文字已复制到粘贴板"];
                 }
             }];
         }
@@ -396,28 +396,34 @@
                         completion:(void (^)(NSArray *cachesImages, NSError *error))completion
 {
     // 加载动画
+//    [[AMDRequestService sharedAMDRequestService] animationStartForDelegate:nil];
     [[[MShareManager shareInstance] animationDelegate] showAnimation];
-    
     __weak typeof(self) weakself = self;
     NSURL *url = [NSURL URLWithString:imageurl];
-    
-    if ([[[MShareManager shareInstance] materialRequestDelegare] respondsToSelector:@selector(loadImageWithUrl:Completion:)]) {
-        [[[MShareManager shareInstance] materialRequestDelegare] loadImageWithUrl:url Completion:^(UIImage *image, BOOL result) {
-            if (result) {
-                [[[MShareManager shareInstance] animationDelegate] stopAnimation];
-                    [_allCacheImages addObject:image];
-                    if (_allCacheImages.count == weakself.shareImageUrls.count) {
-                        // 下载完成
-                        completion(_allCacheImages, nil);
-                        return ;
-                    }
-                    // 继续执行
-                    [weakself _batchDownloadImageWithUrl:weakself.shareImageUrls[_allCacheImages.count] completion:completion];
+    [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        // 加载动画
+        [[[MShareManager shareInstance] animationDelegate] stopAnimation];
+        //
+        if (finished) {
+            if ((cacheType == SDImageCacheTypeMemory && image) || data ) {
+                [_allCacheImages addObject:image];
+                if (_allCacheImages.count == weakself.shareImageUrls.count) {
+                    // 下载完成
+                    completion(_allCacheImages, nil);
+                    return ;
+                }
+                
+                // 继续执行
+                [weakself _batchDownloadImageWithUrl:weakself.shareImageUrls[_allCacheImages.count] completion:completion];
             }
             else {
+                //                completion(_allCacheImages, error);
             }
-        }];
-    }
+        }
+        else {
+            //            completion(_allCacheImages, error);
+        }
+    }];
 }
 
 
@@ -432,35 +438,34 @@
     
     // 判断图片权限
     if (![self permissionFromAlbum]) {
-        [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"没有图片权限"];
+//        [AMDUIFactory makeToken:nil message:@"没有图片权限"];
         return;
     }
     
     // 加载动画
     [[[MShareManager shareInstance] animationDelegate] showAnimation];
-    if ([[[MShareManager shareInstance] materialRequestDelegare] respondsToSelector:@selector(perpareForSendNinePhotos:Completion:)]) {
-        [[[MShareManager shareInstance]  materialRequestDelegare] perpareForSendNinePhotos:self.shareImageUrls Completion:^(NSArray *images, BOOL result) {
-            if (result) {
-                [[[MShareManager shareInstance] animationDelegate] stopAnimation];
-                if (images.count > 0) {
-                    _isImagesSaved = YES;
-                    if (!_isImagesCached) {
-                        _isImagesCached = YES;
-                        [_allCacheImages removeAllObjects];
-                        [_allCacheImages addObjectsFromArray:images];
-                    }
-                }
-                
-            }else{
-                [[[MShareManager shareInstance] animationDelegate] stopAnimation];
-                if ([[[MShareManager shareInstance] alertDelegate] respondsToSelector:@selector(showToastWithTitle:)]) {
-                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享失败 请重试"];
-                }
+    
+    [[MShareTool sharedMShareTool] perpareForSendNinePhotos:self.shareImageUrls successAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
+        [[[MShareManager shareInstance] animationDelegate] stopAnimation];
+        
+        if (cachePicImages.count > 0) {
+            _isImagesSaved = YES;
+            if (!_isImagesCached) {
+                _isImagesCached = YES;
+                [_allCacheImages removeAllObjects];
+                [_allCacheImages addObjectsFromArray:cachePicImages];
             }
-        }];
-    }
+        }
+        
+        //
+        completion(nil);
+        
+    } failAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
+        [[[MShareManager shareInstance] animationDelegate] stopAnimation];
+//        [AMDUIFactory makeToken:nil message:@"分享失败 请重试"];
+        completion(error);
+    }];
 }
-
 
 // 权限判断
 - (BOOL)permissionFromAlbum
@@ -518,14 +523,4 @@
 }
 
 
-#pragma mark - 获取分享数据源
--(void)getShareSource{
-    if ([[[MShareManager shareInstance] materialRequestDelegare] respondsToSelector:@selector(getShareSourceCompletion:)]) {
-        [[[MShareManager shareInstance] materialRequestDelegare] getShareSourceCompletion:^(NSArray *imageUrls, NSString *content, NSString *url) {
-            self.shareImageUrls = imageUrls;
-            self.shareContent = content;
-            self.shareUrl = url;
-        }];
-    }
-}
 @end

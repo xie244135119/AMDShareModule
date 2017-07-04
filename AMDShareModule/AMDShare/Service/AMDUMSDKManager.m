@@ -56,7 +56,7 @@
 
 
 #pragma mark - 发起分享
-+(BOOL)shareToUMWithType:(AMDShareType)shareType shareContent:(NSString *)shareContent shareTitle:(NSString *)shareTitle shareImageUrl:(NSString *)shareImageUrl url:(NSString *)shareUrl{
++(BOOL)shareToUMWithType:(AMDShareType)shareType shareContent:(NSString *)shareContent shareTitle:(NSString *)shareTitle shareImageUrl:(NSString *)shareImageUrl url:(NSString *)shareUrl competion:(void (^)(NSString *))completion{
     //字符截取处理规则(复制不截取)
     if (shareType != AMDShareTypeCopy) {
         // 标题不能超过20个字 详细内容不能超过140个字
@@ -96,14 +96,16 @@
         //调用分享接口
         [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
             if (error) {
-                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
+                completion([self shareErrorWithCode:error.code]);
+//                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
             }else{
-                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
+                completion(@"分享成功");
+//                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
             }
         }];
         
     }else{
-        [AMDShareManager shareType:shareType content:shareContent title:shareTitle imageUrl:shareImageUrl infoUrl:shareUrl];
+        [AMDShareManager shareType:shareType content:shareContent title:shareTitle imageUrl:shareImageUrl infoUrl:shareUrl competion:completion];
     }
     return NO;
 }
@@ -150,9 +152,9 @@
     //调用分享接口
     [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
         if (error) {
-            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
+//            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
         }else{
-            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
+//            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
         }
     }];
     return NO;

@@ -145,7 +145,7 @@
 
 
 // shareSDK V3.X版本
-+ (void)shareType:(AMDShareType)shareType content:(NSString *)content title:(NSString *)title imageUrl:(NSString *)imageurl infoUrl:(NSString *)infourl
++ (void)shareType:(AMDShareType)shareType content:(NSString *)content title:(NSString *)title imageUrl:(NSString *)imageurl infoUrl:(NSString *)infourl competion:(void(^)(NSString *alertTitle))completion
 {
     //字符截取处理规则(复制不截取)
     if (shareType != AMDShareTypeCopy) {
@@ -195,7 +195,7 @@
             
                 UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
                 pasteboard.string = content;
-            [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"复制成功"];
+//            [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"复制成功"];
                 return;
         }
             break;
@@ -226,23 +226,27 @@
     [ShareSDK share:platformtype parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
         switch (state) {
             case SSDKResponseStateSuccess:{//成功
+                completion(@"success");
                 //微博添加有量福利团关注
-                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"分享成功"];
+//                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"分享成功"];
             }
                 break;
             case SSDKResponseStateFail:{//失败
                 //                [AMDUIFactory makeToken:nil message:[self shareErrorWithCode:error.code]];
-                
-                [[MShareTool sharedMShareTool]  showAlertTitle:[self shareErrorWithCode:error.code] Message:nil
-                                                               action:^(NSInteger index) {
-                                                                   
-                                                               } cancelBt:nil otherButtonTitles:@"确认", nil];
+                completion(@"fail");
+
+//                [[MShareTool sharedMShareTool]  showAlertTitle:[self shareErrorWithCode:error.code] Message:nil
+//                                                               action:^(NSInteger index) {
+//                                                                   
+//                                                               } cancelBt:nil otherButtonTitles:@"确认", nil];
 //                NSLog(@"分享失败 %@ %li",error.localizedDescription,(long)error.code);
             }
                 break;
             case SSDKResponseStateCancel:{//取消
+                completion(@"Cancel");
+
 //                if (shareType == SSDKPlatformTypeSinaWeibo) {
-                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"取消分享"];
+//                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"取消分享"];
 //                }
             }
                 break;
@@ -254,10 +258,10 @@
 }
 
 // 分享图片
-+ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl
++ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl competion:(void (^)(NSString *))completion
 {
     // 自动调用图片类型
-    [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil];
+    [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil competion:completion];
 }
 
 

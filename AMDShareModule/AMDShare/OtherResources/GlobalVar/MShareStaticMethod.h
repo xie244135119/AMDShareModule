@@ -43,14 +43,15 @@
 // 默认背景色
 #define DEFAULT_BACKGROUND_COLOR ColorWithRGB(246, 246, 246, 1)
 
+#define kGCDMain dispatch_get_main_queue()
 
 
 //加载过程中的图片
-#define AMDLoadingImage [[UIImage imageNamed:@"GoodsModule.bundle/xnormal_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(8, 8, 7, 7)]                 //商品默认头像
+#define AMDLoadingImage [[UIImage imageNamed:@"AMDShareModule.bundle/xnormal_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(8, 8, 7, 7)]                 //商品默认头像
 
 #define GetFilePath(a) [[[NSBundle mainBundle] resourcePath]stringByAppendingPathComponent:a]
 // 图片加载
-#define AMDShareBundleName @"AMDCustomerModule.bundle"           //custom模块 bundle名称
+#define AMDShareBundleName @"AMDShareModule.bundle"           //custom模块 bundle名称
 #define imageFromName(a) [[UIImage alloc]initWithContentsOfFile:GetFilePath(a)]
 #define AMDShareSrcImage(file) imageFromName([AMDShareBundleName stringByAppendingPathComponent:file])
 

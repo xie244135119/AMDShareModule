@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 typedef void (^AlertShowAction)(NSInteger index);
+typedef void(^AMDPhotoAction)(NSArray *_Nullable cachePicImages, NSError *_Nullable error);
 
 @interface MShareTool : NSObject
 
@@ -83,6 +84,16 @@ SYNTHESIZE_SINGLETON_FOR_HEADER(MShareTool)
  @return 是否有权限
  */
 + (BOOL)permissionFromType:(AMDPrivacyPermissionType)type;
+
+
+/**
+ *  保存网络图片
+ * @param photourls 图片地址
+ * @param callBackAction 成功回调事件
+ * @param failAction 失败回调事件
+ */
+- (void)perpareForSendNinePhotos:(nullable NSArray *)photourls successAction:(nullable AMDPhotoAction)callBackAction failAction:(nullable AMDPhotoAction)failAction;
+
 @end
 
 

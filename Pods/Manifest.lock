@@ -1,6 +1,9 @@
 PODS:
   - Masonry (1.0.2)
   - MOBFoundation (3.0.0)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
   - ShareSDK3 (3.6.3):
     - MOBFoundation
     - ShareSDK3/ShareSDK (= 3.6.3)
@@ -17,6 +20,7 @@ PODS:
   - SSBaseLib (1.0.1)
 
 DEPENDENCIES:
+  - SDWebImage (~> 4.0.0)
   - ShareSDK3 (~> 3.6.3)
   - ShareSDK3/ShareSDKPlatforms/QQ
   - ShareSDK3/ShareSDKPlatforms/SinaWeibo
@@ -27,10 +31,11 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MOBFoundation: e6572a62983a44fa048c4038842ade1494c10059
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   ShareSDK3: d271520113160eb24b31cd642b45b38fcd592d93
   SSBaseKit: f0c904f54d2090a412f89a47a00aa5607dc2eeda
   SSBaseLib: 41f3eb12b04e619e230aa1996b3e0a628b550c4f
 
-PODFILE CHECKSUM: 267f231f353ca4a22a2c9d2867c0cee4211b8fcc
+PODFILE CHECKSUM: cf5376e05ae0631b4e2fe9dfe1194847c5669889
 
 COCOAPODS: 1.2.1

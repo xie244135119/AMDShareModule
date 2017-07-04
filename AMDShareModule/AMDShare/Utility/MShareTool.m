@@ -11,10 +11,21 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import <Photos/Photos.h>
 #import "MShareManager.h"
+#import "SDWebImageManager.h"
 
 static NSString *const kBindSender = @"KBindSender";            //绑定Model
 
+@interface MShareTool()
+{
+    // 存储九图需要使用
+    __block NSInteger _currentBeginTampCount;                       //当前传递的当前起始图片
+    __block NSArray *_currentPhotoURLs;                             //当前所有的图片地址
+    __block NSMutableArray *_allCacheImages;
+    AMDPhotoAction _callBackSuccessAction;                                      //图片保存成功之后的回调
+    AMDPhotoAction _callBackFailAction;                                         //图片失败之后的回调
 
+}
+@end
 @implementation MShareTool
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(MShareTool)
@@ -264,7 +275,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MShareTool)
                     break;
                 case PHAuthorizationStatusDenied:           //权限被拒绝
                 {
-                    [[[MShareManager shareInstance] alertDelegate] showAlertWithTitle:[self textFromLackPermisson:AMDPrivacyPermissionTypeAssetsLibrary]];
+//                    [[[MShareManager shareInstance] alertDelegate] showAlertWithTitle:[self textFromLackPermisson:AMDPrivacyPermissionTypeAssetsLibrary]];
 //                    [[AMDCommonClass sharedAMDCommonClass] showAlertTitle:nil Message:[self textFromLackPermisson:AMDPrivacyPermissionTypeAssetsLibrary] action:nil cancelBt:nil otherButtonTitles:@"确定", nil];
                     resault = NO;
                 }
@@ -274,7 +285,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MShareTool)
                     break;
                 case PHAuthorizationStatusRestricted:
                 {
-                     [[[MShareManager shareInstance] alertDelegate] showAlertWithTitle:@"App当前没有权限使用相册"];
+//                     [[[MShareManager shareInstance] alertDelegate] showAlertWithTitle:@"App当前没有权限使用相册"];
                     resault = NO;
                 }
                     break;
@@ -316,4 +327,99 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MShareTool)
     NSString *text = [[NSString alloc]initWithFormat:@"app需要访问您的%@。\n请启用%@-设置/隐私/%@",remindMessage,remindMessage,remindMessage];
     return text;
 }
+
+
+
+//准备发九图
+- (void)perpareForSendNinePhotos:(NSArray *)photourls successAction:(AMDPhotoAction)callBackAction failAction:(AMDPhotoAction)failAction
+{
+    // 如果失败
+    if (photourls.count == 0) {
+        //        [AMDUIFactory makeToken:nil message:@"请选择图片"];
+        failAction(@[],[NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]);
+        return;
+    }
+    
+    // 如果权限不足
+    //    if (![AMDTool requestPermisson:AMDDevicePermissionTypeAssetsLibrary]) {
+    //        [[AMDCommonClass sharedAMDCommonClass] showAlertTitle:nil Message:[AMDTool textFromLackPermisson:AMDDevicePermissionTypeAssetsLibrary] action:nil cancelBt:nil otherButtonTitles:@"确定", nil];
+    //        failAction(@[],[NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]);
+    //        return;
+    //    }
+    
+    
+    // 判断权限
+    if (![MShareTool  permissionFromType:AMDPrivacyPermissionTypeAssetsLibrary]) {
+        // 权限不足 需要重新处理
+        return;
+    }
+    
+    _currentPhotoURLs = photourls;
+    _currentBeginTampCount = 0;
+    _callBackSuccessAction = nil;
+    _callBackSuccessAction = [callBackAction copy];
+    _callBackFailAction = nil;
+    _callBackFailAction = [failAction copy];
+    if (_allCacheImages == nil) {
+        _allCacheImages = [[NSMutableArray alloc]init];
+    }
+    [_allCacheImages removeAllObjects];
+    
+    //递归调用图片下载方式
+    [self savePhotoToDiskWithUrl:photourls[_currentBeginTampCount]];
+}
+
+//保存图片地址
+- (void)savePhotoToDiskWithUrl:(NSString *)photourlstr
+{
+    NSURL *url = [[NSURL alloc]initWithString:NonNil(photourlstr, @"")];
+    __weak typeof(self) weakself = self;
+    [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        if (data || (cacheType==SDImageCacheTypeMemory && image)) {
+            //将图片保存到相册
+            //            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+            
+            [weakself _savePhotoToAlbumWithImage:image];
+        }
+        else if(error) {
+            //            [AMDUIFactory makeToken:nil message:@"图片下载出错"];
+            _callBackFailAction(_allCacheImages,[NSError errorWithDomain:NSURLErrorFailingURLStringErrorKey code:404 userInfo:nil]);
+        }
+        else {
+            _callBackFailAction(_allCacheImages, error);
+        }
+    }];
+}
+
+
+// 保存图片
+- (void)_savePhotoToAlbumWithImage:(UIImage *)image
+{
+    [MShareTool savePhotoAlbumWithImage:image completion:^(BOOL success, NSError *error) {
+        // 九图分享语
+        if (error == nil) {
+            if (![_allCacheImages containsObject:image]) {
+                _currentBeginTampCount++;
+                [_allCacheImages addObject:image];
+            }
+            // 没有执行完成
+            if (_currentBeginTampCount < _currentPhotoURLs.count) {
+                [self savePhotoToDiskWithUrl:_currentPhotoURLs.count>_currentBeginTampCount? _currentPhotoURLs[_currentBeginTampCount]:nil];
+                return;
+            }
+            //最后一张图片结束
+            dispatch_async(kGCDMain, ^{
+                _callBackSuccessAction(_allCacheImages,nil);
+                _allCacheImages = nil;
+            });
+        }
+        else{
+            dispatch_async(kGCDMain, ^{
+                _callBackFailAction(_allCacheImages, [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:nil]);
+                _allCacheImages = nil;
+            });
+        }
+    }];
+}
+
 @end

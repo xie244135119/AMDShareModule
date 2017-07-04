@@ -10,15 +10,15 @@
 #import <Masonry/Masonry.h>
 #import "MShareStaticMethod.h"
 #import "MShareManager.h"
-#import "AMDShareConfig.h"
 #import "AMDShareQrCodeController.h"
 #import "AMDShareManager.h"
 #import "AMDUMSDKManager.h"
 #import <Social/Social.h>
+#import "AMDShareConfig.h"
 
 @interface AMDShareViewModel()
 {
-        __weak AMDRootViewController *_senderController;
+    __weak AMDRootViewController *_senderController;
     __weak UIView *_middleView;         //分享背景视图
     __weak UILabel *_titleLb;               //文字
     __weak UIView *_currentBackView;            //  透明背景图
@@ -29,12 +29,8 @@
     NSString *_shareTitle;
     NSString *_shareContent;
     NSString *_shareImageURL;
-
+    
 }
-
-
-
-@property(nonatomic, assign) AMDShareViewFrom shareFrom;     //从哪个页面来
 
 @end
 @implementation AMDShareViewModel
@@ -65,6 +61,12 @@
         make.left.right.top.bottom.offset(0);
     }];
     
+    //点击添加手势
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
+        recognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+        [recognizer setNumberOfTapsRequired:1];
+        [_senderController.contentView addGestureRecognizer:recognizer];
+    
     //分享按钮背景图
     UIView *middleView = [[UIView alloc]init];
     middleView.backgroundColor = [UIColor whiteColor];
@@ -75,7 +77,7 @@
         make.height.equalTo(@310);
         make.bottom.equalTo(@(310));
     }];
-
+    
     // 选择分享方式
     UILabel *titlelb = [[UILabel alloc]init];
     titlelb.text = @"选择分享方式";
@@ -122,113 +124,174 @@
         make.bottom.equalTo(@-13);
     }];
     [self initShareBts];
-
+    
 }
 
 // 加载分享按钮
 - (void)initShareBts
 {
+ __block   NSArray *shareTitles = nil;
+ __block   NSArray *shareIcons = nil;
+    [self invokeBtTitleAndImage:^(NSArray *images, NSArray *titles) {
+        shareTitles = titles;
+        shareIcons = images;
+    }];
     
-    [[[MShareManager shareInstance] requestDelegare] initShareViewWithType:^(AMDShareViewFrom type) {
-#define XQAnimationSrcName(file) [@"ShareImageTwo.bundle" stringByAppendingPathComponent:file]
-        NSArray *titles = nil;
-        NSArray *images = nil;
-        switch (type) {
-            case AMDShareViewFromTempGoods:
-            case AMDShareViewFromShopGoods:
+    __weak UIView *_firstBt = nil;
+    __weak UIView *_lastBt = nil;
+    for (NSInteger i = 0; i<shareTitles.count; i++) {
+        //按钮背景
+        UIView *backView = [[UIView alloc]init];
+        [_middleView addSubview:backView];
+        backView.tag = [shareTitles hash];
+        
+        //分享图片按钮
+        AMDButton *shareBt = [[AMDButton alloc]init];
+        shareBt.tag = [shareTitles[i] hash];
+        shareBt.layer.cornerRadius = 25;
+        shareBt.layer.masksToBounds = YES;
+        [shareBt setBackgroundColor:nil forState:UIControlStateHighlighted];
+        [shareBt setImage2: AMDShareSrcImage(shareIcons[i]) forState:UIControlStateNormal];
+        [shareBt addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:shareBt];
+        
+        [shareBt.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.width.height.equalTo(@50);
+            make.centerX.equalTo(shareBt.mas_centerX);
+            make.centerY.equalTo(shareBt.mas_centerY);
+        }];
+        
+        [shareBt mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.height.equalTo(@50);
+            make.centerX.equalTo(backView.mas_centerX);
+            make.top.equalTo(@5);
+        }];
+        
+        //分享标题
+        UILabel *titleLB = [[UILabel alloc]init];
+        titleLB.text = shareTitles[i];
+        titleLB.textAlignment = NSTextAlignmentCenter;
+        titleLB.font = FontWithName(@"", 12);
+        titleLB.textColor = DEFAULT_TEXT_GRAY_COLOR;
+        [backView addSubview:titleLB];
+        
+        [titleLB mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(@0);
+            make.height.equalTo(@15);
+            make.top.equalTo(shareBt.mas_bottom).with.offset(5);
+        }];
+        
+        NSInteger row = i/4;
+        NSInteger column = i%4;
+        [backView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@80);
+            
+            // 第一个按钮不存在的时候
+            if (_firstBt == nil) {
+                make.top.equalTo(_titleLb.mas_bottom).with.offset(15);
+                make.left.equalTo(@10);
+            }
+            else {
+                // 设置等宽度
+                make.width.equalTo(_lastBt.mas_width);
+                
+                // 第一行
+                if (row == 0) {
+                    make.top.equalTo(_firstBt.mas_top);
+                }
+                else {  //其余行的时候
+                    make.top.equalTo(_firstBt.mas_bottom).with.offset(15);
+                }
+                
+                // 首列
+                if (column == 0) {  make.left.equalTo(@10); }
+                else {// 设置左侧约束
+                    make.left.equalTo(_lastBt.mas_right).with.offset(10);
+                    
+                    // 末列
+                    if (column == 3) {  make.right.equalTo(@-10); }
+                }
+            }
+        }];
+        
+        _lastBt = backView;
+        if (i == 0)  _firstBt = backView;
+    }
+}
+
+
+-(void)invokeBtTitleAndImage:(void(^)(NSArray *images,NSArray*titles))completion{
+    
+
+    
+    NSMutableArray *shareTitles = [[NSMutableArray alloc]init];
+    NSMutableArray *shareIcons = [[NSMutableArray alloc]init];
+    if (!self.customIntentIdentifiers) {
+        NSArray *title = @[@"微信",@"朋友圈",@"QQ好友",@"QQ空间",@"微博",@"复制链接"];
+        [shareTitles addObjectsFromArray:title];
+        NSArray *image = @[@"share_weixin@2x.png",@"share_weixin-friend@2x.png",@"share_qq@2x.png",@"share_q-zone@2x.png",@"share_weibo@2x.png",@"M_copy_100@2x.png"];
+        [shareIcons addObjectsFromArray:image];
+        completion(shareIcons,shareTitles);
+    }
+    for (int i = 0; i<self.customIntentIdentifiers.count; i++) {
+        switch (i+1) {
+            case 1:
             {
-                titles = @[@"微信好友",@"朋友圈",@"图文分享",@"商品二维码",@"QQ好友",@"微博",@"QQ空间",@"复制链接"];
-                images = @[@"share_weixin@2x.png",@"share_weixin-friend@2x.png",@"share_picturetext@2x.png",@"share_qrcode@2x.png",@"share_qq@2x.png",@"share_weibo@2x.png",@"share_q-zone@2x.png",@"M_copy_100@2x.png"];
+                [shareTitles addObject:@"微信"];
+                [shareIcons addObject:@"share_weixin@2x.png"];
             }
                 break;
+            case 2:
+            {
+                [shareTitles addObject:@"朋友圈"];
+                [shareIcons addObject:@"share_weixin-friend@2x.png"];
+            }
+                break;
+            case 3:
+            {
+                [shareTitles addObject:@"图文分享"];
+                [shareIcons addObject:@"share_picturetext@2x.png"];
+            }
+                break;
+            case 4:
+            {
+                [shareTitles addObject:@"商品二维码"];
+                [shareIcons addObject:@"share_qrcode@2x.png"];
+            }
+                break;
+            case 5:
+            {
+                [shareTitles addObject:@"QQ好友"];
+                [shareIcons addObject:@"share_qq@2x.png"];
+            }
+                break;
+            case 6:
+            {
+                [shareTitles addObject:@"QQ空间"];
+                [shareIcons addObject:@"share_q-zone@2x.png"];
+            }
+                break;
+                
+                
+            case 7:
+            {
+                [shareTitles addObject:@"微博"];
+                [shareIcons addObject:@"share_weibo@2x.png"];
+            }
+                break;
+                
+            case 8:
+            {
+                [shareTitles addObject:@"复制链接"];
+                [shareIcons addObject:@"M_copy_100@2x.png"];
+            }
+                break;
+                
             default:
-                titles = @[@"微信好友",@"朋友圈",@"QQ好友",@"微博",@"QQ空间",@"复制链接"];
-                images = @[@"share_weixin@2x.png",@"share_weixin-friend@2x.png",@"share_qq@2x.png",@"share_weibo@2x.png",@"share_q-zone@2x.png",@"M_copy_100@2x.png"];
                 break;
         }
-        
-        __weak UIView *_firstBt = nil;
-        __weak UIView *_lastBt = nil;
-        for (NSInteger i = 0; i<titles.count; i++) {
-            //按钮背景
-            UIView *backView = [[UIView alloc]init];
-            [_middleView addSubview:backView];
-            backView.tag = [titles hash];
-            
-            //分享图片按钮
-            AMDButton *shareBt = [[AMDButton alloc]init];
-            shareBt.tag = [titles[i] hash];
-            shareBt.layer.cornerRadius = 25;
-            shareBt.layer.masksToBounds = YES;
-            [shareBt setBackgroundColor:nil forState:UIControlStateHighlighted];
-            [shareBt setImage2:AMDShareSrcImage(images[i]) forState:UIControlStateNormal];
-            [shareBt addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
-            [backView addSubview:shareBt];
-            
-            [shareBt.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.width.height.equalTo(@50);
-                make.centerX.equalTo(shareBt.mas_centerX);
-                make.centerY.equalTo(shareBt.mas_centerY);
-            }];
-            
-            [shareBt mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.width.height.equalTo(@50);
-                make.centerX.equalTo(backView.mas_centerX);
-                make.top.equalTo(@5);
-            }];
-            
-            //分享标题
-            UILabel *titleLB = [[UILabel alloc]init];
-            titleLB.text = titles[i];
-            titleLB.textAlignment = NSTextAlignmentCenter;
-            titleLB.font = FontWithName(@"", 12);
-            titleLB.textColor = DEFAULT_TEXT_GRAY_COLOR;
-            [backView addSubview:titleLB];
-            
-            [titleLB mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.equalTo(@0);
-                make.height.equalTo(@15);
-                make.top.equalTo(shareBt.mas_bottom).with.offset(5);
-            }];
-            
-            NSInteger row = i/4;
-            NSInteger column = i%4;
-            [backView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.equalTo(@80);
-                
-                // 第一个按钮不存在的时候
-                if (_firstBt == nil) {
-                    make.top.equalTo(_titleLb.mas_bottom).with.offset(15);
-                    make.left.equalTo(@10);
-                }
-                else {
-                    // 设置等宽度
-                    make.width.equalTo(_lastBt.mas_width);
-                    
-                    // 第一行
-                    if (row == 0) {
-                        make.top.equalTo(_firstBt.mas_top);
-                    }
-                    else {  //其余行的时候
-                        make.top.equalTo(_firstBt.mas_bottom).with.offset(15);
-                    }
-                    
-                    // 首列
-                    if (column == 0) {  make.left.equalTo(@10); }
-                    else {// 设置左侧约束
-                        make.left.equalTo(_lastBt.mas_right).with.offset(10);
-                        
-                        // 末列
-                        if (column == 3) {  make.right.equalTo(@-10); }
-                    }
-                }
-            }];
-            
-            _lastBt = backView;
-            if (i == 0)  _firstBt = backView;
-        }
+    }
 
-    }];
 }
 
 
@@ -280,120 +343,74 @@
 
 - (void)clickAction:(UIButton *)sender
 {
-    if ([[[MShareManager shareInstance] requestDelegare] respondsToSelector:@selector(getShareSource:)]){
-        [[[MShareManager shareInstance] requestDelegare] getShareSource:^(NSString *productID, AMDShareToType type, NSString *content, NSString *title, NSString *url, NSArray *imageUrls, NSArray *images, NSString *goodsTitle, NSString *shortUrl) {
-            _shareImages = images.mutableCopy;
-            _shareContent = content;
-            _shareTitle = title;
-            _shareInfoURL = url;
-            _shareImageURL = imageUrls[0];
-            NSString *titleString = title;
-            NSString *contentString = content;
-            NSString *infourl = url;
-            
-            AMDShareType shareType = 0;
-            
-            if (sender.tag == [@"微信好友" hash]) {
-                shareType = AMDShareTypeWeChatSession;
-            }
-            else if (sender.tag == [@"朋友圈" hash]) {
-                shareType = AMDShareTypeweChatTimeline;
-                if (_shareFrom == AMDShareViewFromShop || _shareFrom == AMDShareViewFromShopGoods) {
-                    titleString = [titleString stringByAppendingFormat:@" %@",content];
-                }
-            }
-            else if (sender.tag == [@"图文分享" hash]) {
-                if (imageUrls.count == 0 && productID.length > 0) {
-                    // 拉取详情
-                    //            [self invokeReqeustForProduct];
-                }
-                else {
-                    __weak typeof(self) weakself = self;
-                    void (^completionBlock)(void)  = ^{
-                        // 打开系统分享版
-                        [weakself shareImageText];
-                        // 隐藏
-                        [weakself hide];
-                    };
-                    
-                    // 如果图片尚未下载--先下载图片-> 分享
-                    if (images.count == 0) {
-                        [self shareNinePhotoCompletion:completionBlock];
-                    }
-                    else {
-                        completionBlock();
-                    }
-                }
-            }
-            else if (sender.tag == [@"商品二维码" hash]) {
-//                AMDShareQrCodeView *view = [[AMDShareQrCodeView alloc]init];
-//                view.shareImageURL = imageUrls[0];
-//                view.shareContent = content;
-//                view.goodsTitle = goodsTitle;
-//                view.shareInfoURL = url;
-//                view.shareTitle = title;
-//                view.shareSource = type;
-//                [view show];
-                AMDShareQrCodeController *VC = [[AMDShareQrCodeController alloc]init];
-                [_senderController presentViewController:VC animated:NO completion:nil];
-            }
-            else if (sender.tag == [@"QQ好友" hash]) {
-                //        shareTypeStr = @"qq";
-                shareType = AMDShareTypeQQ;
-            }
-            else if (sender.tag == [@"微博" hash]) {
-                /**
-                 *  小店内部分享微博内容需要单独处理
-                 */
-                if (_shareFrom == AMDShareViewFromShop ||_shareFrom == AMDShareViewFromShopGoods) {
-                    contentString = [NSString stringWithFormat:@"%@ %@",title,content];
-                }
-                if (_shareFrom == AMDShareViewFromPTGoods) {
-                    contentString = titleString;
-                }
-                shareType = AMDShareTypeSina;
-            }
-            else if (sender.tag == [@"QQ空间" hash]) {
-                shareType = AMDShareTypeQQZone;
-            }
-            else if (sender.tag == [@"复制链接" hash]) {
-                //        shareType = AMDShareTypeCopy;
-                [self shareCopy];
-                return;
-            }
-            
-            // 处理分享事件
-            if (shareType > 0) {
-                if(shareType != AMDShareTypeCopy){
-                    // 添加转发关系
-                    if ([[[MShareManager shareInstance] requestDelegare] respondsToSelector:@selector(invokeForwardRelationshipWithPlatform:completion:)]) {
-                        [[[MShareManager shareInstance] requestDelegare] invokeForwardRelationshipWithPlatform:shareType completion:^(NSError *error) {
-                            
-                        }];
-//                    if (_handleShareAction) {
-//                        _handleShareAction(shareType);
-                    }
-                }
-                
-                //分享时需要压缩图片(统一在底层裁剪)
-                NSString *imgUrl = imageUrls[0];
-                
-                // 分享
-                switch (type) {
-                    case ShareToShareSDK:     //有量
-                        [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl];
-                        break;
-                    default:
-                        [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl];
-                        break;
-                }
-                
-            }
- 
-        }];
+    NSString *titleString = _shareTitle;
+    NSString *contentString = self.shareContent;
+    NSString *infourl = _shareInfoURL;
     
+    AMDShareType shareType = 0;
+    
+    if (sender.tag == [@"微信好友" hash]) {
+        shareType = AMDShareTypeWeChatSession;
     }
-   }
+    else if (sender.tag == [@"朋友圈" hash]) {
+        shareType = AMDShareTypeweChatTimeline;
+    }
+    else if (sender.tag == [@"图文分享" hash]) {
+        if ([[[MShareManager shareInstance] requestDelegate] respondsToSelector:@selector(shareToType:Completion:)]) {
+            [[[MShareManager shareInstance] requestDelegate] shareToType:AMDShareToTuWen Completion:^(BOOL finish) {
+            }];
+        }
+    }
+    else if (sender.tag == [@"商品二维码" hash]) {
+        if ([[[MShareManager shareInstance] requestDelegate] respondsToSelector:@selector(shareToType:Completion:)]) {
+            [[[MShareManager shareInstance] requestDelegate] shareToType:AMDShareToQrCode Completion:^(BOOL finish) {
+            }];
+        }
+    }
+    else if (sender.tag == [@"QQ好友" hash]) {
+        //        shareTypeStr = @"qq";
+        shareType = AMDShareTypeQQ;
+    }
+    else if (sender.tag == [@"微博" hash]) {
+        shareType = AMDShareTypeSina;
+    }
+    else if (sender.tag == [@"QQ空间" hash]) {
+        shareType = AMDShareTypeQQZone;
+    }
+    else if (sender.tag == [@"复制链接" hash]) {
+        [self shareCopy];
+        return;
+    }
+    
+    
+    //分享时需要压缩图片(统一在底层裁剪)
+    NSString *imgUrl = _shareImageURL;
+    
+    // 分享
+    switch (_shareSource) {
+        case 0:     //有量
+        {
+            [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl competion:^(NSString *alertTitle) {
+                if (_handleShareAction) {
+                    _handleShareAction(shareType,alertTitle);
+                }
+            }];
+        }
+            break;
+        default:
+        {
+            [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl competion:^(NSString *alertTitle) {
+                if (_handleShareAction) {
+                    _handleShareAction(shareType,alertTitle);
+                }
+            }];
+        }
+            break;
+    }
+    
+}
+
+
 //
 ////弹出系统分享控件
 -(void)shareImageText{
@@ -452,41 +469,8 @@
     /**
      *  小店内部复制链接的时候这边需要拼上店铺名称，这边单独处理
      */
-    NSString*pasteboardString = @"";
-    NSString*shorturl = _shareShortUrl.length>0?_shareShortUrl:_shareInfoURL;
-    //
-    if (_shareFrom == AMDShareViewFromShop ||_shareFrom == AMDShareViewFromShopGoods) {
-        // 如果内容中含有http就不拼接  如果没有就拼上链接
-        if ([_shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
-            pasteboardString =[NSString stringWithFormat:@"%@ %@ %@",_shareTitle,_shareContent,shorturl];
-        }
-        else{
-            pasteboardString = [NSString stringWithFormat:@"%@ %@",_shareTitle,_shareContent];
-        }
-    }
-    //拼团商品复制
-    else if (_shareFrom == AMDShareViewFromPTGoods) {
-        // 如果内容中含有http
-        if ([_shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
-            pasteboardString =[NSString stringWithFormat:@"%@ %@",_shareTitle,shorturl];
-        }
-        else{
-            pasteboardString = [NSString stringWithFormat:@"%@ %@",_shareTitle,_shareContent];
-        }
-    }
-    else {
-        //  如果内容中含有http就不拼接  如果没有就拼上链接
-        if ([_shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
-            pasteboardString = [_shareContent stringByAppendingFormat:@" %@",shorturl];
-        }
-        else {
-            pasteboardString = [_shareContent stringByAppendingFormat:@" %@",shorturl];
-        }
-    }
-    
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    pasteboard.string = pasteboardString;
-    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"复制成功"];
+    pasteboard.string = _shareContent;
 }
 
 #pragma mark - 九图保存

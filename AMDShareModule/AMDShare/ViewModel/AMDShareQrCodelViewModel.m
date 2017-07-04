@@ -290,9 +290,9 @@
 -(void)savaToTheLocalWithImage:(UIImage*)image{
     [MShareTool savePhotoAlbumWithImage:image completion:^(BOOL success, NSError *error) {
         if (success) {
-            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"保存图片成功"];
+//            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"保存图片成功"];
         }else{
-            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:error.localizedDescription];
+//            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:error.localizedDescription];
         }
     }];
     
@@ -301,6 +301,9 @@
 
 #pragma mark - 获取分享内容
 -(void)getShareSource{
+//    if ([[MShareManager shareInstance] requestDelegare] respondsToSelector:@selector(getShareSource:)) {
+//        <#statements#>
+//    }
     [[[MShareManager shareInstance] requestDelegare ] getShareSource:^(NSString *productID, AMDShareToType type, NSString *content, NSString *title, NSString *url, NSArray *imageUrls, NSArray *images, NSString *goodsTitle, NSString *shortUrl) {
         self.shareSource = type;
         self.shareTitle = title;

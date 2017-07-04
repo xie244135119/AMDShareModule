@@ -31,7 +31,8 @@
           shareContent:(NSString *)shareContent
             shareTitle:(NSString *)shareTitle
          shareImageUrl:(NSString *)shareImageUrl
-          url:(NSString *)shareUrl;
+          url:(NSString *)shareUrl
+competion:(void(^)(NSString *alertTitle))completion;
 
 /*
  *单图分享

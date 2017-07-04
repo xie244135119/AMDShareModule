@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "MShareAppKeyRequest.h"
-#import "MShareAlertDelegate.h"
+#import "MShareRequest.h"
 #import "MShareAnimationDelegate.h"
-#import "MShareRequestDelegate.h"
-#import "MShareMaterialDelegate.h"
+
 
 @interface MShareManager : NSObject
 
@@ -20,13 +19,11 @@
 
 @property(nonatomic, weak) id<MShareAppKeyRequest>appKeyDelegate;
 
-@property(nonatomic, weak) id<MShareAlertDelegate>alertDelegate;
+@property(nonatomic, weak) id<MShareRequest>requestDelegate;
 
 @property(nonatomic, weak) id<MShareAnimationDelegate>animationDelegate;
 
-@property(nonatomic, weak) id<MShareRequestDelegate>requestDelegare;
 
-@property(nonatomic, weak) id<MShareMaterialDelegate>materialRequestDelegare;
 
 
 @end
