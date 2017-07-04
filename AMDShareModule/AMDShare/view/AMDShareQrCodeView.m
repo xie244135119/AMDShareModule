@@ -7,14 +7,9 @@
 //
 
 #import "AMDShareQrCodeView.h"
-#import "AMDButton.h"
-#import "AppDelegate.h"
 #import "MShareTool.h"
-//#import "UIImageView+WebCache.h"
 #import "AMDUMSDKManager.h"
-//#import "AMDPhotoService.h"
 #import "AMDShareManager.h"
-//#import "ATAColorConfig.h"
 #import "MShareStaticMethod.h"
 #import "MShareManager.h"
 
@@ -80,11 +75,7 @@
     _shareContentLB = descLB;
     [backView addSubview:descLB];
     
-    
-    
-    
     UIImageView *codeImgView = [[UIImageView alloc]initWithFrame:CGRectMake(25, descLB.frame.origin.y+descLB.frame.size.height+5, 106/2, 106/2)];
-    //    codeImgView.backgroundColor = AMDNavBarColor;
     _codeImgView = codeImgView;
     [backView addSubview:codeImgView];
     
@@ -108,12 +99,6 @@
         [shareBackView addSubview:shareBt];
         
         UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(((backView.frame.size.width - 5*34)/6)+i* (34+((backView.frame.size.width - 5*34)/6)), 30-(34/2), 34, 34)];
-//        img.image = imageFromPath(imgArr[i]);
-        
-//        NSString *bundlepath = GetFilePath(@"ShareImage.bundle");
-//        NSString *filePath = [[[NSBundle bundleWithPath:bundlepath] bundlePath] stringByAppendingPathComponent:imgArr[i]];
-//        UIImage *image = [[UIImage alloc]initWithContentsOfFile:filePath];
-        
         UIImage *image = imageFromBundleName(@"ShareImage.bundle", imgArr[i]);
         [shareBt setImage2:image forState:UIControlStateNormal];
 
@@ -146,11 +131,6 @@
     _shareImageURL = shareImageURL;
 }
 
-//-(void)setShareContent:(NSString *)shareContent{
-//
-//    _shareContent = shareContent;
-//}
-
 
 -(void)setGoodsTitle:(NSString *)goodsTitle{
     if (goodsTitle) {
@@ -168,44 +148,30 @@
 
 #pragma mark - 点击事件
 -(void)Click:(AMDButton *)sender{
-//    if (!_screenshotImg) {
     _screenshotImg =  [self ScreenShot];
-//    }
     NSString *imageurl = @"";
-//    NSString *shareTypeStr = @"";
     AMDShareType shareType = 0;
     switch (sender.tag) {
         case 1://微信好友
         {
             shareType = AMDShareTypeWeChatSession;
-//            shareTypeStr = @"wechat";
         }
             break;
         case 2://朋友圈
         {
             shareType = AMDShareTypeweChatTimeline;
-//            shareTypeStr = @"wechat_moments";
         }
             break;
         case 3://QQ空间
         {
-//            shareTypeStr = @"qzone";
             shareType = AMDShareTypeQQZone;
             imageurl  =  [MShareTool writeImageToFile:_screenshotImg];
-//            [AMDShareManager shareType:shareType content:_shareContent title:_shareTitle imageUrl:imageurl infoUrl:_shareInfoURL];
-//            [AMDShareManager shareType:shareType photoURL:imageurl];
-            [_delegate viewController:self object:@{@"type":@(shareType)}];
-
         }
             break;
         case 4://微博
         {
-//            imageurl = [AMDPhotoService writeImageToFile:_screenshotImg];
-//            shareTypeStr = @"weibo";
             shareType = AMDShareTypeSina;
-            [_delegate viewController:self object:@{@"type":@(shareType)}];
             imageurl  =  [MShareTool writeImageToFile:_screenshotImg];
-       
         }
             break;
         case 5://保存到本地
@@ -223,10 +189,10 @@
     
     // 分享
     if (shareType > 0 ) {
-
-        if ([_delegate respondsToSelector:@selector(viewController:object:)])
-        {
-            [_delegate viewController:self object:@{@"type" : @(shareType)}];
+        if ([[[MShareManager shareInstance] requestDelegare] respondsToSelector:@selector(invokeForwardRelationshipWithPlatform:completion:)]) {
+            [[[MShareManager shareInstance] requestDelegare] invokeForwardRelationshipWithPlatform:shareType completion:^(NSError *error) {
+                
+            }];
         }
 
         if ( _shareSource == 1) {//有量
@@ -242,12 +208,9 @@
     }
 }
 
-
-
 #pragma mark - 展示或者隐藏
 -(void)show{
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [app.window addSubview:self];
+
     __weak typeof(self) weakself = self;
     weakself.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:.25 animations:^{
@@ -309,13 +272,5 @@
     }];
     
 }
-
-#pragma mark - 网络请求
-//-(void)requestForwardWithPlatform:(NSString *)platform{
-//    //api/serv/serv/forwards
-//    //    NSString *urlpath = [AMDPublic stringByAppendingString:@"/forward"];
-//    NSDictionary *patameters = @{@"data":@{@"owner_type":@"bshop",@"owner_id":AMDTestShopID,@"platform":platform,@"from_type":@"supplier",@"from_id":NonNil(_supplyid, @""),@"f_type":@"tmp_product",@"f_id":NonNil(_tmpProductId, @"")}};
-//    [[AMDRequestService sharedAMDRequestService] requestWithPOSTURL:AMDPublic parameters:patameters type:001 delegate:nil animation:YES];
-//}
 
 @end

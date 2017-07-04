@@ -7,31 +7,54 @@
 //
 
 #import "AMDShareController.h"
+#import "AMDShareViewModel.h"
+#import "MShareStaticMethod.h"
 
 @interface AMDShareController ()
-
+{
+    UIImage *_currentImage;
+    AMDShareViewModel *_viewModel ;
+}
 @end
 
 @implementation AMDShareController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self initViewModel];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [_viewModel show];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (id)initWithTitle:(NSString *)title
+{
+        _currentImage = [self renderImage];
+    return [super initWithTitle:title titileViewShow:NO tabBarShow:NO];
 }
-*/
+
+
+- (void)initViewModel {
+    AMDShareViewModel *viewModel = [[AMDShareViewModel alloc]init];
+    _viewModel = viewModel;
+    viewModel.senderController = self;
+    viewModel.backImage = _currentImage;
+    [viewModel prepareView];
+}
+
+
+
+- (UIImage *)renderImage
+{
+    id<UIApplicationDelegate> app = [UIApplication sharedApplication].delegate;
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(APPWidth, APPHeight), 1, 0.0);
+    [[app window].layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
 
 @end

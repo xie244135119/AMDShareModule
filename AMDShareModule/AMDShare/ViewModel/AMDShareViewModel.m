@@ -11,6 +11,10 @@
 #import "MShareStaticMethod.h"
 #import "MShareManager.h"
 #import "AMDShareConfig.h"
+#import "AMDShareQrCodeController.h"
+#import "AMDShareManager.h"
+#import "AMDUMSDKManager.h"
+#import <Social/Social.h>
 
 @interface AMDShareViewModel()
 {
@@ -18,7 +22,18 @@
     __weak UIView *_middleView;         //分享背景视图
     __weak UILabel *_titleLb;               //文字
     __weak UIView *_currentBackView;            //  透明背景图
+    NSMutableArray *_shareImages; //分享的image数组
+    NSArray *_shareImagesURLs;
+    NSString *_shareShortUrl;
+    NSString *_shareInfoURL;
+    NSString *_shareTitle;
+    NSString *_shareContent;
+    NSString *_shareImageURL;
+
 }
+
+
+
 @property(nonatomic, assign) AMDShareViewFrom shareFrom;     //从哪个页面来
 
 @end
@@ -26,13 +41,17 @@
 
 -(void)prepareView{
     _senderController = (AMDRootViewController *)self.senderController;
+    
     [self initContentView];
 }
 
 
 -(void)initContentView{
+    _shareImages = [[NSMutableArray alloc]init];
+    
     //截取上个界面的画面做背景
     UIImageView *imageBack = [[UIImageView alloc]init];
+    imageBack.image = _backImage;
     [_senderController.contentView addSubview:imageBack] ;
     [imageBack mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.offset(0);
@@ -46,16 +65,17 @@
         make.left.right.top.bottom.offset(0);
     }];
     
+    //分享按钮背景图
     UIView *middleView = [[UIView alloc]init];
     middleView.backgroundColor = [UIColor whiteColor];
-    [imageBack addSubview:middleView];
+    [_senderController.contentView addSubview:middleView];
     _middleView = middleView;
     [middleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(@0);
         make.height.equalTo(@310);
         make.bottom.equalTo(@(310));
     }];
-    
+
     // 选择分享方式
     UILabel *titlelb = [[UILabel alloc]init];
     titlelb.text = @"选择分享方式";
@@ -90,7 +110,7 @@
     [cancelbt setBackgroundColor:AMDLineColor forState:UIControlStateHighlighted];
     [cancelbt addTarget:self action:@selector(clickCancelAction:) forControlEvents:UIControlEventTouchUpInside];
     [cancelbt setTitleColor:DEFAULT_TEXT_COLOR forState:UIControlStateNormal];
-    [_middleView addSubview:cancelbt];
+    [middleView addSubview:cancelbt];
     cancelbt.layer.borderWidth = AMDBorderWidth;
     cancelbt.layer.borderColor = [summary_text_color CGColor];
     cancelbt.layer.cornerRadius = AMDCornerRadius;
@@ -101,6 +121,8 @@
         make.height.equalTo(@45);
         make.bottom.equalTo(@-13);
     }];
+    [self initShareBts];
+
 }
 
 // 加载分享按钮
@@ -139,7 +161,7 @@
             shareBt.layer.cornerRadius = 25;
             shareBt.layer.masksToBounds = YES;
             [shareBt setBackgroundColor:nil forState:UIControlStateHighlighted];
-            [shareBt setImage2:imageFromBundleName(@"ShareImage.bundle", images[i]) forState:UIControlStateNormal];
+            [shareBt setImage2:AMDShareSrcImage(images[i]) forState:UIControlStateNormal];
             [shareBt addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
             [backView addSubview:shareBt];
             
@@ -207,25 +229,18 @@
         }
 
     }];
-    
 }
 
 
 - (void)show
 {
-//    // 加载视图
-//    id app = [UIApplication sharedApplication].delegate;
-//    [[app window] addSubview:self];
-    
-    [_currentBackView layoutIfNeeded];
-    //    [_middleView layoutIfNeeded];
-    
-    [UIView animateWithDuration:0.25 animations:^{
+    [_senderController.contentView layoutIfNeeded];
+    [UIView animateWithDuration:.25 animations:^{
         _currentBackView.backgroundColor = [UIColor colorWithWhite:0 alpha:.6];
         [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(@0);
         }];
-        [_currentBackView layoutIfNeeded];
+        [_senderController.contentView layoutIfNeeded];
     }];
 }
 
@@ -238,22 +253,13 @@
         [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(@310);
         }];
-        [_currentBackView layoutIfNeeded];
+        [_senderController.contentView layoutIfNeeded];
         
     } completion:^(BOOL finished) {
-        [_senderController.navigationController popViewControllerAnimated:YES];
+        [_senderController dismissViewControllerAnimated:NO completion:nil];
     }];
 }
 
-
-
-#pragma mark - SET
-- (void)setShareFrom:(AMDShareViewFrom)shareFrom
-{
-    _shareFrom = shareFrom;
-    
-    [self initShareBts];
-}
 
 
 
@@ -275,8 +281,12 @@
 - (void)clickAction:(UIButton *)sender
 {
     if ([[[MShareManager shareInstance] requestDelegare] respondsToSelector:@selector(getShareSource:)]){
-        
-        [[[MShareManager shareInstance] requestDelegare] getShareSource:^(AMDShareToType type, NSString *content, NSString *title, NSString *url, NSString *imageUrl) {
+        [[[MShareManager shareInstance] requestDelegare] getShareSource:^(NSString *productID, AMDShareToType type, NSString *content, NSString *title, NSString *url, NSArray *imageUrls, NSArray *images, NSString *goodsTitle, NSString *shortUrl) {
+            _shareImages = images.mutableCopy;
+            _shareContent = content;
+            _shareTitle = title;
+            _shareInfoURL = url;
+            _shareImageURL = imageUrls[0];
             NSString *titleString = title;
             NSString *contentString = content;
             NSString *infourl = url;
@@ -289,11 +299,11 @@
             else if (sender.tag == [@"朋友圈" hash]) {
                 shareType = AMDShareTypeweChatTimeline;
                 if (_shareFrom == AMDShareViewFromShop || _shareFrom == AMDShareViewFromShopGoods) {
-                    titleString = [titleString stringByAppendingFormat:@" %@",self.shareContent];
+                    titleString = [titleString stringByAppendingFormat:@" %@",content];
                 }
             }
             else if (sender.tag == [@"图文分享" hash]) {
-                if (_shareImagesURLs.count == 0 && _productID.length > 0) {
+                if (imageUrls.count == 0 && productID.length > 0) {
                     // 拉取详情
                     //            [self invokeReqeustForProduct];
                 }
@@ -307,7 +317,7 @@
                     };
                     
                     // 如果图片尚未下载--先下载图片-> 分享
-                    if (_allImages.count == 0) {
+                    if (images.count == 0) {
                         [self shareNinePhotoCompletion:completionBlock];
                     }
                     else {
@@ -316,15 +326,16 @@
                 }
             }
             else if (sender.tag == [@"商品二维码" hash]) {
-                AMDShareQrCodeView *view = [[AMDShareQrCodeView alloc]init];
-                view.delegate = self;
-                view.shareImageURL = self.shareImageURL;
-                view.shareContent = self.shareContent;
-                view.goodsTitle = self.goodsTitle;
-                view.shareInfoURL = self.shareInfoURL;
-                view.shareTitle = self.shareTitle;
-                view.shareSource = self.shareSource;
-                [view show];
+//                AMDShareQrCodeView *view = [[AMDShareQrCodeView alloc]init];
+//                view.shareImageURL = imageUrls[0];
+//                view.shareContent = content;
+//                view.goodsTitle = goodsTitle;
+//                view.shareInfoURL = url;
+//                view.shareTitle = title;
+//                view.shareSource = type;
+//                [view show];
+                AMDShareQrCodeController *VC = [[AMDShareQrCodeController alloc]init];
+                [_senderController presentViewController:VC animated:NO completion:nil];
             }
             else if (sender.tag == [@"QQ好友" hash]) {
                 //        shareTypeStr = @"qq";
@@ -335,7 +346,7 @@
                  *  小店内部分享微博内容需要单独处理
                  */
                 if (_shareFrom == AMDShareViewFromShop ||_shareFrom == AMDShareViewFromShopGoods) {
-                    contentString = [NSString stringWithFormat:@"%@ %@",_shareTitle,self.shareContent];
+                    contentString = [NSString stringWithFormat:@"%@ %@",title,content];
                 }
                 if (_shareFrom == AMDShareViewFromPTGoods) {
                     contentString = titleString;
@@ -355,17 +366,21 @@
             if (shareType > 0) {
                 if(shareType != AMDShareTypeCopy){
                     // 添加转发关系
-                    if (_handleShareAction) {
-                        _handleShareAction(shareType);
+                    if ([[[MShareManager shareInstance] requestDelegare] respondsToSelector:@selector(invokeForwardRelationshipWithPlatform:completion:)]) {
+                        [[[MShareManager shareInstance] requestDelegare] invokeForwardRelationshipWithPlatform:shareType completion:^(NSError *error) {
+                            
+                        }];
+//                    if (_handleShareAction) {
+//                        _handleShareAction(shareType);
                     }
                 }
                 
                 //分享时需要压缩图片(统一在底层裁剪)
-                NSString *imgUrl = _shareImageURL;
+                NSString *imgUrl = imageUrls[0];
                 
                 // 分享
-                switch (_shareSource) {
-                    case 1:     //有量
+                switch (type) {
+                    case ShareToShareSDK:     //有量
                         [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl];
                         break;
                     default:
@@ -386,7 +401,7 @@
     [self saveCopyText];
     
     // 直接调用微信分享
-    [self wechatShareWithText:nil images:_allImages.count>0?_allImages:@[AMDLoadingImage] url:nil];
+    [self wechatShareWithText:nil images:_shareImages.count>0?_shareImages:@[AMDLoadingImage] url:nil];
 }
 
 
@@ -442,30 +457,30 @@
     //
     if (_shareFrom == AMDShareViewFromShop ||_shareFrom == AMDShareViewFromShopGoods) {
         // 如果内容中含有http就不拼接  如果没有就拼上链接
-        if ([self.shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
-            pasteboardString =[NSString stringWithFormat:@"%@ %@ %@",_shareTitle,self.shareContent,shorturl];
+        if ([_shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
+            pasteboardString =[NSString stringWithFormat:@"%@ %@ %@",_shareTitle,_shareContent,shorturl];
         }
         else{
-            pasteboardString = [NSString stringWithFormat:@"%@ %@",_shareTitle,self.shareContent];
+            pasteboardString = [NSString stringWithFormat:@"%@ %@",_shareTitle,_shareContent];
         }
     }
     //拼团商品复制
     else if (_shareFrom == AMDShareViewFromPTGoods) {
         // 如果内容中含有http
-        if ([self.shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
+        if ([_shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
             pasteboardString =[NSString stringWithFormat:@"%@ %@",_shareTitle,shorturl];
         }
         else{
-            pasteboardString = [NSString stringWithFormat:@"%@ %@",_shareTitle,self.shareContent];
+            pasteboardString = [NSString stringWithFormat:@"%@ %@",_shareTitle,_shareContent];
         }
     }
     else {
         //  如果内容中含有http就不拼接  如果没有就拼上链接
-        if ([self.shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
-            pasteboardString = [self.shareContent stringByAppendingFormat:@" %@",shorturl];
+        if ([_shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
+            pasteboardString = [_shareContent stringByAppendingFormat:@" %@",shorturl];
         }
         else {
-            pasteboardString = [self.shareContent stringByAppendingFormat:@" %@",shorturl];
+            pasteboardString = [_shareContent stringByAppendingFormat:@" %@",shorturl];
         }
     }
     
@@ -480,16 +495,16 @@
     //有短链的时候复制短链 没有则复制商品原始链接
     NSString *shareUrl = _shareShortUrl.length>0?_shareShortUrl:_shareInfoURL;
     
-    if (self.shareContent.length > 0 || _shareTitle.length > 0 || shareUrl.length > 0) {
+    if (_shareContent.length > 0 || _shareTitle.length > 0 || shareUrl.length > 0) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        if([self.shareContent rangeOfString:@"http"].location !=NSNotFound)//_roaldSearchText
+        if([_shareContent rangeOfString:@"http"].location !=NSNotFound)//_roaldSearchText
         {
-            pasteboard.string = [NSString stringWithFormat:@"%@ %@",NonNil(_shareTitle,@""),self.shareContent];
+            pasteboard.string = [NSString stringWithFormat:@"%@ %@",NonNil(_shareTitle,@""),_shareContent];
         }
         
         else
         {
-            pasteboard.string = [NSString stringWithFormat:@"%@ %@ %@",NonNil(_shareTitle,@""),self.shareContent,NonNil(shareUrl,@"")];
+            pasteboard.string = [NSString stringWithFormat:@"%@ %@ %@",NonNil(_shareTitle,@""),_shareContent,NonNil(shareUrl,@"")];
         }
     }
 }
@@ -499,15 +514,12 @@
 {
     [[[MShareManager shareInstance] animationDelegate] showAnimation];
     //    [[AMDRequestService sharedAMDRequestService] animationStartForDelegate:self];
-    if (_allImages == nil) {
-        _allImages = [[NSMutableArray alloc]init];
-    }
     
     //    开启子线程下载图片
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         for (NSString *imageURL in _shareImagesURLs) {
             NSString * aimageURL = [imageURL stringByAppendingString:@"?imageView2/3/w/640/h/100"];
-            [_allImages addObject: [self getImageFromURL:aimageURL]];
+            [_shareImages addObject: [self getImageFromURL:aimageURL]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [[[MShareManager shareInstance] animationDelegate] stopAnimation];

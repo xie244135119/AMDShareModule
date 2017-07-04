@@ -1,34 +1,42 @@
 //
-//  AMDShareMaterialView.m
-//  AppMicroDistribution
+//  AMDShareMaterialViewModel.m
+//  AMDShareModule
 //
-//  Created by SunSet on 2017/6/22.
-//  Copyright © 2017年 SunSet. All rights reserved.
+//  Created by 马清霞 on 2017/7/4.
+//  Copyright © 2017年 Sherry. All rights reserved.
 //
 
-#import "AMDShareMaterialView.h"
+#import "AMDShareMaterialViewModel.h"
 #import <Masonry/Masonry.h>
-#import "AMDButton.h"
+#import <SSBaseKit/SSBaseKit.h>
 #import <Social/Social.h>
-//#import "AMDPhotoService.h"
-//#import "AMDCommonClass.h"
-//#import "SDWebImageManager.h"
-//#import "AMDUIFactory.h"
-//#import "AMDRequestService.h"
 #import "MShareStaticMethod.h"
 #import "MShareManager.h"
 #import "MShareTool.h"
-@interface AMDShareMaterialView()
+
+
+@interface AMDShareMaterialViewModel()
 {
     __weak UIView *_middleView;          //内部视图
     __weak UIView *_wechatPasteView;        // 微信文案复制视图
     __block NSMutableArray *_allCacheImages;        //缓存图片类
     __block BOOL _isImagesSaved;                //图片已经保存
     __block BOOL _isImagesCached;                //图片已经缓存
+    __weak AMDRootViewController *_senderController;
+    __weak UIView *_currentBackView;
 }
+
+// 一组图片地址
+@property(nonatomic, strong) NSArray *shareImageUrls;
+// 分享内容
+@property(nonatomic, copy) NSString *shareContent;
+// 分享链接
+@property(nonatomic, copy) NSString *shareUrl;
+
 @end
 
-@implementation AMDShareMaterialView
+
+@implementation AMDShareMaterialViewModel
 
 - (void)dealloc
 {
@@ -39,24 +47,38 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:CGRectMake(0, 0, APPWidth, APPHeight)]) {
-        [self initContentView];
-        [self initMembory];
-    }
-    return self;
+-(void)prepareView{
+    _senderController = (AMDRootViewController *)self.senderController;
+    [self initContentView];
+    [self initMembory];
+    [self getShareSource];
 }
-
 
 
 #pragma mark - 视图加载
 - (void)initContentView
 {
-    self.backgroundColor = [UIColor clearColor];
+//    self.backgroundColor = [UIColor clearColor];
+    
+    //截取上个界面的画面做背景
+    UIImageView *imageBack = [[UIImageView alloc]init];
+    imageBack.image = _backImage;
+    [_senderController.contentView addSubview:imageBack] ;
+    [imageBack mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.offset(0);
+    }];
+    
+    //半透明背景视图
+    UIView *backView = [[UIView alloc]init];
+    _currentBackView = backView;
+    [imageBack addSubview:backView];
+    [backView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.offset(0);
+    }];
+    
     UIView *middleView = [[UIView alloc]init];
     middleView.backgroundColor = [UIColor whiteColor];
-    [self addSubview:middleView];
+    [_senderController.contentView addSubview:middleView];
     _middleView = middleView;
     [middleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(@0);
@@ -71,7 +93,7 @@
     titlelb.textColor = DEFAULT_TEXT_GRAY_COLOR;
     titlelb.font = FontWithName(@"", 14);
     [middleView addSubview:titlelb];
-//    _titleLb = titlelb;
+    //    _titleLb = titlelb;
     [titlelb mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(@0);
         make.height.equalTo(@45);
@@ -115,11 +137,10 @@
     if (_wechatPasteView == nil) {
         UIView *v = [[UIView alloc]init];
         v.backgroundColor = [UIColor blackColor];
-        [self addSubview:v];
+        [_senderController.contentView addSubview:v];
         v.alpha = 0;
         v.layer.cornerRadius = 3;
         v.layer.masksToBounds = YES;
-//        v.transform = CGAffineTransformMakeScale(0.6, 0.6);
         _wechatPasteView = v;
         
         // 文案已复制
@@ -141,7 +162,7 @@
         [v mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(@(84));
             make.height.equalTo(@30);
-            make.centerX.equalTo(self.mas_centerX);
+            make.centerX.equalTo(_senderController.contentView.mas_centerX);
         }];
     }
 }
@@ -189,7 +210,7 @@
         shareBt.layer.cornerRadius = 25;
         shareBt.layer.masksToBounds = YES;
         [shareBt setBackgroundColor:nil forState:UIControlStateHighlighted];
-        [shareBt setImage2:imageFromBundleName(@"ShareImage.bundle", images[i]) forState:UIControlStateNormal];
+        [shareBt setImage2:AMDShareSrcImage(images[i]) forState:UIControlStateNormal];
         [shareBt addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
         [v addSubview:shareBt];
         [shareBt mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -261,24 +282,21 @@
     [self hide];
 }
 
+//
+
+
 #pragma mark - public api
 
 - (void)show
 {
-    // 加载视图
-    id app = [UIApplication sharedApplication].delegate;
-    UIViewController *vc = [[app window] rootViewController];
-    [vc.view addSubview:self];
+    [_senderController.contentView layoutIfNeeded];
     
-    [self layoutIfNeeded];
-    
-    __weak typeof(self) weakself = self;
     [UIView animateWithDuration:0.25 animations:^{
-        weakself.backgroundColor = [UIColor colorWithWhite:0 alpha:.6];
+        _currentBackView.backgroundColor = [UIColor colorWithWhite:0 alpha:.6];
         [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(@0);
         }];
-        [weakself layoutIfNeeded];
+        [_senderController.contentView layoutIfNeeded];
     }];
 }
 
@@ -286,24 +304,21 @@
 - (void)hide
 {
     _wechatPasteView.alpha = 0;
-    
-    __weak typeof(self) weakself = self;
     [UIView animateWithDuration:0.25 animations:^{
-        weakself.backgroundColor = [UIColor clearColor];
+        _currentBackView.backgroundColor = [UIColor clearColor];
         
         [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(@310);
         }];
-        [weakself layoutIfNeeded];
+        [_senderController.contentView layoutIfNeeded];
         
     } completion:^(BOOL finished) {
-        [self removeFromSuperview];
+        [_senderController dismissViewControllerAnimated:NO completion:nil];
     }];
 }
 
 
-
-#pragma mark - private api 
+#pragma mark - private api
 #pragma mark  直接调用微信相关点击
 // 直接调用微信分享
 - (void)wechatShareWithText:(NSString *)aText
@@ -363,15 +378,15 @@
     [_allCacheImages removeAllObjects];
     
     // 判断图片权限
-//    if ([self permissionFromAlbum]) {
-        // 下载图片
+    //    if ([self permissionFromAlbum]) {
+    // 下载图片
     [self _batchDownloadImageWithUrl:self.shareImageUrls[0] completion:^(NSArray *cachesImages ,NSError *error) {
         if (error == nil) {
             _isImagesCached = YES;
             completion(cachesImages, error);
         }
-        }];
-//    }
+    }];
+    //    }
 }
 
 
@@ -382,39 +397,28 @@
 {
     // 加载动画
     [[[MShareManager shareInstance] animationDelegate] showAnimation];
-//    [[AMDRequestService sharedAMDRequestService] animationStartForDelegate:nil];
     
     __weak typeof(self) weakself = self;
     NSURL *url = [NSURL URLWithString:imageurl];
     
-#warning 这边需要保存网络图片
-//    [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
-//        // 加载动画
-//        [[AMDRequestService sharedAMDRequestService] animationStopForDelegate:nil];
-//        //
-//        if (finished) {
-//            if ((cacheType == SDImageCacheTypeMemory && image) || data ) {
-//                [_allCacheImages addObject:image];
-//                if (_allCacheImages.count == weakself.shareImageUrls.count) {
-//                    // 下载完成
-//                    completion(_allCacheImages, nil);
-//                    return ;
-//                }
-//                
-//                // 继续执行
-//                [weakself _batchDownloadImageWithUrl:weakself.shareImageUrls[_allCacheImages.count] completion:completion];
-//            }
-//            else {
-////                completion(_allCacheImages, error);
-//            }
-//        }
-//        else {
-////            completion(_allCacheImages, error);
-//        }
-//    }];
+    if ([[[MShareManager shareInstance] materialRequestDelegare] respondsToSelector:@selector(loadImageWithUrl:Completion:)]) {
+        [[[MShareManager shareInstance] materialRequestDelegare] loadImageWithUrl:url Completion:^(UIImage *image, BOOL result) {
+            if (result) {
+                [[[MShareManager shareInstance] animationDelegate] stopAnimation];
+                    [_allCacheImages addObject:image];
+                    if (_allCacheImages.count == weakself.shareImageUrls.count) {
+                        // 下载完成
+                        completion(_allCacheImages, nil);
+                        return ;
+                    }
+                    // 继续执行
+                    [weakself _batchDownloadImageWithUrl:weakself.shareImageUrls[_allCacheImages.count] completion:completion];
+            }
+            else {
+            }
+        }];
+    }
 }
-
-
 
 
 // 缓存图片
@@ -433,30 +437,28 @@
     }
     
     // 加载动画
-//    [[AMDRequestService sharedAMDRequestService] animationStartForDelegate:nil];
     [[[MShareManager shareInstance] animationDelegate] showAnimation];
-#warning 这边需要调用接口保存网络图片
-//    [[MShareTool sharedMShareTool] perpareForSendNinePhotos:self.shareImageUrls successAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
-//        [[AMDRequestService sharedAMDRequestService] animationStopForDelegate:nil];
-//        
-//        if (cachePicImages.count > 0) {
-//            _isImagesSaved = YES;
-//            if (!_isImagesCached) {
-//                _isImagesCached = YES;
-//                [_allCacheImages removeAllObjects];
-//                [_allCacheImages addObjectsFromArray:cachePicImages];
-//            }
-//        }
-//        
-//        //
-//        completion(nil);
-//        
-//    } failAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
-//        [[AMDRequestService sharedAMDRequestService] animationStopForDelegate:nil];
-//        [AMDUIFactory makeToken:nil message:@"分享失败 请重试"];
-//        
-//        completion(error);
-//    }];
+    if ([[[MShareManager shareInstance] materialRequestDelegare] respondsToSelector:@selector(perpareForSendNinePhotos:Completion:)]) {
+        [[[MShareManager shareInstance]  materialRequestDelegare] perpareForSendNinePhotos:self.shareImageUrls Completion:^(NSArray *images, BOOL result) {
+            if (result) {
+                [[[MShareManager shareInstance] animationDelegate] stopAnimation];
+                if (images.count > 0) {
+                    _isImagesSaved = YES;
+                    if (!_isImagesCached) {
+                        _isImagesCached = YES;
+                        [_allCacheImages removeAllObjects];
+                        [_allCacheImages addObjectsFromArray:images];
+                    }
+                }
+                
+            }else{
+                [[[MShareManager shareInstance] animationDelegate] stopAnimation];
+                if ([[[MShareManager shareInstance] alertDelegate] respondsToSelector:@selector(showToastWithTitle:)]) {
+                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享失败 请重试"];
+                }
+            }
+        }];
+    }
 }
 
 
@@ -494,14 +496,13 @@
     transform.removedOnCompletion = YES;
     [_wechatPasteView.layer addAnimation:transform forKey:@"transormanimation"];
     
-    __weak typeof(self) weakself = self;
     [UIView animateWithDuration:0.25 animations:^{
-        weakself.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+        _currentBackView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
         // 隐藏 middleView
         [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(@310);
         }];
-        [weakself layoutIfNeeded];
+        [_senderController.contentView layoutIfNeeded];
         
     } completion:^(BOOL finished) {
         // 弹出已复制视图标志
@@ -517,16 +518,14 @@
 }
 
 
-
-
-
-
-
+#pragma mark - 获取分享数据源
+-(void)getShareSource{
+    if ([[[MShareManager shareInstance] materialRequestDelegare] respondsToSelector:@selector(getShareSourceCompletion:)]) {
+        [[[MShareManager shareInstance] materialRequestDelegare] getShareSourceCompletion:^(NSArray *imageUrls, NSString *content, NSString *url) {
+            self.shareImageUrls = imageUrls;
+            self.shareContent = content;
+            self.shareUrl = url;
+        }];
+    }
+}
 @end
-
-
-
-
-
-
-

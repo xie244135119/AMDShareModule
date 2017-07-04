@@ -7,23 +7,48 @@
 //
 
 #import "ViewController.h"
+#import "AMDShareController.h"
+#import "MShareManager.h"
+#import "AMDShareMaterialController.h"
 
-@interface ViewController ()
+@interface ViewController ()<MShareRequestDelegate>
+{
 
+}
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    [MShareManager shareInstance].requestDelegare = self;;
+    [self.navigationController setNavigationBarHidden:YES];
+    UIButton *bt = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+    bt.backgroundColor = [UIColor redColor];
+    [bt addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:bt];
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (void)click {
+    AMDShareController *VC = [[AMDShareController alloc]init];
+    [self presentViewController:VC animated:NO completion:nil];
 }
 
+-(void)click2{
+    AMDShareMaterialController *VC = [[AMDShareMaterialController alloc]init];
+    [self presentViewController:VC animated:NO completion:nil];
+}
+
+
+#pragma mark - MShareRequestDelegate
+-(void)initShareViewWithType:(void(^)(AMDShareViewFrom type))type{
+    type(AMDShareViewFromTempGoods);
+}
+
+-(void)getShareSource:(void (^)(NSString *, AMDShareToType, NSString *, NSString *, NSString *, NSArray *, NSArray *, NSString *, NSString *))source{
+    source(@"id",ShareToUMSDK,@"fdasf",@"dasfdasf",@"fsadfds",@[@"dasfsad"],@[@"dfasfdas"],@"1231321",@"fasdfadsfdsaf");
+}
 
 @end

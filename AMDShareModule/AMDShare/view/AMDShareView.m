@@ -9,7 +9,7 @@
 #import "AMDShareView.h"
 #import "AMDButton.h"
 #import "AMDUMSDKManager.h"
-#import "AMDShareQrCodeView.h"
+//#import "AMDShareQrCodeView.h"
 #import "AMDShareManager.h"
 //#import "AMDCommonClass.h"
 //#import "AMDSupplierProductModel.h"

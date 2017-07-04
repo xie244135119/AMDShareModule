@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "AMDShareConfig.h"
 typedef NS_ENUM(NSUInteger, AMDShareViewFrom) {
     AMDShareViewFromTeam = 1,           //团队(有量)
     AMDShareViewFromTopic,          //话题(买否,有量)
@@ -46,11 +46,17 @@ typedef NS_ENUM(NSUInteger, AMDShareToType) {
 
  @param source 分享类型，内容，标题，链接，图片链接
  */
--(void)getShareSource:(void(^)(AMDShareToType type,NSString *content,NSString *title,NSString *url,NSString*imageUrl))source;
+-(void)getShareSource:(void(^)(NSString *productID, AMDShareToType type,NSString *content,NSString *title,NSString *url,NSArray*imageUrls,NSArray *images,NSString *goodsTitle,NSString * shortUrl))source;
 
 
 
+/**
+ 创建转发关系
 
+ @param platform 分享品台
+ @param completion 返回结果
+ */
+-(void)invokeForwardRelationshipWithPlatform:(AMDShareType)platform completion:(void (^)(NSError *error))completion;
 
 
 @end

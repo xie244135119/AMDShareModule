@@ -23,15 +23,7 @@
 @property(nonatomic, copy) NSString *shareImageURL;     //分享的图片url
 @property(nonatomic, copy) NSString *goodsTitle;   //商品名称
 
-//@property(nonatomic, copy) NSString *shareShortUrl;//短链  用于拼接
 
-/** *AMDShareView 交互*/
-@property(nonatomic, weak) id<AMDControllerTransitionDelegate> delegate;
-
-// 供应商id
-//@property(nonatomic, copy) NSString *supplyid;
-//// 临时商品id
-//@property(nonatomic, copy) NSString *tmpProductId;
 
 -(void)show;
 

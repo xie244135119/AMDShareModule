@@ -11,6 +11,7 @@
 #import "MShareAlertDelegate.h"
 #import "MShareAnimationDelegate.h"
 #import "MShareRequestDelegate.h"
+#import "MShareMaterialDelegate.h"
 
 @interface MShareManager : NSObject
 
@@ -24,5 +25,8 @@
 @property(nonatomic, weak) id<MShareAnimationDelegate>animationDelegate;
 
 @property(nonatomic, weak) id<MShareRequestDelegate>requestDelegare;
+
+@property(nonatomic, weak) id<MShareMaterialDelegate>materialRequestDelegare;
+
 
 @end

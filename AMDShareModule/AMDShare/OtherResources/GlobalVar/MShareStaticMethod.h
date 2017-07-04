@@ -48,11 +48,11 @@
 //加载过程中的图片
 #define AMDLoadingImage [[UIImage imageNamed:@"GoodsModule.bundle/xnormal_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(8, 8, 7, 7)]                 //商品默认头像
 
-
-#define imageFromBundleName(b,n) [[UIImage alloc]initWithContentsOfFile:GetFilePathFromBundle(b, n)]
-#define GetFilePathFromBundle(b,n) [[[NSBundle bundleWithPath:GetFilePath(b)] resourcePath]stringByAppendingPathComponent:n]
 #define GetFilePath(a) [[[NSBundle mainBundle] resourcePath]stringByAppendingPathComponent:a]
-
+// 图片加载
+#define AMDShareBundleName @"AMDCustomerModule.bundle"           //custom模块 bundle名称
+#define imageFromName(a) [[UIImage alloc]initWithContentsOfFile:GetFilePath(a)]
+#define AMDShareSrcImage(file) imageFromName([AMDShareBundleName stringByAppendingPathComponent:file])
 
 //单例模式解析
 #pragma mark - 单例模式定义
