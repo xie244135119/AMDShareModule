@@ -126,7 +126,7 @@
             title:(NSString *)title
          imageUrl:(NSString *)imageurl
           infoUrl:(NSString *)infourl
-        competion:(void(^)(AMDShareResponseState responseState,NSUInteger erroCodel))completion
+        competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion
 {
     //字符截取处理规则(复制不截取)
     if (shareType != AMDShareTypeCopy) {
@@ -204,15 +204,15 @@
     [ShareSDK share:platformtype parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
         switch (state) {
             case SSDKResponseStateSuccess:{//成功
-                completion(AMDShareResponseSuccess,error.code);
+                completion(AMDShareResponseSuccess,error);
             }
                 break;
             case SSDKResponseStateFail:{//失败
-                completion(AMDShareResponseFail,error.code);
+                completion(AMDShareResponseFail,error);
             }
                 break;
             case SSDKResponseStateCancel:{//取消
-                completion(AMDShareResponseCancel,error.code);
+                completion(AMDShareResponseCancel,error);
             }
                 break;
             default:
@@ -223,7 +223,7 @@
 }
 
 // 分享图片
-+ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl competion:(void (^)(AMDShareResponseState responseState,NSUInteger erroCodel))completion
++ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl competion:(void (^)(AMDShareResponseState responseState,NSError *error))completion
 {
     // 自动调用图片类型
     [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil competion:completion];

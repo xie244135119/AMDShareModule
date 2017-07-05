@@ -358,15 +358,15 @@
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString:@"图文分享" ]) {
         shareType = AMDShareTypeTuwen;
-        if (_handleShareAction) {
-            _handleShareAction(shareType,nil,nil);
+        if (_completionHandle) {
+            _completionHandle(shareType,AMDShareResponseSuccess,nil);
         }
         return;
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString: @"商品二维码"]) {
         shareType = AMDShareTypeQrCode;
-        if (_handleShareAction) {
-            _handleShareAction(shareType,nil,nil);
+        if (_completionHandle) {
+            _completionHandle(shareType,AMDShareResponseSuccess,nil);
         }
         return;
     }
@@ -392,18 +392,18 @@
     switch (_shareSource) {
         case 0:     //有量
         {
-            [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl competion:^(AMDShareResponseState responseState, NSUInteger erroCodel) {
-                if (_handleShareAction) {
-                    _handleShareAction(shareType,responseState,erroCodel);
+            [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl competion:^(AMDShareResponseState responseState, NSError *error) {
+                if (_completionHandle) {
+                    _completionHandle(shareType,responseState,error);
                 }
             }];
         }
             break;
         default:
         {
-            [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl competion:^(AMDShareResponseState responseState, NSUInteger erroCodel) {
-                if (_handleShareAction) {
-                    _handleShareAction(shareType,responseState,erroCodel);
+            [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl competion:^(AMDShareResponseState responseState, NSError *error) {
+                if (_completionHandle) {
+                    _completionHandle(shareType,responseState,error);
                 }
             }];
         }

@@ -81,11 +81,10 @@
     viewModel.senderController = self;
     viewModel.backImage = _currentImage;
     viewModel.customIntentIdentifiers = self.customIntentIdentifiers;
-    viewModel.handleShareAction = ^(AMDShareType shareType, AMDShareResponseState responseState,NSUInteger erroCodel) {
-        if (_handleShareAction) {
-            _handleShareAction(shareType,responseState,erroCodel);
+    viewModel.completionHandle = ^(AMDShareType shareType, AMDShareResponseState responseState,NSError* error) {
+        if (_completionHandle) {
+            _completionHandle(shareType,responseState,error);
         }
-        NSLog(@"-----%lu-----%lu-----%lu",(unsigned long)shareType,(unsigned long)responseState,(unsigned long)erroCodel);
     };
     [viewModel prepareView];
 }

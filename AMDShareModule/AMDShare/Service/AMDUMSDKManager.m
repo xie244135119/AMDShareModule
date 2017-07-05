@@ -33,7 +33,7 @@
               shareTitle:(NSString *)shareTitle
            shareImageUrl:(NSString *)shareImageUrl
                      url:(NSString *)shareUrl
-               competion:(void (^)(AMDShareResponseState responseState,NSUInteger erroCodel))completion{
+               competion:(void (^)(AMDShareResponseState responseState,NSError *error))completion{
     //字符截取处理规则(复制不截取)
     if (shareType != AMDShareTypeCopy) {
         // 标题不能超过20个字 详细内容不能超过140个字
@@ -73,10 +73,10 @@
         //调用分享接口
         [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
             if (error) {
-                completion(AMDShareResponseFail,error.code);
+                completion(AMDShareResponseFail,error);
 //                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
             }else{
-                completion(AMDShareResponseSuccess,error.code);
+                completion(AMDShareResponseSuccess,error);
 //                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
             }
         }];

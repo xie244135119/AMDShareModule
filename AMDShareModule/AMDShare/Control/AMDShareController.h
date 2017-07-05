@@ -36,7 +36,7 @@
 /**
  *  点击相应的分享事件(用于转发关系)
  */
-@property(nonatomic, copy) void  (^handleShareAction)(AMDShareType shareType,AMDShareResponseState responseState,NSUInteger erroCodel);
+@property(nonatomic, copy) void  (^completionHandle)(AMDShareType shareType,AMDShareResponseState responseState,NSError* error);
 
 //处理图片下载
 @property(nonatomic, weak) id<MShareServiceProtocal>serviceProtocal;
