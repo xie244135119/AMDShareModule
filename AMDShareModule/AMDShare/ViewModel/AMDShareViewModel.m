@@ -361,12 +361,14 @@
         if (_handleShareAction) {
             _handleShareAction(shareType,nil,nil);
         }
+        return;
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString: @"商品二维码"]) {
         shareType = AMDShareTypeQrCode;
         if (_handleShareAction) {
             _handleShareAction(shareType,nil,nil);
         }
+        return;
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString:@"QQ好友"]) {
         //        shareTypeStr = @"qq";
@@ -380,10 +382,6 @@
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString: @"复制链接"]) {
         [self shareCopy];
-        return;
-    }
-    
-    if (shareType == AMDShareTypeQrCode||shareType == AMDShareTypeTuwen) {
         return;
     }
     

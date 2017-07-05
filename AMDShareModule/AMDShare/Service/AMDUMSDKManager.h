@@ -24,7 +24,7 @@
 
 
 /**
- *  第三方分享
+ *  第三方分享<仅支持微信分享>
  *
  *  @param shareType app中的分享类型
  *  @param shareContent   分享内容
