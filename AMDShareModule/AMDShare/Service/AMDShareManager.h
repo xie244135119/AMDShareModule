@@ -58,7 +58,13 @@ typedef void(^AMDWechatLoginHandle) (BOOL result, NSDictionary *userInfo, id err
 
 #pragma mark - App配置相关
 //启动配置
-+ (void)config;
++ (void)registerShareAppKey:(NSString *)shareAppKey
+                 sinaAppKey:(NSString *)sinaAppKey
+              sinaAppSecret:(NSString *)sinaAppSecret
+               wechatAppKey:(NSString *)wechatAppKey
+            wechatAppSecret:(NSString *)wechatAppSecret
+                   qqAppKey:(NSString *)qqAppKey
+                qqAppSecret:(NSString *)qqAppSecret;
 
 //AppDelegate中回调
 //+ (BOOL)handleOpenURL:(NSURL *)url;

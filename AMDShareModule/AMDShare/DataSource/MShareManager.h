@@ -7,19 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MShareAppKeyRequest.h"
-#import "MShareRequest.h"
 #import "MShareAnimationDelegate.h"
 
 
 @interface MShareManager : NSObject
 
 + (instancetype)shareInstance;
-
-
-@property(nonatomic, weak) id<MShareAppKeyRequest>appKeyDelegate;
-
-@property(nonatomic, weak) id<MShareRequest>requestDelegate;
 
 @property(nonatomic, weak) id<MShareAnimationDelegate>animationDelegate;
 

@@ -7,7 +7,6 @@
 //
 #import "AMDUMSDKManager.h"
 #import <UMSocialCore/UMSocialCore.h>
-#import <UMMobClick/MobClick.h>
 //#import "MultiProjectManager.h"
 #import "AMDShareManager.h"
 #import "MShareManager.h"
@@ -31,18 +30,6 @@
     
     // 配置友盟社交
     [self configSocial];
-}
-
-
-+ (void)beginLogPageView:(NSString *)pageName
-{
-    [MobClick beginLogPageView:pageName];
-}
-
-
-+ (void)endLogPageView:(NSString *)pageName
-{
-    [MobClick endLogPageView:pageName];
 }
 
 

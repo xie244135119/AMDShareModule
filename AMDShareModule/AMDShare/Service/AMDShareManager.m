@@ -98,10 +98,16 @@
 
 #pragma mark
 #pragma mark - 全新的shareSDK体系
-+ (void)config
++ (void)registerShareAppKey:(NSString *)shareAppKey
+                 sinaAppKey:(NSString *)sinaAppKey
+              sinaAppSecret:(NSString *)sinaAppSecret
+               wechatAppKey:(NSString *)wechatAppKey
+            wechatAppSecret:(NSString *)wechatAppSecret
+                    qqAppKey:(NSString *)qqAppKey
+                qqAppSecret:(NSString *)qqAppSecret
 {
     // 配置连接 @"db1e4895e49d"[[MultiProjectManager globalConfigFile] shareSDKAppKey]
-    [ShareSDK registerApp:[MShareManager shareInstance].appKeyDelegate.appkey activePlatforms:@[@(SSDKPlatformTypeSinaWeibo),@(SSDKPlatformTypeQQ),@(SSDKPlatformTypeWechat)]
+    [ShareSDK registerApp:shareAppKey activePlatforms:@[@(SSDKPlatformTypeSinaWeibo),@(SSDKPlatformTypeQQ),@(SSDKPlatformTypeWechat)]
                  onImport:^(SSDKPlatformType platformType) {
         switch (platformType)
         {
