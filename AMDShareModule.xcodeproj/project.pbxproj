@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		60ADD1C33A73AE2FB912E7A7 /* Pods_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112A0F6997147539051366A8 /* Pods_ios.framework */; };
+		1A4336CE63F9B938EBD319D2 /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF489DD441A5E4906BCDE28B /* libPods-ios.a */; };
 		7230F6C11F0B3FDC006A7952 /* AMDShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838951F09EBD700F373E1 /* AMDShareController.m */; };
 		7230F6C21F0B3FDF006A7952 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 		7230F6C61F0B4005006A7952 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
@@ -42,12 +42,11 @@
 		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; };
 		72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */; };
 		72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
-		FA8E80F480124A54BEA5605A /* Pods_AMDShareModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1A68680052920ECE8A1F5E /* Pods_AMDShareModule.framework */; };
+		ED104CAEFC6B7709162637ED /* libPods-AMDShareModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BBDCD71A64B7CF112D250F7 /* libPods-AMDShareModule.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		112A0F6997147539051366A8 /* Pods_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D1A68680052920ECE8A1F5E /* Pods_AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BBDCD71A64B7CF112D250F7 /* libPods-AMDShareModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AMDShareModule.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		416C00D4A17CFEF5D625C329 /* Pods-AMDShareModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.release.xcconfig"; sourceTree = "<group>"; };
 		7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareMaterialViewModel.h; sourceTree = "<group>"; };
 		7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareMaterialViewModel.m; sourceTree = "<group>"; };
@@ -84,6 +83,7 @@
 		72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareViewModel.h; sourceTree = "<group>"; };
 		72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareViewModel.m; sourceTree = "<group>"; };
 		C07D49A578844F6F8916350E /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		CF489DD441A5E4906BCDE28B /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02F3B10BB8314E9E1BF25A8 /* Pods-AMDShareModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.debug.xcconfig"; sourceTree = "<group>"; };
 		D303828E1D22F662D1087E0B /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,7 +95,7 @@
 			files = (
 				72C838BD1F09F19A00F373E1 /* UMSocialCore.framework in Frameworks */,
 				72C838BE1F09F19A00F373E1 /* UMSocialNetwork.framework in Frameworks */,
-				FA8E80F480124A54BEA5605A /* Pods_AMDShareModule.framework in Frameworks */,
+				ED104CAEFC6B7709162637ED /* libPods-AMDShareModule.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,8 +104,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7230F6CA1F0B415B006A7952 /* UMSocialCore.framework in Frameworks */,
-				60ADD1C33A73AE2FB912E7A7 /* Pods_ios.framework in Frameworks */,
 				7230F6CB1F0B416A006A7952 /* UMSocialNetwork.framework in Frameworks */,
+				1A4336CE63F9B938EBD319D2 /* libPods-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,8 +261,8 @@
 		B735C1BB62A9E279DB214CD0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2D1A68680052920ECE8A1F5E /* Pods_AMDShareModule.framework */,
-				112A0F6997147539051366A8 /* Pods_ios.framework */,
+				1BBDCD71A64B7CF112D250F7 /* libPods-AMDShareModule.a */,
+				CF489DD441A5E4906BCDE28B /* libPods-ios.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -650,6 +650,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/SocialLibraries/WeChat",
 				);
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -677,6 +678,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/SocialLibraries/WeChat",
 				);
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

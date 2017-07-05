@@ -7,26 +7,12 @@
 //
 
 #import "AMDShareManager.h"
-//#import <ShareSDKConnector/ShareSDKConnector.h>
-//#import "WXApi.h"
-//#import <TencentOpenAPI/QQApiInterface.h>
-//#import <TencentOpenAPI/TencentOAuth.h>
-//#import <TencentOpenAPI/QQApiInterface.h>
-#import "WXApi.h"
-//#import "MultiProjectManager.h"
-#import "WeiboSDK.h"
-//#import <ShareSDK/ShareSDK+Base.h>
-//#import "AMDPayService.h"
-//#import "AMDCommonClass.h"
+#import <ShareSDK3/WXApi.h>
+#import <ShareSDK3/WeiboSDK.h>
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
-//#import "AMDUIFactory.h"
 #import <ShareSDK/ShareSDK+Base.h>
-//#import <ShareSDKExtension/SSEThirdPartyLoginHelper.h>
-//#import "MShareManager.h"
 #import "MShareStaticMethod.h"
-//#import "NSObject+ShareBindValue.h"
-//#import "MShareTool.h"
 
 
 @interface AMDShareManager()

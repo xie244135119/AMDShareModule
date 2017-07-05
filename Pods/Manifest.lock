@@ -20,7 +20,7 @@ PODS:
   - SSBaseLib (1.0.1)
 
 DEPENDENCIES:
-  - SDWebImage (~> 4.0.0)
+  - SDWebImage
   - ShareSDK3 (~> 3.6.3)
   - ShareSDK3/ShareSDKPlatforms/QQ
   - ShareSDK3/ShareSDKPlatforms/SinaWeibo
@@ -36,6 +36,6 @@ SPEC CHECKSUMS:
   SSBaseKit: f0c904f54d2090a412f89a47a00aa5607dc2eeda
   SSBaseLib: 41f3eb12b04e619e230aa1996b3e0a628b550c4f
 
-PODFILE CHECKSUM: cf5376e05ae0631b4e2fe9dfe1194847c5669889
+PODFILE CHECKSUM: 83de343d0d3865ba7404dbe8bb601ccbddcc79a0
 
 COCOAPODS: 1.2.1

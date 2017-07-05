@@ -1,0 +1,1 @@
+../../../SSBaseLib/SSBaseLib/SSJSONModel1/SSJSONModel/SSJSONModelClassProperty.h
