@@ -31,13 +31,13 @@
 
 
 - (void)click {
-    AMDShareController *VC = [AMDShareController shareViewControllerForServiceType:@"com.share.default"];
+    AMDShareController *VC = [AMDShareController shareViewControllerForServiceType:@"com.share.material"];
     VC.shareTitle = @"mingcheng ";
     VC.shareContent = @"neirong";
     VC.shareUrl = @"www.baidu.com";
     VC.shareShortUrl = @"www.baidu.com";
     VC.shareImageUrls = @[@"www.tupian.com"];
-//    VC.customIntentIdentifiers = @[@1,@2,@3];
+    VC.customIntentIdentifiers = @[@1,@2,@3,@4];
     VC.shareSource = 1;
     VC.handleShareAction = ^(AMDShareType shareType, NSString *alertTitle) {
         NSLog(@"---------%lu--------%@",(unsigned long)shareType,alertTitle);

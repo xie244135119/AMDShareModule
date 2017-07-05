@@ -55,6 +55,7 @@
     
     //半透明背景视图
     UIView *backView = [[UIView alloc]init];
+    backView.layer.borderWidth = 1;
     _currentBackView = backView;
     [imageBack addSubview:backView];
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -62,10 +63,10 @@
     }];
     
     //点击添加手势
-//        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
-//        recognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
-//        [recognizer setNumberOfTapsRequired:1];
-//        [_senderController.contentView addGestureRecognizer:recognizer];
+            UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
+            recognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+            [recognizer setNumberOfTapsRequired:1];
+            [_senderController.contentView addGestureRecognizer:recognizer];
     
     //分享按钮背景图
     UIView *middleView = [[UIView alloc]init];
@@ -127,11 +128,12 @@
     
 }
 
+
 // 加载分享按钮
 - (void)initShareBts
 {
- __block   NSArray *shareTitles = nil;
- __block   NSArray *shareIcons = nil;
+    __block   NSArray *shareTitles = nil;
+    __block   NSArray *shareIcons = nil;
     [self invokeBtTitleAndImage:^(NSArray *images, NSArray *titles) {
         shareTitles = titles;
         shareIcons = images;
@@ -221,9 +223,6 @@
 
 
 -(void)invokeBtTitleAndImage:(void(^)(NSArray *images,NSArray*titles))completion{
-    
-
-    
     NSMutableArray *shareTitles = [[NSMutableArray alloc]init];
     NSMutableArray *shareIcons = [[NSMutableArray alloc]init];
     if (!self.customIntentIdentifiers) {
@@ -231,67 +230,68 @@
         [shareTitles addObjectsFromArray:title];
         NSArray *image = @[@"share_weixin@2x.png",@"share_weixin-friend@2x.png",@"share_qq@2x.png",@"share_q-zone@2x.png",@"share_weibo@2x.png",@"M_copy_100@2x.png"];
         [shareIcons addObjectsFromArray:image];
-        completion(shareIcons,shareTitles);
-    }
-    for (int i = 0; i<self.customIntentIdentifiers.count; i++) {
-        switch (i+1) {
-            case 1:
-            {
-                [shareTitles addObject:@"微信好友"];
-                [shareIcons addObject:@"share_weixin@2x.png"];
+    }else{
+        for (int i = 0; i<self.customIntentIdentifiers.count; i++) {
+            switch (i+1) {
+                case 1:
+                {
+                    [shareTitles addObject:@"微信好友"];
+                    [shareIcons addObject:@"share_weixin@2x.png"];
+                }
+                    break;
+                case 2:
+                {
+                    [shareTitles addObject:@"朋友圈"];
+                    [shareIcons addObject:@"share_weixin-friend@2x.png"];
+                }
+                    break;
+                case 3:
+                {
+                    [shareTitles addObject:@"图文分享"];
+                    [shareIcons addObject:@"share_picturetext@2x.png"];
+                }
+                    break;
+                case 4:
+                {
+                    [shareTitles addObject:@"商品二维码"];
+                    [shareIcons addObject:@"share_qrcode@2x.png"];
+                }
+                    break;
+                case 5:
+                {
+                    [shareTitles addObject:@"QQ好友"];
+                    [shareIcons addObject:@"share_qq@2x.png"];
+                }
+                    break;
+                case 6:
+                {
+                    [shareTitles addObject:@"QQ空间"];
+                    [shareIcons addObject:@"share_q-zone@2x.png"];
+                }
+                    break;
+                    
+                    
+                case 7:
+                {
+                    [shareTitles addObject:@"微博"];
+                    [shareIcons addObject:@"share_weibo@2x.png"];
+                }
+                    break;
+                    
+                case 8:
+                {
+                    [shareTitles addObject:@"复制链接"];
+                    [shareIcons addObject:@"M_copy_100@2x.png"];
+                }
+                    break;
+                    
+                default:
+                    break;
             }
-                break;
-            case 2:
-            {
-                [shareTitles addObject:@"朋友圈"];
-                [shareIcons addObject:@"share_weixin-friend@2x.png"];
-            }
-                break;
-            case 3:
-            {
-                [shareTitles addObject:@"图文分享"];
-                [shareIcons addObject:@"share_picturetext@2x.png"];
-            }
-                break;
-            case 4:
-            {
-                [shareTitles addObject:@"商品二维码"];
-                [shareIcons addObject:@"share_qrcode@2x.png"];
-            }
-                break;
-            case 5:
-            {
-                [shareTitles addObject:@"QQ好友"];
-                [shareIcons addObject:@"share_qq@2x.png"];
-            }
-                break;
-            case 6:
-            {
-                [shareTitles addObject:@"QQ空间"];
-                [shareIcons addObject:@"share_q-zone@2x.png"];
-            }
-                break;
-                
-                
-            case 7:
-            {
-                [shareTitles addObject:@"微博"];
-                [shareIcons addObject:@"share_weibo@2x.png"];
-            }
-                break;
-                
-            case 8:
-            {
-                [shareTitles addObject:@"复制链接"];
-                [shareIcons addObject:@"M_copy_100@2x.png"];
-            }
-                break;
-                
-            default:
-                break;
         }
     }
-
+    completion(shareIcons,shareTitles);
+    
 }
 
 
@@ -382,6 +382,9 @@
         return;
     }
     
+    if (shareType == AMDShareTypeQrCode||shareType == AMDShareTypeTuwen) {
+        return;
+    }
     
     //分享时需要压缩图片(统一在底层裁剪)
     NSString *imgUrl = _shareImageURL;
@@ -514,5 +517,11 @@
 }
 
 
-
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    
+    if ([touch.view isDescendantOfView:_middleView]) {
+        return NO;
+    }
+    return YES;
+}
 @end

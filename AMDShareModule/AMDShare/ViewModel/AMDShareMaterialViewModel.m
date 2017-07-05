@@ -522,5 +522,11 @@
     [self hide];
 }
 
-
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    
+    if ([touch.view isDescendantOfView:_middleView]) {
+        return NO;
+    }
+    return YES;
+}
 @end
