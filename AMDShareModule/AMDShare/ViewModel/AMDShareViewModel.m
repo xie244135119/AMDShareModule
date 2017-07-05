@@ -10,7 +10,6 @@
 #import <Masonry/Masonry.h>
 #import "MShareStaticMethod.h"
 #import "MShareManager.h"
-#import "AMDShareQrCodeController.h"
 #import "AMDShareManager.h"
 #import "AMDUMSDKManager.h"
 #import <Social/Social.h>

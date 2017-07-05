@@ -15,6 +15,6 @@ target_arry.each do |t|
         #新浪微博
         pod 'ShareSDK3/ShareSDKPlatforms/SinaWeibo'
         #图片缓存类
-        pod 'SDWebImage','~>4.0.0'
+        pod 'SDWebImage'
         end
 end
