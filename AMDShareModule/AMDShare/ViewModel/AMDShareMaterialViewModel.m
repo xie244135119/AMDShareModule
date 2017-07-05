@@ -11,9 +11,7 @@
 #import <SSBaseKit/SSBaseKit.h>
 #import <Social/Social.h>
 #import "MShareStaticMethod.h"
-//#import "MShareManager.h"
-//#import "MShareTool.h"
-#import "SDWebImageManager.h"
+#import <SDWebImage/SDWebImageManager.h>
 
 
 @interface AMDShareMaterialViewModel()

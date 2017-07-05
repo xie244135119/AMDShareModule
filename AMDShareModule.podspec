@@ -99,7 +99,7 @@ Pod::Spec.new do |s|
   #
   #  A list of resources included with the Pod. These are copied into the
   #  target bundle with a build phase script. Anything else will be cleaned.
-  #  You can preserve files from being cleaned, please don't preserve
+ocialCore
   #  non-essential files like tests, examples and documentation.
   #
 
@@ -115,8 +115,8 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-  # s.framework  = "SomeFramework"
-  # s.frameworks = "ShareSDK"
+  s.framework  = "UMSocialCore"
+#   s.frameworks = "UMSocialCore"
 
 #   s.library   = "libwechatsdk"
   # s.libraries = "iconv", "xml2"
@@ -140,4 +140,5 @@ Pod::Spec.new do |s|
         s.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
         #新浪微博
         s.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
+	s.dependency 'SDWebImage'
 end
