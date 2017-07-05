@@ -21,8 +21,6 @@
 		7230F6E71F0B898E006A7952 /* AMDShareMaterialViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */; };
 		724633A81F0CD8F40093C61D /* MShareServiceProtocal.h in Headers */ = {isa = PBXBuildFile; fileRef = 724633A71F0CD8F40093C61D /* MShareServiceProtocal.h */; };
 		72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		72C8386F1F09DE2400F373E1 /* AMDShareMaterialView.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838691F09DE2400F373E1 /* AMDShareMaterialView.h */; };
-		72C838731F09DE2400F373E1 /* AMDShareView.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8386D1F09DE2400F373E1 /* AMDShareView.h */; };
 		72C8387E1F09EA8600F373E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8387D1F09EA8600F373E1 /* main.m */; };
 		72C838811F09EA8600F373E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838801F09EA8600F373E1 /* AppDelegate.m */; };
 		72C838841F09EA8600F373E1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838831F09EA8600F373E1 /* ViewController.m */; };
@@ -287,14 +285,12 @@
 			files = (
 				724633A81F0CD8F40093C61D /* MShareServiceProtocal.h in Headers */,
 				72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */,
-				72C838731F09DE2400F373E1 /* AMDShareView.h in Headers */,
 				72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */,
 				72C8389E1F09EF4000F373E1 /* AMDShareConfig.h in Headers */,
 				72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */,
 				7230F6D51F0B648E006A7952 /* AMDShareMaterialViewModel.h in Headers */,
 				72C838961F09EBD700F373E1 /* AMDShareController.h in Headers */,
 				72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */,
-				72C8386F1F09DE2400F373E1 /* AMDShareMaterialView.h in Headers */,
 				72C8389F1F09EF4000F373E1 /* AMDShareManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
