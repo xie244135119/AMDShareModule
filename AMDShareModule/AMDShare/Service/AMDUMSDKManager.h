@@ -11,12 +11,17 @@
 
 @interface AMDUMSDKManager : NSObject
 
-//配置友盟sdk
-+ (void)config;
 
-//统计页面时长
-+ (void)beginLogPageView:(NSString *)pageName;
-+ (void)endLogPageView:(NSString *)pageName;
+#pragma mark - App配置相关
+//启动配置
++ (void)registerUMShareAppKey:(NSString *)shareAppKey
+               wechatAppKey:(NSString *)wechatAppKey
+            wechatAppSecret:(NSString *)wechatAppSecret;
+
+//配置友盟sdk
+//+ (void)config;
+
+
 
 /**
  *  第三方分享

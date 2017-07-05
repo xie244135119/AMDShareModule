@@ -40,7 +40,7 @@
 //    VC.customIntentIdentifiers = @[@1,@2,@3];
     VC.shareSource = 1;
     VC.handleShareAction = ^(AMDShareType shareType, NSString *alertTitle) {
-        
+        NSLog(@"---------%lu--------%@",(unsigned long)shareType,alertTitle);
     };
     [self presentViewController:VC animated:NO completion:nil];
 }

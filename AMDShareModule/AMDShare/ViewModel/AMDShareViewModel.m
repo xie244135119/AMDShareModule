@@ -62,10 +62,10 @@
     }];
     
     //点击添加手势
-        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
-        recognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
-        [recognizer setNumberOfTapsRequired:1];
-        [_senderController.contentView addGestureRecognizer:recognizer];
+//        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
+//        recognizer.delegate = (id<UIGestureRecognizerDelegate>)self;
+//        [recognizer setNumberOfTapsRequired:1];
+//        [_senderController.contentView addGestureRecognizer:recognizer];
     
     //分享按钮背景图
     UIView *middleView = [[UIView alloc]init];
@@ -227,7 +227,7 @@
     NSMutableArray *shareTitles = [[NSMutableArray alloc]init];
     NSMutableArray *shareIcons = [[NSMutableArray alloc]init];
     if (!self.customIntentIdentifiers) {
-        NSArray *title = @[@"微信",@"朋友圈",@"QQ好友",@"QQ空间",@"微博",@"复制链接"];
+        NSArray *title = @[@"微信好友",@"朋友圈",@"QQ好友",@"QQ空间",@"微博",@"复制链接"];
         [shareTitles addObjectsFromArray:title];
         NSArray *image = @[@"share_weixin@2x.png",@"share_weixin-friend@2x.png",@"share_qq@2x.png",@"share_q-zone@2x.png",@"share_weibo@2x.png",@"M_copy_100@2x.png"];
         [shareIcons addObjectsFromArray:image];
@@ -237,7 +237,7 @@
         switch (i+1) {
             case 1:
             {
-                [shareTitles addObject:@"微信"];
+                [shareTitles addObject:@"微信好友"];
                 [shareIcons addObject:@"share_weixin@2x.png"];
             }
                 break;
@@ -356,15 +356,15 @@
         shareType = AMDShareTypeweChatTimeline;
     }
     else if (sender.tag == [@"图文分享" hash]) {
-        if ([[[MShareManager shareInstance] requestDelegate] respondsToSelector:@selector(shareToType:Completion:)]) {
-            [[[MShareManager shareInstance] requestDelegate] shareToType:AMDShareToTuWen Completion:^(BOOL finish) {
-            }];
+        shareType = AMDShareTypeTuwen;
+        if (_handleShareAction) {
+            _handleShareAction(shareType,@"");
         }
     }
     else if (sender.tag == [@"商品二维码" hash]) {
-        if ([[[MShareManager shareInstance] requestDelegate] respondsToSelector:@selector(shareToType:Completion:)]) {
-            [[[MShareManager shareInstance] requestDelegate] shareToType:AMDShareToQrCode Completion:^(BOOL finish) {
-            }];
+        shareType = AMDShareTypeQrCode;
+        if (_handleShareAction) {
+            _handleShareAction(shareType,@"");
         }
     }
     else if (sender.tag == [@"QQ好友" hash]) {

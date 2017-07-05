@@ -16,6 +16,8 @@ typedef NS_ENUM(NSUInteger, AMDShareType) {
     AMDShareTypeweChatTimeline,                 //微信朋友圈
     AMDShareTypeCopy,                           //复制链接
     AMDShareTypeSina,                           //新浪微博
+    AMDShareTypeTuwen,
+    AMDShareTypeQrCode,
 };
 
 typedef NS_ENUM(NSUInteger, AMDShareResponseState) {

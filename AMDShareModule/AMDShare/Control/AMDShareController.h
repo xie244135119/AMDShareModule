@@ -36,7 +36,7 @@
 /**
  *  点击相应的分享事件(用于转发关系)
  */
-@property(nonatomic, copy) void  (^completionHandler)(AMDShareType shareType,NSString *alertTitle);
+@property(nonatomic, copy) void  (^handleShareAction)(AMDShareType shareType,NSString *alertTitle);
 
 
 // com.share.default <主分享>  com.share.material<素材>

@@ -16,29 +16,14 @@
 
 
 
-+ (void)config
-{
-    //自己：555c27cf67e58ef73a000f1e
-    //当前的为 有量官方 报告5595f1cc67e58ef874001ba0
-    NSString *appKey = @"";
-    appKey = [[[MShareManager shareInstance]appKeyDelegate]appkey];
-    UMAnalyticsConfig *config = [UMAnalyticsConfig sharedInstance];
-    config.appKey = appKey;
-    [MobClick startWithConfigure:config];
-    // 统计崩溃报告
-    //    [MobClick setCrashReportEnabled:YES];
-    
-    // 配置友盟社交
-    [self configSocial];
-}
-
-
-#pragma mark - 配置
-// 配置社交
-+ (void)configSocial
-{
+//启动配置
++ (void)registerUMShareAppKey:(NSString *)shareAppKey
+                 wechatAppKey:(NSString *)wechatAppKey
+              wechatAppSecret:(NSString *)wechatAppSecret{
     //设置友盟appKey
-    [[UMSocialManager defaultManager] setUmSocialAppkey:[[[MShareManager shareInstance]appKeyDelegate]appkey]];
+    [[UMSocialManager defaultManager] setUmSocialAppkey:shareAppKey];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:wechatAppKey appSecret:wechatAppSecret  redirectURL:@""];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatTimeLine appKey:wechatAppKey appSecret:wechatAppSecret  redirectURL:@""];
 }
 
 
@@ -68,7 +53,7 @@
     UIImage *img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:shareImageUrl]]];
     
     if (shareType == AMDShareTypeWeChatSession||shareType == AMDShareTypeweChatTimeline) {
-        [[UMSocialManager defaultManager] setPlaform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine appKey:[[[MShareManager shareInstance] appKeyDelegate] wechatAppKey] appSecret:[[[MShareManager shareInstance] appKeyDelegate] wechatAppSecret]  redirectURL:@""];
+
         //创建分享消息对象
         UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
         
@@ -115,7 +100,6 @@
 {
     if(!image)
         return NO;
-    [[UMSocialManager defaultManager] setPlaform:shareType==AMDShareTypeWeChatSession appKey:[[[MShareManager shareInstance] appKeyDelegate] wechatAppKey] appSecret:[[[MShareManager shareInstance] appKeyDelegate] wechatAppSecret]  redirectURL:@""];
     
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
