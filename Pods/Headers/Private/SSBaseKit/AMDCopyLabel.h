@@ -1,1 +1,0 @@
-../../../SSBaseKit/SSBaseKit/AMDBase/View/AMDCopyLabel.h

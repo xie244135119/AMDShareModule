@@ -116,9 +116,9 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-   s.frameworks = "ShareSDK"
+  # s.frameworks = "ShareSDK"
 
-   s.library   = "libWeChatSDK"
+#   s.library   = "libwechatsdk"
   # s.libraries = "iconv", "xml2"
 
 
@@ -133,11 +133,11 @@ Pod::Spec.new do |s|
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
    s.dependency "SSBaseKit"
 	s.dependency "SSBaseLib"
-#	s.dependency "ShareSDK3", '~>3.6.3'
+	s.dependency "ShareSDK3", '~>3.6.3'
         # 微信(可选)
-#        s.dependency "ShareSDK3/ShareSDKPlatforms/WeChat"
+        s.dependency "ShareSDK3/ShareSDKPlatforms/WeChat"
         # 腾讯QQ(可选)
-#        s.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
+        s.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
         #新浪微博
-#        s.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
+        s.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
 end

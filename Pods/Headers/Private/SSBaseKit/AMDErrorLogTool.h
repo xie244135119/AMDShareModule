@@ -1,1 +1,0 @@
-../../../SSBaseKit/SSBaseKit/AMDBase/Utility/AMDErrorLogTool.h
