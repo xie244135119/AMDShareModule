@@ -31,7 +31,7 @@
 
 
 - (void)click {
-    AMDShareController *VC = [AMDShareController shareViewControllerForServiceType:@"com.share.material"];
+    AMDShareController *VC = [AMDShareController shareViewControllerForServiceType:@"com.share.default"];
     VC.shareTitle = @"mingcheng ";
     VC.shareContent = @"neirong";
     VC.shareUrl = @"www.baidu.com";

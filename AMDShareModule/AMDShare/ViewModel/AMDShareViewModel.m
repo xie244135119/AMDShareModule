@@ -29,7 +29,7 @@
     NSString *_shareTitle;
     NSString *_shareContent;
     NSString *_shareImageURL;
-    
+    NSMutableArray *_shareTitleArray;
 }
 
 @end
@@ -149,7 +149,7 @@
         
         //分享图片按钮
         AMDButton *shareBt = [[AMDButton alloc]init];
-        shareBt.tag = [shareTitles[i] hash];
+        shareBt.tag = i;
         shareBt.layer.cornerRadius = 25;
         shareBt.layer.masksToBounds = YES;
         [shareBt setBackgroundColor:nil forState:UIControlStateHighlighted];
@@ -172,6 +172,7 @@
         //分享标题
         UILabel *titleLB = [[UILabel alloc]init];
         titleLB.text = shareTitles[i];
+        titleLB.tag = i;
         titleLB.textAlignment = NSTextAlignmentCenter;
         titleLB.font = FontWithName(@"", 12);
         titleLB.textColor = DEFAULT_TEXT_GRAY_COLOR;
@@ -224,6 +225,7 @@
 
 -(void)invokeBtTitleAndImage:(void(^)(NSArray *images,NSArray*titles))completion{
     NSMutableArray *shareTitles = [[NSMutableArray alloc]init];
+    _shareTitleArray = shareTitles;
     NSMutableArray *shareIcons = [[NSMutableArray alloc]init];
     if (!self.customIntentIdentifiers) {
         NSArray *title = @[@"微信好友",@"朋友圈",@"QQ好友",@"QQ空间",@"微博",@"复制链接"];
@@ -349,35 +351,35 @@
     
     AMDShareType shareType = 0;
     
-    if (sender.tag == [@"微信好友" hash]) {
+    if ([_shareTitleArray[sender.tag] isEqualToString:@"微信好友" ]) {
         shareType = AMDShareTypeWeChatSession;
     }
-    else if (sender.tag == [@"朋友圈" hash]) {
+    else if ([_shareTitleArray[sender.tag] isEqualToString: @"朋友圈"]) {
         shareType = AMDShareTypeweChatTimeline;
     }
-    else if (sender.tag == [@"图文分享" hash]) {
+    else if ([_shareTitleArray[sender.tag] isEqualToString:@"图文分享" ]) {
         shareType = AMDShareTypeTuwen;
         if (_handleShareAction) {
             _handleShareAction(shareType,@"");
         }
     }
-    else if (sender.tag == [@"商品二维码" hash]) {
+    else if ([_shareTitleArray[sender.tag] isEqualToString: @"商品二维码"]) {
         shareType = AMDShareTypeQrCode;
         if (_handleShareAction) {
             _handleShareAction(shareType,@"");
         }
     }
-    else if (sender.tag == [@"QQ好友" hash]) {
+    else if ([_shareTitleArray[sender.tag] isEqualToString:@"QQ好友"]) {
         //        shareTypeStr = @"qq";
         shareType = AMDShareTypeQQ;
     }
-    else if (sender.tag == [@"微博" hash]) {
+    else if ([_shareTitleArray[sender.tag] isEqualToString:@"微博" ]) {
         shareType = AMDShareTypeSina;
     }
-    else if (sender.tag == [@"QQ空间" hash]) {
+    else if ([_shareTitleArray[sender.tag] isEqualToString:@"QQ空间"]) {
         shareType = AMDShareTypeQQZone;
     }
-    else if (sender.tag == [@"复制链接" hash]) {
+    else if ([_shareTitleArray[sender.tag] isEqualToString: @"复制链接"]) {
         [self shareCopy];
         return;
     }
