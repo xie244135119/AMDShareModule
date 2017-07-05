@@ -68,13 +68,13 @@ SYNTHESIZE_SINGLETON_FOR_HEADER(MShareTool)
  *  将图像写入本地文件
  */
 + (NSString *)writeImageToFile:(UIImage *)image;
-/**
- 图片保存到系统相册
- 
- @param image 图片
- */
-+ (void)savePhotoAlbumWithImage:(UIImage *)image
-                     completion:(void (^)(BOOL success, NSError *error))completion;
+///**
+// 图片保存到系统相册
+// 
+// @param image 图片
+// */
+//+ (void)savePhotoAlbumWithImage:(UIImage *)image
+//                     completion:(void (^)(BOOL success, NSError *error))completion;
 
 
 /**
@@ -83,7 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_HEADER(MShareTool)
  @param type AMDPrivacyPermissionType
  @return 是否有权限
  */
-+ (BOOL)permissionFromType:(AMDPrivacyPermissionType)type;
+//+ (BOOL)permissionFromType:(AMDPrivacyPermissionType)type;
 
 
 /**
