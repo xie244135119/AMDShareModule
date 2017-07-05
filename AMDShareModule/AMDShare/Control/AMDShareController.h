@@ -8,7 +8,7 @@
 
 #import <SSBaseKit/SSBaseKit.h>
 #import "AMDShareConfig.h"
-
+#import "MShareServiceProtocal.h"
 
 
 @interface AMDShareController : AMDRootViewController
@@ -36,11 +36,16 @@
 /**
  *  点击相应的分享事件(用于转发关系)
  */
-@property(nonatomic, copy) void  (^handleShareAction)(AMDShareType shareType,NSString *alertTitle);
+@property(nonatomic, copy) void  (^handleShareAction)(AMDShareType shareType,AMDShareResponseState responseState,NSUInteger erroCodel);
+
+//处理图片下载
+@property(nonatomic, weak) id<MShareServiceProtocal>serviceProtocal;
 
 
-// com.share.default <主分享>  com.share.material<素材>
+
+//判断是否可初始化
 + (BOOL)isAvailableForServiceType:(NSString *)serviceType;
+//初始化 com.share.default <主分享>  com.share.material<素材>
 + (instancetype)shareViewControllerForServiceType:(NSString *)serviceType;
 
 

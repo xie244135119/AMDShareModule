@@ -29,7 +29,7 @@
 @property(nonatomic, strong) NSArray<NSURL *>* shareImageUrls;
 
 
-@property(nonatomic, copy) void  (^handleShareAction)(AMDShareType shareType,NSString *alertTitle);
+@property(nonatomic, copy) void  (^handleShareAction)(AMDShareType shareType,AMDShareResponseState responseState,NSUInteger erroCodel);
 
 
 @property (nonatomic ,copy)UIImage *backImage;

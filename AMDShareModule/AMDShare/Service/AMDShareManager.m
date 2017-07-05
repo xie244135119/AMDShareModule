@@ -23,10 +23,10 @@
 //#import "AMDUIFactory.h"
 #import <ShareSDK/ShareSDK+Base.h>
 //#import <ShareSDKExtension/SSEThirdPartyLoginHelper.h>
-#import "MShareManager.h"
+//#import "MShareManager.h"
 #import "MShareStaticMethod.h"
-#import "NSObject+ShareBindValue.h"
-#import "MShareTool.h"
+//#import "NSObject+ShareBindValue.h"
+//#import "MShareTool.h"
 
 
 @interface AMDShareManager()
@@ -47,21 +47,6 @@
         //
         handle(state==SSDKResponseStateSuccess,user.rawData,error);
     }];
-}
-
-
-// 显示内容
-+ (void)showStringWithDict:(NSDictionary *)dict
-{
-    NSArray *allkeys = dict.allKeys;
-    NSMutableString *str = [[NSMutableString alloc]init];
-    for (NSString *key in allkeys) {
-        [str appendFormat:@"%@=%@,",key,dict[key]];
-    }
-    
-    //
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:str message:nil delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
-    [alertView show];
 }
 
 
@@ -113,7 +98,6 @@
         {
             case SSDKPlatformTypeWechat:
                 [ShareSDKConnector connectWeChat:[WXApi class]];
-//                [ShareSDKConnector connectWeChat:[WXApi class] delegate:[AMDPayService sharedAMDPayService]];
                 break;
             case SSDKPlatformTypeQQ:
                 [ShareSDKConnector connectQQ:NSClassFromString(@"QQApiInterface") tencentOAuthClass:NSClassFromString(@"TencentOAuth")];
@@ -151,7 +135,12 @@
 
 
 // shareSDK V3.X版本
-+ (void)shareType:(AMDShareType)shareType content:(NSString *)content title:(NSString *)title imageUrl:(NSString *)imageurl infoUrl:(NSString *)infourl competion:(void(^)(NSString *alertTitle))completion
++ (void)shareType:(AMDShareType)shareType
+          content:(NSString *)content
+            title:(NSString *)title
+         imageUrl:(NSString *)imageurl
+          infoUrl:(NSString *)infourl
+        competion:(void(^)(AMDShareResponseState responseState,NSUInteger erroCodel))completion
 {
     //字符截取处理规则(复制不截取)
     if (shareType != AMDShareTypeCopy) {
@@ -185,7 +174,6 @@
             break;
         case AMDShareTypeSina:      //新浪微博
             platformtype = SSDKPlatformTypeSinaWeibo;
-//            content = [content stringByAppendingFormat:@" %@",infourl];
             break;
         case AMDShareTypeWeChatSession:         //微信好友
             platformtype = SSDKPlatformSubTypeWechatSession;
@@ -195,13 +183,11 @@
             break;
         case AMDShareTypeCopy:              //复制
         {
-//            platformtype = SSDKPlatformTypeCopy;
             //调用系统剪切板
                 if (content.length == 0) return;
             
                 UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
                 pasteboard.string = content;
-//            [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"复制成功"];
                 return;
         }
             break;
@@ -232,28 +218,15 @@
     [ShareSDK share:platformtype parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
         switch (state) {
             case SSDKResponseStateSuccess:{//成功
-                completion(@"success");
-                //微博添加有量福利团关注
-//                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"分享成功"];
+                completion(AMDShareResponseSuccess,error.code);
             }
                 break;
             case SSDKResponseStateFail:{//失败
-                //                [AMDUIFactory makeToken:nil message:[self shareErrorWithCode:error.code]];
-                completion(@"fail");
-
-//                [[MShareTool sharedMShareTool]  showAlertTitle:[self shareErrorWithCode:error.code] Message:nil
-//                                                               action:^(NSInteger index) {
-//                                                                   
-//                                                               } cancelBt:nil otherButtonTitles:@"确认", nil];
-//                NSLog(@"分享失败 %@ %li",error.localizedDescription,(long)error.code);
+                completion(AMDShareResponseFail,error.code);
             }
                 break;
             case SSDKResponseStateCancel:{//取消
-                completion(@"Cancel");
-
-//                if (shareType == SSDKPlatformTypeSinaWeibo) {
-//                [[MShareManager shareInstance].alertDelegate showToastWithTitle:@"取消分享"];
-//                }
+                completion(AMDShareResponseCancel,error.code);
             }
                 break;
             default:
@@ -264,7 +237,7 @@
 }
 
 // 分享图片
-+ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl competion:(void (^)(NSString *))completion
++ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl competion:(void (^)(AMDShareResponseState responseState,NSUInteger erroCodel))completion
 {
     // 自动调用图片类型
     [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil competion:completion];
@@ -285,7 +258,6 @@
         UIImage *image = [[UIImage alloc]initWithContentsOfFile:url];
         return image;
     }
-//    imageurl = [[NSString alloc]initWithString:[NSString stringWithFormat:@"%@?imageView2/1/w/%.0d/h/%.0d", imageurl,200,200]];
 
     return imageurl;
 }

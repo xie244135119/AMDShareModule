@@ -11,8 +11,8 @@
 #import <SSBaseKit/SSBaseKit.h>
 #import <Social/Social.h>
 #import "MShareStaticMethod.h"
-#import "MShareManager.h"
-#import "MShareTool.h"
+//#import "MShareManager.h"
+//#import "MShareTool.h"
 #import "SDWebImageManager.h"
 
 
@@ -254,7 +254,6 @@
                 }
                 else {
                     [weakself hide];
-//                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"图片加载失败，请重试"];
                 }
             }];
         }
@@ -265,7 +264,6 @@
             [self saveImagesToAlbumWithUrls:self.shareImageUrls completion:^(NSError *error) {
                 if (error == nil) {
                     [weakself pasteText:weakself.shareContent];
-//                    [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"图片已保存到本地，文字已复制到粘贴板"];
                 }
             }];
         }
@@ -396,13 +394,10 @@
                         completion:(void (^)(NSArray *cachesImages, NSError *error))completion
 {
     // 加载动画
-//    [[AMDRequestService sharedAMDRequestService] animationStartForDelegate:nil];
-    [[[MShareManager shareInstance] animationDelegate] showAnimation];
     __weak typeof(self) weakself = self;
     NSURL *url = [NSURL URLWithString:imageurl];
     [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
         // 加载动画
-        [[[MShareManager shareInstance] animationDelegate] stopAnimation];
         //
         if (finished) {
             if ((cacheType == SDImageCacheTypeMemory && image) || data ) {
@@ -437,42 +432,27 @@
     }
     
     // 判断图片权限
-    if (![self permissionFromAlbum]) {
-//        [AMDUIFactory makeToken:nil message:@"没有图片权限"];
+    if (![self.serviceProtocal permissionFromType:AMDPrivacyPermissionTypeAssetsLibrary]) {
         return;
     }
     
-    // 加载动画
-    [[[MShareManager shareInstance] animationDelegate] showAnimation];
-    
-    [[MShareTool sharedMShareTool] perpareForSendNinePhotos:self.shareImageUrls successAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
-        [[[MShareManager shareInstance] animationDelegate] stopAnimation];
-        
+    [self.serviceProtocal perpareForSendNinePhotos:self.shareImageUrls successAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
         if (cachePicImages.count > 0) {
-            _isImagesSaved = YES;
-            if (!_isImagesCached) {
-                _isImagesCached = YES;
-                [_allCacheImages removeAllObjects];
-                [_allCacheImages addObjectsFromArray:cachePicImages];
-            }
-        }
-        
-        //
+                        _isImagesSaved = YES;
+                        if (!_isImagesCached) {
+                            _isImagesCached = YES;
+                            [_allCacheImages removeAllObjects];
+                            [_allCacheImages addObjectsFromArray:cachePicImages];
+                        }
+                    }
         completion(nil);
-        
+
     } failAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
-        [[[MShareManager shareInstance] animationDelegate] stopAnimation];
-//        [AMDUIFactory makeToken:nil message:@"分享失败 请重试"];
-        completion(error);
+                completion(error);
     }];
+    
+  
 }
-
-// 权限判断
-- (BOOL)permissionFromAlbum
-{
-    return [MShareTool permissionFromType:AMDPrivacyPermissionTypeAssetsLibrary];
-}
-
 
 
 #pragma mark - 分享文案视图相关
@@ -521,6 +501,7 @@
 {
     [self hide];
 }
+
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     

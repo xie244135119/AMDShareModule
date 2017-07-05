@@ -16,4 +16,9 @@ FOUNDATION_EXPORT const unsigned char AMDShareModuleVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <AMDShareModule/PublicHeader.h>
 
+#import <AMDShareModule/AMDShareController.h>
+#import <AMDShareModule/AMDShareConfig.h>
+#import <AMDShareModule/MShareServiceProtocal.h>
+#import <AMDShareModule/AMDShareManager.h>
+#import <AMDShareModule/AMDUMSDKManager.h>
 

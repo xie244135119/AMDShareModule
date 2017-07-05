@@ -10,9 +10,6 @@
 #ifndef MShareStaticMethod_h
 #define MShareStaticMethod_h
 
-
-#define GetFilePath(a) [[[NSBundle mainBundle] resourcePath]stringByAppendingPathComponent:a]
-
 //按钮圆角大小
 #define AMDCornerRadius 3
 
@@ -55,23 +52,6 @@
 #define imageFromName(a) [[UIImage alloc]initWithContentsOfFile:GetFilePath(a)]
 #define AMDShareSrcImage(file) imageFromName([AMDShareBundleName stringByAppendingPathComponent:file])
 
-//单例模式解析
-#pragma mark - 单例模式定义
-
-#define SYNTHESIZE_SINGLETON_FOR_HEADER(className) \
-\
-+ (className *)shared##className;
-
-#define SYNTHESIZE_SINGLETON_FOR_CLASS(className) \
-\
-+ (className *)shared##className { \
-static className *shared##className = nil; \
-static dispatch_once_t onceToken; \
-dispatch_once(&onceToken, ^{ \
-shared##className = [[self alloc] init]; \
-}); \
-return shared##className; \
-}
 
 #define NonNil(a,r)  a?a:r
 

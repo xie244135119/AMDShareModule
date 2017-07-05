@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "AMDShareController.h"
-#import "MShareManager.h"
+//#import "MShareManager.h"
 //#import "AMDShareMaterialController.h"
 
 @interface ViewController ()
@@ -39,8 +39,8 @@
     VC.shareImageUrls = @[@"www.tupian.com"];
     VC.customIntentIdentifiers = @[@1,@2,@3,@4];
     VC.shareSource = 1;
-    VC.handleShareAction = ^(AMDShareType shareType, NSString *alertTitle) {
-        NSLog(@"---------%lu--------%@",(unsigned long)shareType,alertTitle);
+    VC.handleShareAction = ^(AMDShareType shareType, AMDShareResponseState responseState, NSUInteger erroCodel) {
+        
     };
     [self presentViewController:VC animated:NO completion:nil];
 }

@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, AMDShareType) {
 };
 
 typedef NS_ENUM(NSUInteger, AMDShareResponseState) {
-    AMDShareResponseSuccess,
+    AMDShareResponseSuccess = 1,
     AMDShareResponseFail,
     AMDShareResponseCancel,
 };

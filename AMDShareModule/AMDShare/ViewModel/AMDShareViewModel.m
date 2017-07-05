@@ -9,7 +9,7 @@
 #import "AMDShareViewModel.h"
 #import <Masonry/Masonry.h>
 #import "MShareStaticMethod.h"
-#import "MShareManager.h"
+//#import "MShareManager.h"
 #import "AMDShareManager.h"
 #import "AMDUMSDKManager.h"
 #import <Social/Social.h>
@@ -359,13 +359,13 @@
     else if ([_shareTitleArray[sender.tag] isEqualToString:@"图文分享" ]) {
         shareType = AMDShareTypeTuwen;
         if (_handleShareAction) {
-            _handleShareAction(shareType,@"");
+            _handleShareAction(shareType,nil,nil);
         }
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString: @"商品二维码"]) {
         shareType = AMDShareTypeQrCode;
         if (_handleShareAction) {
-            _handleShareAction(shareType,@"");
+            _handleShareAction(shareType,nil,nil);
         }
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString:@"QQ好友"]) {
@@ -394,18 +394,18 @@
     switch (_shareSource) {
         case 0:     //有量
         {
-            [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl competion:^(NSString *alertTitle) {
+            [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl competion:^(AMDShareResponseState responseState, NSUInteger erroCodel) {
                 if (_handleShareAction) {
-                    _handleShareAction(shareType,alertTitle);
+                    _handleShareAction(shareType,responseState,erroCodel);
                 }
             }];
         }
             break;
         default:
         {
-            [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl competion:^(NSString *alertTitle) {
+            [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl competion:^(AMDShareResponseState responseState, NSUInteger erroCodel) {
                 if (_handleShareAction) {
-                    _handleShareAction(shareType,alertTitle);
+                    _handleShareAction(shareType,responseState,erroCodel);
                 }
             }];
         }
@@ -500,7 +500,7 @@
 // 图文分享
 - (void)shareNinePhotoCompletion:(void (^)(void))completion
 {
-    [[[MShareManager shareInstance] animationDelegate] showAnimation];
+//    [[[MShareManager shareInstance] animationDelegate] showAnimation];
     //    [[AMDRequestService sharedAMDRequestService] animationStartForDelegate:self];
     
     //    开启子线程下载图片
@@ -510,7 +510,7 @@
             [_shareImages addObject: [self getImageFromURL:aimageURL]];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[[MShareManager shareInstance] animationDelegate] stopAnimation];
+//            [[[MShareManager shareInstance] animationDelegate] stopAnimation];
             //            [[AMDRequestService sharedAMDRequestService] animationStopForDelegate:self];
             completion();
         });

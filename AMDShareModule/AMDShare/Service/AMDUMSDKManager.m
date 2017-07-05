@@ -9,7 +9,7 @@
 #import <UMSocialCore/UMSocialCore.h>
 //#import "MultiProjectManager.h"
 #import "AMDShareManager.h"
-#import "MShareManager.h"
+//#import "MShareManager.h"
 #import "MShareStaticMethod.h"
 
 @implementation AMDUMSDKManager
@@ -28,7 +28,12 @@
 
 
 #pragma mark - 发起分享
-+(BOOL)shareToUMWithType:(AMDShareType)shareType shareContent:(NSString *)shareContent shareTitle:(NSString *)shareTitle shareImageUrl:(NSString *)shareImageUrl url:(NSString *)shareUrl competion:(void (^)(NSString *))completion{
++(BOOL)shareToUMWithType:(AMDShareType)shareType
+            shareContent:(NSString *)shareContent
+              shareTitle:(NSString *)shareTitle
+           shareImageUrl:(NSString *)shareImageUrl
+                     url:(NSString *)shareUrl
+               competion:(void (^)(AMDShareResponseState responseState,NSUInteger erroCodel))completion{
     //字符截取处理规则(复制不截取)
     if (shareType != AMDShareTypeCopy) {
         // 标题不能超过20个字 详细内容不能超过140个字
@@ -68,10 +73,10 @@
         //调用分享接口
         [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
             if (error) {
-                completion([self shareErrorWithCode:error.code]);
+                completion(AMDShareResponseFail,error.code);
 //                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
             }else{
-                completion(@"分享成功");
+                completion(AMDShareResponseSuccess,error.code);
 //                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
             }
         }];
@@ -132,19 +137,6 @@
     
 }
 
-
-#pragma mark - 报错code转换
-//sharesdk分享错误
-+ (NSString *)shareErrorWithCode:(NSInteger)code
-{
-    NSDictionary *errorlist = [[NSDictionary alloc]initWithContentsOfFile:GetFilePath(@"UShareErrorCodeList.plist")];
-    NSString *errorcode = [[NSString alloc]initWithFormat:@"%li",(long)code];
-    NSDictionary *param = errorlist[errorcode];
-    if (param == nil) {
-        return @"分享失败";
-    }
-    return param[@"description"];
-}
 
 @end
 

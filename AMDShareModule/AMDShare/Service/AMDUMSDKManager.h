@@ -37,7 +37,7 @@
             shareTitle:(NSString *)shareTitle
          shareImageUrl:(NSString *)shareImageUrl
           url:(NSString *)shareUrl
-competion:(void(^)(NSString *alertTitle))completion;
+competion:(void(^)(AMDShareResponseState responseState,NSUInteger erroCodel))completion;
 
 /*
  *单图分享

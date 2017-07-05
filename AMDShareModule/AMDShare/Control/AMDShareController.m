@@ -81,11 +81,11 @@
     viewModel.senderController = self;
     viewModel.backImage = _currentImage;
     viewModel.customIntentIdentifiers = self.customIntentIdentifiers;
-    viewModel.handleShareAction = ^(AMDShareType shareType, NSString *alertTitle) {
+    viewModel.handleShareAction = ^(AMDShareType shareType, AMDShareResponseState responseState,NSUInteger erroCodel) {
         if (_handleShareAction) {
-            _handleShareAction(shareType,alertTitle);
+            _handleShareAction(shareType,responseState,erroCodel);
         }
-        NSLog(@"-----%lu-----%@",(unsigned long)shareType,alertTitle);
+        NSLog(@"-----%lu-----%lu-----%lu",(unsigned long)shareType,(unsigned long)responseState,(unsigned long)erroCodel);
     };
     [viewModel prepareView];
 }
@@ -93,6 +93,7 @@
 - (void)initMaterialViewModel {
     AMDShareMaterialViewModel *viewmodel = [[AMDShareMaterialViewModel alloc]init];
     viewmodel.senderController = self;
+    viewmodel.serviceProtocal = self.serviceProtocal;
     viewmodel.shareContent = self.shareContent;
     viewmodel.shareImageUrls = self.shareImageUrls;
     viewmodel.shareUrl = self.shareUrl;

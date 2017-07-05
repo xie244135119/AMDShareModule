@@ -7,6 +7,7 @@
 //
 
 #import <SSBaseLib/SSBaseLib.h>
+#import "MShareServiceProtocal.h"
 
 @interface AMDShareMaterialViewModel : AMDBaseViewModel
 
@@ -18,6 +19,9 @@
 @property(nonatomic, copy) NSString *shareUrl;
 
 @property (nonatomic ,copy)UIImage *backImage;
+
+@property(nonatomic, weak) id<MShareServiceProtocal>serviceProtocal;
+
 
 - (void)show;
 
