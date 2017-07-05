@@ -103,7 +103,7 @@ Pod::Spec.new do |s|
   #  non-essential files like tests, examples and documentation.
   #
 
-   s.resource  = "AMDShareModule.bundle"
+   s.resource  = "AMDShareModule/AMDShareModule.bundle"
   # s.resources = "Resources/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
@@ -116,9 +116,9 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  # s.frameworks = "SomeFramework", "AnotherFramework"
+  # s.frameworks = "ShareSDK"
 
-  # s.library   = "iconv"
+#   s.library   = "libwechatsdk"
   # s.libraries = "iconv", "xml2"
 
 

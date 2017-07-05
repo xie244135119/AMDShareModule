@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 // 系统权限
 typedef NS_ENUM(NSUInteger, AMDPrivacyPermissionType) {
     AMDPrivacyPermissionTypeAssetsLibrary,           //相册
@@ -51,3 +53,10 @@ typedef NS_ENUM(NSUInteger, AMDPrivacyPermissionType) {
                       failAction:(void(^)(NSArray *_Nullable cachePicImages, NSError *_Nullable error))failAction;
 
 @end
+
+
+
+NS_ASSUME_NONNULL_END
+
+
+

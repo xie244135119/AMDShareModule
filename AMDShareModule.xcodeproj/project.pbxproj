@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		60ADD1C33A73AE2FB912E7A7 /* Pods_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 112A0F6997147539051366A8 /* Pods_ios.framework */; };
+		38B2694A61FD6094313403F6 /* Pods_AMDShareModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */; };
+		57621B78CE8DE0BD57A6B355 /* Pods_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBED50820877C7F6EC0691AD /* Pods_ios.framework */; };
 		7230F6C11F0B3FDC006A7952 /* AMDShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838951F09EBD700F373E1 /* AMDShareController.m */; };
 		7230F6C21F0B3FDF006A7952 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 		7230F6C61F0B4005006A7952 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
@@ -40,13 +41,11 @@
 		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; };
 		72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */; };
 		72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
-		FA8E80F480124A54BEA5605A /* Pods_AMDShareModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D1A68680052920ECE8A1F5E /* Pods_AMDShareModule.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		112A0F6997147539051366A8 /* Pods_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D1A68680052920ECE8A1F5E /* Pods_AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		416C00D4A17CFEF5D625C329 /* Pods-AMDShareModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.release.xcconfig"; sourceTree = "<group>"; };
+		4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareMaterialViewModel.h; sourceTree = "<group>"; };
 		7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareMaterialViewModel.m; sourceTree = "<group>"; };
 		7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMDShareModule.bundle; sourceTree = "<group>"; };
@@ -54,10 +53,6 @@
 		72C8385C1F09DD4E00F373E1 /* AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMDShareModule.h; sourceTree = "<group>"; };
 		72C838601F09DD4E00F373E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		72C838691F09DE2400F373E1 /* AMDShareMaterialView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareMaterialView.h; sourceTree = "<group>"; };
-		72C8386A1F09DE2400F373E1 /* AMDShareMaterialView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareMaterialView.m; sourceTree = "<group>"; };
-		72C8386D1F09DE2400F373E1 /* AMDShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareView.h; sourceTree = "<group>"; };
-		72C8386E1F09DE2400F373E1 /* AMDShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareView.m; sourceTree = "<group>"; };
 		72C8387A1F09EA8600F373E1 /* ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C8387D1F09EA8600F373E1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		72C8387F1F09EA8600F373E1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -82,6 +77,7 @@
 		72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareViewModel.h; sourceTree = "<group>"; };
 		72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareViewModel.m; sourceTree = "<group>"; };
 		C07D49A578844F6F8916350E /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		CBED50820877C7F6EC0691AD /* Pods_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02F3B10BB8314E9E1BF25A8 /* Pods-AMDShareModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.debug.xcconfig"; sourceTree = "<group>"; };
 		D303828E1D22F662D1087E0B /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,7 +89,7 @@
 			files = (
 				72C838BD1F09F19A00F373E1 /* UMSocialCore.framework in Frameworks */,
 				72C838BE1F09F19A00F373E1 /* UMSocialNetwork.framework in Frameworks */,
-				FA8E80F480124A54BEA5605A /* Pods_AMDShareModule.framework in Frameworks */,
+				38B2694A61FD6094313403F6 /* Pods_AMDShareModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,8 +98,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7230F6CA1F0B415B006A7952 /* UMSocialCore.framework in Frameworks */,
-				60ADD1C33A73AE2FB912E7A7 /* Pods_ios.framework in Frameworks */,
 				7230F6CB1F0B416A006A7952 /* UMSocialNetwork.framework in Frameworks */,
+				57621B78CE8DE0BD57A6B355 /* Pods_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,20 +144,8 @@
 				72C838D61F0A47A200F373E1 /* ViewModel */,
 				72C838A31F09F0D400F373E1 /* OtherResources */,
 				72C838981F09EF3200F373E1 /* Service */,
-				72C838681F09DE2400F373E1 /* view */,
 			);
 			path = AMDShare;
-			sourceTree = "<group>";
-		};
-		72C838681F09DE2400F373E1 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				72C838691F09DE2400F373E1 /* AMDShareMaterialView.h */,
-				72C8386A1F09DE2400F373E1 /* AMDShareMaterialView.m */,
-				72C8386D1F09DE2400F373E1 /* AMDShareView.h */,
-				72C8386E1F09DE2400F373E1 /* AMDShareView.m */,
-			);
-			path = view;
 			sourceTree = "<group>";
 		};
 		72C838751F09E83100F373E1 /* Control */ = {
@@ -259,8 +243,8 @@
 		B735C1BB62A9E279DB214CD0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2D1A68680052920ECE8A1F5E /* Pods_AMDShareModule.framework */,
-				112A0F6997147539051366A8 /* Pods_ios.framework */,
+				4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */,
+				CBED50820877C7F6EC0691AD /* Pods_ios.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -646,6 +630,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/SocialLibraries/WeChat",
 				);
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -673,6 +658,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/SocialLibraries/WeChat",
 				);
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
