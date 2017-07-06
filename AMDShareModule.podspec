@@ -114,10 +114,10 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-  s.framework  = "UMSocialCore"
-#   s.frameworks = "UMSocialCore"
+   s.framework  = "UMSocialCore"
+   s.frameworks = "UMSocialCore" , "UMSocialNetwork"
 
-#   s.library   = "libwechatsdk"
+   #s.library   = "UMSocialCore"
   # s.libraries = "iconv", "xml2"
 
 
@@ -130,6 +130,7 @@ Pod::Spec.new do |s|
    s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
+  # s.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$(SDKROOT)/UMSocialCore"}
    s.dependency "SSBaseKit"
 	s.dependency "SSBaseLib"
 	s.dependency "ShareSDK3", '~>3.6.3'

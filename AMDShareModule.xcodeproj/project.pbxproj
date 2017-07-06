@@ -13,8 +13,6 @@
 		7230F6C21F0B3FDF006A7952 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 		7230F6C61F0B4005006A7952 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
 		7230F6C71F0B4007006A7952 /* AMDUMSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */; };
-		7230F6CA1F0B415B006A7952 /* UMSocialCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B31F09F19A00F373E1 /* UMSocialCore.framework */; };
-		7230F6CB1F0B416A006A7952 /* UMSocialNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */; };
 		7230F6D51F0B648E006A7952 /* AMDShareMaterialViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */; };
 		7230F6E41F0B769B006A7952 /* AMDShareModule.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */; };
 		7230F6E51F0B769B006A7952 /* AMDShareModule.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */; };
@@ -36,11 +34,13 @@
 		72C838A01F09EF4000F373E1 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
 		72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8389C1F09EF4000F373E1 /* AMDUMSDKManager.h */; };
 		72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */; };
-		72C838BD1F09F19A00F373E1 /* UMSocialCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B31F09F19A00F373E1 /* UMSocialCore.framework */; };
-		72C838BE1F09F19A00F373E1 /* UMSocialNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */; };
 		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; };
 		72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */; };
 		72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
+		CB78498E1F0DFB75009D231B /* UMSocialCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB78498C1F0DFB75009D231B /* UMSocialCore.framework */; };
+		CB78498F1F0DFB75009D231B /* UMSocialCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB78498C1F0DFB75009D231B /* UMSocialCore.framework */; };
+		CB7849921F0DFC14009D231B /* UMSocialNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB78498D1F0DFB75009D231B /* UMSocialNetwork.framework */; };
+		CB7849931F0DFC14009D231B /* UMSocialNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB78498D1F0DFB75009D231B /* UMSocialNetwork.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,12 +71,12 @@
 		72C8389B1F09EF4000F373E1 /* AMDShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareManager.m; sourceTree = "<group>"; };
 		72C8389C1F09EF4000F373E1 /* AMDUMSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDUMSDKManager.h; sourceTree = "<group>"; };
 		72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDUMSDKManager.m; sourceTree = "<group>"; };
-		72C838B31F09F19A00F373E1 /* UMSocialCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMSocialCore.framework; sourceTree = "<group>"; };
-		72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMSocialNetwork.framework; sourceTree = "<group>"; };
 		72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MShareStaticMethod.h; sourceTree = "<group>"; };
 		72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareViewModel.h; sourceTree = "<group>"; };
 		72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareViewModel.m; sourceTree = "<group>"; };
 		C07D49A578844F6F8916350E /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		CB78498C1F0DFB75009D231B /* UMSocialCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMSocialCore.framework; sourceTree = "<group>"; };
+		CB78498D1F0DFB75009D231B /* UMSocialNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMSocialNetwork.framework; sourceTree = "<group>"; };
 		CBED50820877C7F6EC0691AD /* Pods_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02F3B10BB8314E9E1BF25A8 /* Pods-AMDShareModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.debug.xcconfig"; sourceTree = "<group>"; };
 		D303828E1D22F662D1087E0B /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -87,9 +87,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72C838BD1F09F19A00F373E1 /* UMSocialCore.framework in Frameworks */,
-				72C838BE1F09F19A00F373E1 /* UMSocialNetwork.framework in Frameworks */,
+				CB78498E1F0DFB75009D231B /* UMSocialCore.framework in Frameworks */,
 				38B2694A61FD6094313403F6 /* Pods_AMDShareModule.framework in Frameworks */,
+				CB7849931F0DFC14009D231B /* UMSocialNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,9 +97,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7230F6CA1F0B415B006A7952 /* UMSocialCore.framework in Frameworks */,
-				7230F6CB1F0B416A006A7952 /* UMSocialNetwork.framework in Frameworks */,
+				CB78498F1F0DFB75009D231B /* UMSocialCore.framework in Frameworks */,
 				57621B78CE8DE0BD57A6B355 /* Pods_ios.framework in Frameworks */,
+				CB7849921F0DFC14009D231B /* UMSocialNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +129,8 @@
 		72C8385E1F09DD4E00F373E1 /* AMDShareModule */ = {
 			isa = PBXGroup;
 			children = (
+				CB78498C1F0DFB75009D231B /* UMSocialCore.framework */,
+				CB78498D1F0DFB75009D231B /* UMSocialNetwork.framework */,
 				7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */,
 				72C838671F09DE2400F373E1 /* AMDShare */,
 				72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */,
@@ -199,26 +201,8 @@
 			isa = PBXGroup;
 			children = (
 				72C838C81F0A195D00F373E1 /* GlobalVar */,
-				72C838A71F09F19A00F373E1 /* libUMSocial */,
 			);
 			path = OtherResources;
-			sourceTree = "<group>";
-		};
-		72C838A71F09F19A00F373E1 /* libUMSocial */ = {
-			isa = PBXGroup;
-			children = (
-				72C838B21F09F19A00F373E1 /* UMSocialSDK */,
-			);
-			path = libUMSocial;
-			sourceTree = "<group>";
-		};
-		72C838B21F09F19A00F373E1 /* UMSocialSDK */ = {
-			isa = PBXGroup;
-			children = (
-				72C838B31F09F19A00F373E1 /* UMSocialCore.framework */,
-				72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */,
-			);
-			path = UMSocialSDK;
 			sourceTree = "<group>";
 		};
 		72C838C81F0A195D00F373E1 /* GlobalVar */ = {
@@ -620,7 +604,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = AMDShareModule/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -645,7 +629,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = AMDShareModule/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -668,6 +652,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -685,6 +670,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
