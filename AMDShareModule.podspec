@@ -114,8 +114,8 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-   s.framework  = "UMSocialCore"
-   s.frameworks = "UMSocialCore" , "UMSocialNetwork"
+#   s.framework  = "UMSocialCore"
+#   s.frameworks = "UMSocialCore" , "UMSocialNetwork"
 
    #s.library   = "UMSocialCore"
   # s.libraries = "iconv", "xml2"
@@ -141,4 +141,5 @@ Pod::Spec.new do |s|
         #新浪微博
         s.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
 	s.dependency 'SDWebImage'
+	s.dependency 'UMengUShare/Core', '~>6.4.5'
 end

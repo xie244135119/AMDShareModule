@@ -39,7 +39,7 @@
     VC.shareImageUrls = @[@"www.tupian.com"];
     VC.customIntentIdentifiers = @[@1,@2,@3,@4];
     VC.shareSource = 1;
-    VC.handleShareAction = ^(AMDShareType shareType, AMDShareResponseState responseState, NSUInteger erroCodel) {
+    VC.completionHandle = ^(AMDShareType shareType, AMDShareResponseState responseState, NSError *erroCodel) {
         
     };
     [self presentViewController:VC animated:NO completion:nil];
