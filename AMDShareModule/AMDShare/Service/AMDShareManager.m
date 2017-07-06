@@ -54,16 +54,16 @@
 
 #pragma mark - PrivateAPI
 //sharesdk分享错误
-+ (NSString *)shareErrorWithCode:(NSInteger)code
-{
-    NSDictionary *errorlist = [[NSDictionary alloc]initWithContentsOfFile:GetFilePath(@"ShareErrorCodeList.plist")];
-    NSString *errorcode = [[NSString alloc]initWithFormat:@"%li",(long)code];
-    NSDictionary *param = errorlist[errorcode];
-    if (param == nil) {
-        return @"分享失败";
-    }
-    return param[@"description"];
-}
+//+ (NSString *)shareErrorWithCode:(NSInteger)code
+//{
+//    NSDictionary *errorlist = [[NSDictionary alloc]initWithContentsOfFile:GetFilePath(@"ShareErrorCodeList.plist")];
+//    NSString *errorcode = [[NSString alloc]initWithFormat:@"%li",(long)code];
+//    NSDictionary *param = errorlist[errorcode];
+//    if (param == nil) {
+//        return @"分享失败";
+//    }
+//    return param[@"description"];
+//}
 
 
 
