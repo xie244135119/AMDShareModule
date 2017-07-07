@@ -22,7 +22,7 @@
 //分享链接
 @property(nonatomic, copy) NSString *shareUrl;
 //分享图片数组
-@property(nonatomic, strong) NSArray<NSString *>* shareImageUrls;
+@property(nonatomic, strong) NSArray<NSURL *>* shareImageUrls;
 
 /**
  可以为nil 默认一般分享类型
