@@ -34,13 +34,7 @@
 		72C838A01F09EF4000F373E1 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
 		72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8389C1F09EF4000F373E1 /* AMDUMSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */; };
-<<<<<<< HEAD
-		72C838BD1F09F19A00F373E1 /* UMSocialCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B31F09F19A00F373E1 /* UMSocialCore.framework */; };
-		72C838BE1F09F19A00F373E1 /* UMSocialNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */; };
-		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; settings = {ATTRIBUTES = (Public, ); }; };
-=======
 		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; };
->>>>>>> 92e7ee573ce6c87613238fb1b0526c589e615d71
 		72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */; };
 		72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 /* End PBXBuildFile section */
