@@ -16,5 +16,8 @@ target_arry.each do |t|
         pod 'ShareSDK3/ShareSDKPlatforms/SinaWeibo'
         #图片缓存类
         pod 'SDWebImage'
+        
+        pod 'UMengUShare/Core', '~>6.4.5'
+#        pod 'UMengSocialCOM'
         end
 end

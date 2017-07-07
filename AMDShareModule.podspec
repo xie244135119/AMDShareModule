@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "AMDShareModule"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "the module of share"
 
   # This description is used to generate tags and improve search results.
@@ -99,7 +99,6 @@ Pod::Spec.new do |s|
   #
   #  A list of resources included with the Pod. These are copied into the
   #  target bundle with a build phase script. Anything else will be cleaned.
-  #  You can preserve files from being cleaned, please don't preserve
   #  non-essential files like tests, examples and documentation.
   #
 
@@ -115,10 +114,10 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
 
-  # s.framework  = "SomeFramework"
-  # s.frameworks = "ShareSDK"
+#   s.framework  = "UMSocialCore"
+#   s.frameworks = "UMSocialCore" , "UMSocialNetwork"
 
-#   s.library   = "libwechatsdk"
+   #s.library   = "UMSocialCore"
   # s.libraries = "iconv", "xml2"
 
 
@@ -131,6 +130,7 @@ Pod::Spec.new do |s|
    s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
+  # s.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$(SDKROOT)/UMSocialCore"}
    s.dependency "SSBaseKit"
 	s.dependency "SSBaseLib"
 	s.dependency "ShareSDK3", '~>3.6.3'
@@ -140,4 +140,6 @@ Pod::Spec.new do |s|
         s.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
         #新浪微博
         s.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
+	s.dependency 'SDWebImage'
+	s.dependency 'UMengUShare/Core', '~>6.4.5'
 end

@@ -13,8 +13,6 @@
 		7230F6C21F0B3FDF006A7952 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 		7230F6C61F0B4005006A7952 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
 		7230F6C71F0B4007006A7952 /* AMDUMSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */; };
-		7230F6CA1F0B415B006A7952 /* UMSocialCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B31F09F19A00F373E1 /* UMSocialCore.framework */; };
-		7230F6CB1F0B416A006A7952 /* UMSocialNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */; };
 		7230F6D51F0B648E006A7952 /* AMDShareMaterialViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */; };
 		7230F6E41F0B769B006A7952 /* AMDShareModule.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */; };
 		7230F6E51F0B769B006A7952 /* AMDShareModule.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */; };
@@ -36,9 +34,13 @@
 		72C838A01F09EF4000F373E1 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
 		72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8389C1F09EF4000F373E1 /* AMDUMSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */; };
+<<<<<<< HEAD
 		72C838BD1F09F19A00F373E1 /* UMSocialCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B31F09F19A00F373E1 /* UMSocialCore.framework */; };
 		72C838BE1F09F19A00F373E1 /* UMSocialNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */; };
 		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; settings = {ATTRIBUTES = (Public, ); }; };
+=======
+		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; };
+>>>>>>> 92e7ee573ce6c87613238fb1b0526c589e615d71
 		72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */; };
 		72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 /* End PBXBuildFile section */
@@ -71,8 +73,6 @@
 		72C8389B1F09EF4000F373E1 /* AMDShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareManager.m; sourceTree = "<group>"; };
 		72C8389C1F09EF4000F373E1 /* AMDUMSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDUMSDKManager.h; sourceTree = "<group>"; };
 		72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDUMSDKManager.m; sourceTree = "<group>"; };
-		72C838B31F09F19A00F373E1 /* UMSocialCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMSocialCore.framework; sourceTree = "<group>"; };
-		72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMSocialNetwork.framework; sourceTree = "<group>"; };
 		72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MShareStaticMethod.h; sourceTree = "<group>"; };
 		72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareViewModel.h; sourceTree = "<group>"; };
 		72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareViewModel.m; sourceTree = "<group>"; };
@@ -87,8 +87,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72C838BD1F09F19A00F373E1 /* UMSocialCore.framework in Frameworks */,
-				72C838BE1F09F19A00F373E1 /* UMSocialNetwork.framework in Frameworks */,
 				38B2694A61FD6094313403F6 /* Pods_AMDShareModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,8 +95,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7230F6CA1F0B415B006A7952 /* UMSocialCore.framework in Frameworks */,
-				7230F6CB1F0B416A006A7952 /* UMSocialNetwork.framework in Frameworks */,
 				57621B78CE8DE0BD57A6B355 /* Pods_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,26 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				72C838C81F0A195D00F373E1 /* GlobalVar */,
-				72C838A71F09F19A00F373E1 /* libUMSocial */,
 			);
 			path = OtherResources;
-			sourceTree = "<group>";
-		};
-		72C838A71F09F19A00F373E1 /* libUMSocial */ = {
-			isa = PBXGroup;
-			children = (
-				72C838B21F09F19A00F373E1 /* UMSocialSDK */,
-			);
-			path = libUMSocial;
-			sourceTree = "<group>";
-		};
-		72C838B21F09F19A00F373E1 /* UMSocialSDK */ = {
-			isa = PBXGroup;
-			children = (
-				72C838B31F09F19A00F373E1 /* UMSocialCore.framework */,
-				72C838B41F09F19A00F373E1 /* UMSocialNetwork.framework */,
-			);
-			path = UMSocialSDK;
 			sourceTree = "<group>";
 		};
 		72C838C81F0A195D00F373E1 /* GlobalVar */ = {
@@ -620,16 +598,13 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = AMDShareModule/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/SocialLibraries/WeChat",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -648,16 +623,13 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = AMDShareModule/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/SocialLibraries/WeChat",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -674,6 +646,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -691,6 +664,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSDK",
+					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

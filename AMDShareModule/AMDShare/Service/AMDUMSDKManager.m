@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 SunSet. All rights reserved.
 //
 #import "AMDUMSDKManager.h"
+//#import <UMSocialCore/UMSocialCore.h>
 #import <UMSocialCore/UMSocialCore.h>
-//#import "MultiProjectManager.h"
 #import "AMDShareManager.h"
-//#import "MShareManager.h"
 #import "MShareStaticMethod.h"
+
 
 @implementation AMDUMSDKManager
 
