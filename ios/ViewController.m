@@ -29,7 +29,6 @@
 }
 
 
-
 - (void)click {
     AMDShareController *VC = [AMDShareController shareViewControllerForServiceType:@"com.share.default"];
     VC.shareTitle = @"mingcheng ";
@@ -39,7 +38,7 @@
     VC.shareImageUrls = @[@"www.tupian.com"];
     VC.customIntentIdentifiers = @[@1,@2,@3,@4];
     VC.shareSource = 1;
-    VC.handleShareAction = ^(AMDShareType shareType, AMDShareResponseState responseState, NSUInteger erroCodel) {
+    VC.completionHandle = ^(AMDShareType shareType, AMDShareResponseState responseState, NSError *error) {
         
     };
     [self presentViewController:VC animated:NO completion:nil];

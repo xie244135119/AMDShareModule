@@ -174,6 +174,7 @@
             
                 UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
                 pasteboard.string = content;
+                  completion(AMDShareResponseSuccess,nil);
                 return;
         }
             break;

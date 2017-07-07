@@ -26,7 +26,7 @@
 @property(nonatomic, copy) NSString *shareUrl;
 
 //分享图片数组
-@property(nonatomic, strong) NSArray<NSURL *>* shareImageUrls;
+@property(nonatomic, strong) NSArray<NSString *>* shareImageUrls;
 
 
 @property(nonatomic, copy) void  (^completionHandle)(AMDShareType shareType,AMDShareResponseState responseState,NSError* error);

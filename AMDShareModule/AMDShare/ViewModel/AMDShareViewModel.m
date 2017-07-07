@@ -21,13 +21,6 @@
     __weak UIView *_middleView;         //分享背景视图
     __weak UILabel *_titleLb;               //文字
     __weak UIView *_currentBackView;            //  透明背景图
-    NSMutableArray *_shareImages; //分享的image数组
-    NSArray *_shareImagesURLs;
-    NSString *_shareShortUrl;
-    NSString *_shareInfoURL;
-    NSString *_shareTitle;
-    NSString *_shareContent;
-    NSString *_shareImageURL;
     NSMutableArray *_shareTitleArray;
 }
 
@@ -42,7 +35,7 @@
 
 
 -(void)initContentView{
-    _shareImages = [[NSMutableArray alloc]init];
+//    _shareImages = [[NSMutableArray alloc]init];
     
     //截取上个界面的画面做背景
     UIImageView *imageBack = [[UIImageView alloc]init];
@@ -54,7 +47,7 @@
     
     //半透明背景视图
     UIView *backView = [[UIView alloc]init];
-    backView.layer.borderWidth = 1;
+//    backView.layer.borderWidth = 1;
     _currentBackView = backView;
     [imageBack addSubview:backView];
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -346,7 +339,7 @@
 {
     NSString *titleString = _shareTitle;
     NSString *contentString = self.shareContent;
-    NSString *infourl = _shareInfoURL;
+    NSString *infourl = _shareUrl;
     
     AMDShareType shareType = 0;
     
@@ -386,7 +379,7 @@
     }
     
     //分享时需要压缩图片(统一在底层裁剪)
-    NSString *imgUrl = _shareImageURL;
+    NSString  *imgUrl = _shareImageUrls[0];
     
     // 分享
     switch (_shareSource) {
@@ -412,59 +405,6 @@
     
 }
 
-
-//
-////弹出系统分享控件
--(void)shareImageText{
-    // 复制文字到剪切板
-    [self saveCopyText];
-    
-    // 直接调用微信分享
-    [self wechatShareWithText:nil images:_shareImages.count>0?_shareImages:@[AMDLoadingImage] url:nil];
-}
-
-
-#pragma mark - 直接调用微信插件分享
-// 直接调用微信分享
-- (void)wechatShareWithText:(NSString *)aText
-                     images:(NSArray *)aImages
-                        url:(NSString *)aUrl
-{
-    NSString *wechat = @"com.tencent.xin.sharetimeline";
-    if (![SLComposeViewController isAvailableForServiceType:wechat]) {
-        NSLog(@" 不支持相关账号 ");
-        return;
-    }
-    SLComposeViewController *compostVc = [SLComposeViewController composeViewControllerForServiceType:wechat];
-    [compostVc setInitialText:aText];
-    for (UIImage *image in aImages) {
-        [compostVc addImage:image];
-    }
-    if (aUrl.length > 0) {
-        //        [compostVc addURL:[NSURL URLWithString:aUrl]];
-    }
-    id app = [UIApplication sharedApplication].delegate;
-    [[[app window] rootViewController] presentViewController:compostVc animated:YES completion:nil];
-}
-
-
-
-//-(void)setShareImagesURLs:(NSArray *)shareImagesURLs{
-//    if (shareImagesURLs) {
-//
-//    }
-//}
-
-//url转换成image对象
-- (UIImage *) getImageFromURL:(NSString *)fileURL {
-    UIImage * result = AMDLoadingImage;
-    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileURL]];
-    if (data) {
-        result = [UIImage imageWithData:data];
-    }
-    return result;
-}
-
 //
 -(void)shareCopy
 {
@@ -473,46 +413,6 @@
      */
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = _shareContent;
-}
-
-#pragma mark - 九图保存
-- (void)saveCopyText
-{
-    //有短链的时候复制短链 没有则复制商品原始链接
-    NSString *shareUrl = _shareShortUrl.length>0?_shareShortUrl:_shareInfoURL;
-    
-    if (_shareContent.length > 0 || _shareTitle.length > 0 || shareUrl.length > 0) {
-        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        if([_shareContent rangeOfString:@"http"].location !=NSNotFound)//_roaldSearchText
-        {
-            pasteboard.string = [NSString stringWithFormat:@"%@ %@",NonNil(_shareTitle,@""),_shareContent];
-        }
-        
-        else
-        {
-            pasteboard.string = [NSString stringWithFormat:@"%@ %@ %@",NonNil(_shareTitle,@""),_shareContent,NonNil(shareUrl,@"")];
-        }
-    }
-}
-
-// 图文分享
-- (void)shareNinePhotoCompletion:(void (^)(void))completion
-{
-//    [[[MShareManager shareInstance] animationDelegate] showAnimation];
-    //    [[AMDRequestService sharedAMDRequestService] animationStartForDelegate:self];
-    
-    //    开启子线程下载图片
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (NSString *imageURL in _shareImagesURLs) {
-            NSString * aimageURL = [imageURL stringByAppendingString:@"?imageView2/3/w/640/h/100"];
-            [_shareImages addObject: [self getImageFromURL:aimageURL]];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-//            [[[MShareManager shareInstance] animationDelegate] stopAnimation];
-            //            [[AMDRequestService sharedAMDRequestService] animationStopForDelegate:self];
-            completion();
-        });
-    });
 }
 
 
