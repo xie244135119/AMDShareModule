@@ -21,5 +21,5 @@ FOUNDATION_EXPORT const unsigned char AMDShareModuleVersionString[];
 #import <AMDShareModule/MShareServiceProtocal.h>
 #import <AMDShareModule/AMDShareManager.h>
 #import <AMDShareModule/AMDUMSDKManager.h>
-#import <AMDShareModule/UMSocialSDK/UMSocialCore.h>
+//#import <AMDShareModule/UMSocialSDK/UMSocialCore.h>
 
