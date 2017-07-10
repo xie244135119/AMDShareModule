@@ -121,7 +121,7 @@
 
     // 卡片分享的时候处理图片裁剪--保证小比例图片分享
     NSString *imagestring = [NSString stringWithFormat:@"%@",imageurl];
-    if (![[imageurl scheme] isEqualToString:@"local"]&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
+    if ([[imageurl scheme] rangeOfString:@"http"].length>0&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
         imagestring = [imagestring stringByAppendingString:@"?imageView2/1/w/80/h/80"];
         imageurl = [NSURL URLWithString:imagestring];
     }
@@ -154,11 +154,11 @@
             break;
         case AMDShareTypeCopy:              //复制
         {
-            //调用系统剪切板
-                if (content.length == 0) return;
-            
-                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                pasteboard.string = content;
+//            //调用系统剪切板
+//                if (content.length == 0) return;
+//            
+//                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+//                pasteboard.string = content;
                   completion(AMDShareResponseSuccess,nil);
                 return;
         }

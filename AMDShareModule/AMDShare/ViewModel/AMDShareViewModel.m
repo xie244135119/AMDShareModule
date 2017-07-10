@@ -374,8 +374,17 @@
         shareType = AMDShareTypeQQZone;
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString: @"复制链接"]) {
-        [self shareCopy];
-        return;
+        shareType = AMDShareTypeCopy;
+        NSString*pasteboardString = @"";
+        NSString*shorturl = self.shareShortUrl.length>0?self.shareShortUrl:self.shareUrl;
+        if ([self.shareContent rangeOfString:@"http"].length == 0 && shorturl.length > 0) {
+            pasteboardString = [self.shareContent stringByAppendingFormat:@" %@",shorturl];
+        }
+        else {
+            pasteboardString = [self.shareContent stringByAppendingFormat:@" %@",shorturl];
+        }
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.string = pasteboardString;
     }
     
     //分享时需要压缩图片(统一在底层裁剪)
@@ -383,9 +392,9 @@
     
     // 分享
     switch (_shareSource) {
-        case 0:     //有量
+        case 1:     //有量
         {
-            [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl competion:^(AMDShareResponseState responseState, NSError *error) {
+            [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl competion:^(AMDShareResponseState responseState, NSError *error) {
                 if (_completionHandle) {
                     _completionHandle(shareType,responseState,error);
                 }
@@ -394,7 +403,7 @@
             break;
         default:
         {
-            [AMDUMSDKManager shareToUMWithType:shareType shareContent:contentString shareTitle:titleString shareImageUrl:imgUrl url:infourl competion:^(AMDShareResponseState responseState, NSError *error) {
+            [AMDShareManager shareType:shareType content:contentString title:titleString imageUrl:imgUrl infoUrl:infourl competion:^(AMDShareResponseState responseState, NSError *error) {
                 if (_completionHandle) {
                     _completionHandle(shareType,responseState,error);
                 }

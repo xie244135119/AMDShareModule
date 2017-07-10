@@ -41,17 +41,17 @@
         shareContent = shareContent.length > 40?[shareContent substringToIndex:40]:shareContent;
     }
     
-    // 分享内容拼接规则
-    if ( shareType == AMDShareTypeCopy) {
-        // 如果内容中含有http
-        if ([shareContent rangeOfString:@"http"].length == 0 && shareUrl.length > 0) {
-            shareContent = [shareContent stringByAppendingFormat:@" %@",shareUrl];
-        }
-    }
+//    // 分享内容拼接规则
+//    if ( shareType == AMDShareTypeCopy) {
+//        // 如果内容中含有http
+//        if ([shareContent rangeOfString:@"http"].length == 0 && shareUrl.length > 0) {
+//            shareContent = [shareContent stringByAppendingFormat:@" %@",shareUrl];
+//        }
+//    }
     
     //图片裁剪40
     NSString *imagestring = [NSString stringWithFormat:@"%@",shareImageUrl];
-    if (![[shareImageUrl scheme] isEqualToString:@"local"]&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
+    if ([[shareImageUrl scheme] rangeOfString:@"http"].length>0&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
         imagestring = [imagestring stringByAppendingString:@"?imageView2/1/w/80/h/80"];
         shareImageUrl = [NSURL URLWithString:imagestring];
     }
