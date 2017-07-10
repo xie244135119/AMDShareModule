@@ -31,7 +31,7 @@
 +(BOOL)shareToUMWithType:(AMDShareType)shareType
             shareContent:(NSString *)shareContent
               shareTitle:(NSString *)shareTitle
-           shareImageUrl:(NSString *)shareImageUrl
+           shareImageUrl:(NSURL *)shareImageUrl
                      url:(NSString *)shareUrl
                competion:(void (^)(AMDShareResponseState responseState,NSError *error))completion{
     //字符截取处理规则(复制不截取)
@@ -50,12 +50,13 @@
     }
     
     //图片裁剪40
-    //    if (shareUrl.length > 0) {
-    if ([shareImageUrl rangeOfString:@"?imageView2"].length == 0 &&  ![shareImageUrl hasPrefix:@"local:"]) {
-        shareImageUrl = [shareImageUrl stringByAppendingString:@"?imageView2/1/w/80/h/80"];
+    NSString *imagestring = [NSString stringWithFormat:@"%@",shareImageUrl];
+    if (![[shareImageUrl scheme] isEqualToString:@"local"]&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
+        imagestring = [imagestring stringByAppendingString:@"?imageView2/1/w/80/h/80"];
+        shareImageUrl = [NSURL URLWithString:imagestring];
     }
     
-    UIImage *img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:shareImageUrl]]];
+    UIImage *img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:shareImageUrl]];
     
     if (shareType == AMDShareTypeWeChatSession||shareType == AMDShareTypeweChatTimeline) {
 
@@ -74,10 +75,8 @@
         [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:nil completion:^(id data, NSError *error) {
             if (error) {
                 completion(AMDShareResponseFail,error);
-//                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
             }else{
                 completion(AMDShareResponseSuccess,error);
-//                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
             }
         }];
         
@@ -88,22 +87,12 @@
 }
 
 
-+ (UIImage*)shareImageWithURL:(NSString *)imageurl{
-    UIImage *img = nil ;
-    if ([imageurl hasPrefix:@"local:"]) {
-        NSString *url = [imageurl stringByReplacingOccurrencesOfString:@"local:" withString:@""];
-        img =[[UIImage alloc]initWithContentsOfFile:url];
-    }else{
-        img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageurl]]];
-    }
-    return img;
-}
-
-
 //单图分享
-+ (BOOL)shareUMType:(AMDShareType)shareType shareImage:(id)image
++ (BOOL)shareUMType:(AMDShareType)shareType
+             sender:(id)sender
+          competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion
 {
-    if(!image)
+    if(!sender)
         return NO;
     
     //创建分享消息对象
@@ -112,25 +101,28 @@
     //创建图片内容对象
     UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
     //如果有缩略图，则设置缩略图
-    shareObject.thumbImage = [UIImage imageNamed:@"icon"];
-    
-    if ([image isKindOfClass:[UIImage class]]) {
-        UIImage *imageOj = image;
+//    shareObject.thumbImage = [UIImage imageNamed:@"icon"];
+    if ([sender isKindOfClass:[UIImage class]]) {
+        UIImage *imageOj = sender;
         [shareObject setShareImage:imageOj];
     }else{
-        UIImage *imgeOj = [self shareImageWithURL:image];
-        [shareObject setShareImage:imgeOj];
+        NSURL *imageUrl = sender;
+        [shareObject setShareImage:imageUrl];
     }
     
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
     
     //调用分享接口
-    [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+    [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:nil completion:^(id data, NSError *error) {
         if (error) {
-//            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];
+            if (completion) {
+                completion(AMDShareResponseFail,error);
+            }
         }else{
-//            [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:@"分享成功"];
+            if (completion) {
+                completion(AMDShareResponseSuccess,nil);
+            }
         }
     }];
     return NO;

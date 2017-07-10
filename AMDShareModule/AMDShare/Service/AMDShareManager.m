@@ -52,22 +52,6 @@
 }
 
 
-#pragma mark - PrivateAPI
-//sharesdk分享错误
-//+ (NSString *)shareErrorWithCode:(NSInteger)code
-//{
-//    NSDictionary *errorlist = [[NSDictionary alloc]initWithContentsOfFile:GetFilePath(@"ShareErrorCodeList.plist")];
-//    NSString *errorcode = [[NSString alloc]initWithFormat:@"%li",(long)code];
-//    NSDictionary *param = errorlist[errorcode];
-//    if (param == nil) {
-//        return @"分享失败";
-//    }
-//    return param[@"description"];
-//}
-
-
-
-#pragma mark
 #pragma mark - 全新的shareSDK体系
 + (void)registerShareAppKey:(NSString *)shareAppKey
                  sinaAppKey:(NSString *)sinaAppKey
@@ -124,7 +108,7 @@
 + (void)shareType:(AMDShareType)shareType
           content:(NSString *)content
             title:(NSString *)title
-         imageUrl:(NSString *)imageurl
+         imageUrl:(NSURL *)imageurl
           infoUrl:(NSString *)infourl
         competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion
 {
@@ -136,11 +120,12 @@
     }
 
     // 卡片分享的时候处理图片裁剪--保证小比例图片分享
-    if (infourl.length > 0) {
-        if ([imageurl rangeOfString:@"?imageView2"].length == 0 &&  ![imageurl hasPrefix:@"local:"]) {
-            imageurl = [imageurl stringByAppendingString:@"?imageView2/1/w/80/h/80"];
-        }
+    NSString *imagestring = [NSString stringWithFormat:@"%@",imageurl];
+    if (![[imageurl scheme] isEqualToString:@"local"]&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
+        imagestring = [imagestring stringByAppendingString:@"?imageView2/1/w/80/h/80"];
+        imageurl = [NSURL URLWithString:imagestring];
     }
+    
     
     // 分享内容拼接规则
     if (shareType == AMDShareTypeSina || shareType == AMDShareTypeCopy) {
@@ -189,14 +174,14 @@
     if (content.length<=0&& title.length<=0&& infourl.length<=0) {
         //1、创建分享参数（必要）
         [shareParams SSDKSetupShareParamsByText:platformtype ==SSDKPlatformTypeSinaWeibo?@"分享给您一张图片～": nil
-                                         images:[self shareImagePathWithUrl:imageurl]
+                                         images:imageurl
                                             url:nil
                                           title:nil
                                            type:SSDKContentTypeImage];
     }else{
         //1、创建分享参数（必要）
         [shareParams SSDKSetupShareParamsByText:content
-                                         images:[self shareImagePathWithUrl:imageurl]
+                                         images:imageurl
                                             url:infourl.length==0?nil:[NSURL URLWithString:infourl]
                                           title:title
                                            type:SSDKContentTypeAuto];
@@ -223,30 +208,13 @@
         [shareParams SSDKEnableUseClientShare];
 }
 
+
+
 // 分享图片
-+ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl competion:(void (^)(AMDShareResponseState responseState,NSError *error))completion
++ (void)shareType:(AMDShareType)shareType photoURL:(NSURL *)imageurl competion:(void (^)(AMDShareResponseState responseState,NSError *error))completion
 {
     // 自动调用图片类型
     [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil competion:completion];
-}
-
-
-
-
-//返回分享的图片实例
-+ (id)shareImagePathWithUrl:(NSString *)imageurl
-{
-    if (imageurl.length == 0) {
-        return nil;
-    }
-    //有前缀 local--本地图片
-    if ([imageurl hasPrefix:@"local:"]) {
-        NSString *url = [imageurl substringFromIndex:6];
-        UIImage *image = [[UIImage alloc]initWithContentsOfFile:url];
-        return image;
-    }
-
-    return imageurl;
 }
 
 

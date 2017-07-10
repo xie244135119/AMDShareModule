@@ -642,7 +642,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSDK",
 					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
@@ -663,7 +662,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSDK",
 					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;

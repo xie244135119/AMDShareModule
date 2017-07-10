@@ -27,7 +27,7 @@ typedef void(^AMDWechatLoginHandle) (BOOL result, NSDictionary *userInfo, id err
 + (void)shareType:(AMDShareType)shareType
           content:(NSString *)content
             title:(NSString *)title
-         imageUrl:(NSString *)imageurl
+         imageUrl:(NSURL *)imageurl
           infoUrl:(NSString *)infourl
         competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion;
 
@@ -37,7 +37,7 @@ typedef void(^AMDWechatLoginHandle) (BOOL result, NSDictionary *userInfo, id err
  *  @param shareType 分享类型
  *  @param imageurl  图片地址--和上面分享的图片地址格式相同
  */
-+ (void)shareType:(AMDShareType)shareType photoURL:(NSString *)imageurl competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion;
++ (void)shareType:(AMDShareType)shareType photoURL:(NSURL *)imageurl competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion;
 
 /**
  *  微信授权登录

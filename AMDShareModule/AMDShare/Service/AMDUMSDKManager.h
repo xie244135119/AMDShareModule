@@ -35,7 +35,7 @@
 + (BOOL)shareToUMWithType:(AMDShareType)shareType
           shareContent:(NSString *)shareContent
             shareTitle:(NSString *)shareTitle
-         shareImageUrl:(NSString *)shareImageUrl
+         shareImageUrl:(NSURL *)shareImageUrl
           url:(NSString *)shareUrl
 competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion;
 
@@ -44,7 +44,9 @@ competion:(void(^)(AMDShareResponseState responseState,NSError *error))completio
  * 裁剪统一由调用方负责,当前仅负责分享操作
  * image字段支持url 和 UIimage
  */
-+ (BOOL)shareUMType:(AMDShareType)shareType shareImage:(id)image;
++ (BOOL)shareUMType:(AMDShareType)shareType
+             sender:(id)sender
+          competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion;;
 
 
 
