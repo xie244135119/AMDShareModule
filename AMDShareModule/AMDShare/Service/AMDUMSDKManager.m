@@ -71,7 +71,7 @@
         messageObject.shareObject = shareObject;
         
         //调用分享接口
-        [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        [[UMSocialManager defaultManager] shareToPlatform:shareType==AMDShareTypeWeChatSession? UMSocialPlatformType_WechatSession:UMSocialPlatformType_WechatTimeLine messageObject:messageObject currentViewController:nil completion:^(id data, NSError *error) {
             if (error) {
                 completion(AMDShareResponseFail,error);
 //                [[[MShareManager shareInstance] alertDelegate] showToastWithTitle:[self shareErrorWithCode:error.code]];

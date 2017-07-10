@@ -309,6 +309,7 @@
 					};
 					72C838791F09EA8600F373E1 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 9YQ6S76GX4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -600,7 +601,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wdwd.wfx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -625,7 +626,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
-				PRODUCT_BUNDLE_IDENTIFIER = cn.AMDShareModule;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wdwd.wfx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -636,6 +637,8 @@
 			baseConfigurationReference = C07D49A578844F6F8916350E /* Pods-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9YQ6S76GX4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
@@ -644,8 +647,9 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wdwd.wfx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -654,6 +658,8 @@
 			baseConfigurationReference = D303828E1D22F662D1087E0B /* Pods-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 9YQ6S76GX4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
@@ -662,8 +668,9 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wdwd.wfx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
