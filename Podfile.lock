@@ -21,6 +21,8 @@ PODS:
   - UMengUShare/Core (6.4.5):
     - UMengUShare/Network
   - UMengUShare/Network (6.4.5)
+  - UMengUShare/Social/ReducedWeChat (6.4.5):
+    - UMengUShare/Core
 
 DEPENDENCIES:
   - SDWebImage
@@ -30,7 +32,8 @@ DEPENDENCIES:
   - ShareSDK3/ShareSDKPlatforms/WeChat
   - SSBaseKit
   - SSBaseLib
-  - UMengUShare/Core
+  - UMengUShare/Core (~> 6.4.5)
+  - UMengUShare/Social/ReducedWeChat
 
 SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
@@ -41,6 +44,6 @@ SPEC CHECKSUMS:
   SSBaseLib: 41f3eb12b04e619e230aa1996b3e0a628b550c4f
   UMengUShare: a5711c54e640b04e3048e931d2b88d50f9cfa55c
 
-PODFILE CHECKSUM: 131d0e12373aaad3115d4f028fdcf86eed3c839a
+PODFILE CHECKSUM: e3db64af71bd5cc83fab7878f7542ed1a5ba35bd
 
 COCOAPODS: 1.2.1
