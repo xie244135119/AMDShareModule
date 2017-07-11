@@ -17,8 +17,9 @@ target_arry.each do |t|
         #图片缓存类
         pod 'SDWebImage'
         
+        # 友盟分享和
         pod 'UMengUShare/Core', '~>6.4.5'
-        pod  'UMengUShare/Social/ReducedWeChat'
+        pod 'UMengUShare/Social/ReducedWeChat'
 #        pod 'UMengSocialCOM'
         end
 end
