@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "AMDShareModule"
-  s.version      = "1.0.5.2"
+  s.version      = "1.0.5.3"
   s.summary      = "the module of share"
 
   # This description is used to generate tags and improve search results.
@@ -142,4 +142,5 @@ Pod::Spec.new do |s|
         s.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
 	s.dependency 'SDWebImage'
 	s.dependency 'UMengUShare/Core', '~>6.4.5'
+	s.dependency 'UMengUShare/Social/ReducedWeChat'
 end
