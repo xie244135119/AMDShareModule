@@ -237,7 +237,8 @@
         [shareIcons addObjectsFromArray:image];
     }else{
         for (int i = 0; i<self.customIntentIdentifiers.count; i++) {
-            switch (i+1) {
+            NSNumber *ident =self.customIntentIdentifiers[i];
+            switch (ident.integerValue) {
                 case 1:
                 {
                     [shareTitles addObject:@"微信好友"];
