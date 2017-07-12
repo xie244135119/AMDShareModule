@@ -130,7 +130,11 @@
         shareTitles = titles;
         shareIcons = images;
     }];
-    
+    if (shareTitles.count<=4) {
+        [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.offset(230);
+        }];
+    }
     __weak UIView *_firstBt = nil;
     __weak UIView *_lastBt = nil;
     for (NSInteger i = 0; i<shareTitles.count; i++) {
@@ -211,6 +215,13 @@
         
         _lastBt = backView;
         if (i == 0)  _firstBt = backView;
+    }
+    
+    // 修正当配置数量少于一行的时候
+    if (shareTitles.count < 4) {
+        [_lastBt mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@-10);
+        }];
     }
 }
 
