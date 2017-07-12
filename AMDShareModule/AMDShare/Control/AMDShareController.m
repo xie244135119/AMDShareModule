@@ -107,7 +107,7 @@
 {
     id<UIApplicationDelegate> app = [UIApplication sharedApplication].delegate;
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(APPWidth, APPHeight), 1, 0.0);
-    [[app window].layer renderInContext:UIGraphicsGetCurrentContext()];
+    [[app window].rootViewController.view drawViewHierarchyInRect:[app window].rootViewController.view.bounds afterScreenUpdates:NO];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
