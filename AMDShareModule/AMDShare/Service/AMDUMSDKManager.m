@@ -107,7 +107,8 @@
         [shareObject setShareImage:imageOj];
     }else{
         NSURL *imageUrl = sender;
-        [shareObject setShareImage:imageUrl];
+       UIImage *img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:imageUrl]];
+        [shareObject setShareImage:img];
     }
     
     //分享消息对象设置分享内容对象
