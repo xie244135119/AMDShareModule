@@ -400,7 +400,10 @@
     }
     
     //分享时需要压缩图片(统一在底层裁剪)
-    NSURL  *imgUrl = _shareImageUrls[0];
+    NSURL  *imgUrl = [[NSURL alloc]init];
+    if (_shareImageUrls.count>0) {
+        imgUrl   = _shareImageUrls[0];
+    }
     
     // 分享
     switch (_shareSource) {
