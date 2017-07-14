@@ -343,8 +343,8 @@
         [weakself hide];
     };
     
-    id app = [UIApplication sharedApplication].delegate;
-    [[[app window] rootViewController] presentViewController:compostVc animated:YES completion:nil];
+//    id app = [UIApplication sharedApplication].delegate;
+    [self.senderController presentViewController:compostVc animated:YES completion:nil];
 }
 
 
@@ -388,12 +388,12 @@
 
 
 // 批量下载图片处理
-- (void)_batchDownloadImageWithUrl:(NSString *)imageurl
+- (void)_batchDownloadImageWithUrl:(NSURL *)imageurl
                         completion:(void (^)(NSArray *cachesImages, NSError *error))completion
 {
     // 加载动画
     __weak typeof(self) weakself = self;
-    NSURL *url = [NSURL URLWithString:imageurl];
+    NSURL *url = imageurl;
     [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
         // 加载动画
         //

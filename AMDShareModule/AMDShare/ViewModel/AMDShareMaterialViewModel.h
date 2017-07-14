@@ -12,7 +12,7 @@
 @interface AMDShareMaterialViewModel : AMDBaseViewModel
 
 // 一组图片地址
-@property(nonatomic, strong) NSArray *shareImageUrls;
+@property(nonatomic, strong) NSArray<NSURL *> *shareImageUrls;
 // 分享内容
 @property(nonatomic, copy) NSString *shareContent;
 // 分享链接
