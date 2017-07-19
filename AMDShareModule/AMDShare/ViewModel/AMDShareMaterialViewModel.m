@@ -262,6 +262,10 @@
             [self saveImagesToAlbumWithUrls:self.shareImageUrls completion:^(NSError *error) {
                 if (error == nil) {
                     [weakself pasteText:weakself.shareContent];
+                   //回调提示
+                    if (weakself.completionHandle) {
+                        weakself.completionHandle(AMDShareTypeTuwenSave, AMDShareResponseSuccess, nil);
+                    }
                 }
             }];
         }
@@ -354,9 +358,7 @@
     if (text.length > 0) {
         [[UIPasteboard generalPasteboard] setString:text];
     }
-    if (self.completionHandle) {
-        self.completionHandle(AMDShareTypeCopy, AMDShareResponseSuccess, nil);
-    }
+
 }
 
 
