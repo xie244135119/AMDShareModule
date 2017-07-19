@@ -354,6 +354,9 @@
     if (text.length > 0) {
         [[UIPasteboard generalPasteboard] setString:text];
     }
+    if (self.completionHandle) {
+        self.completionHandle(AMDShareTypeCopy, AMDShareResponseSuccess, nil);
+    }
 }
 
 

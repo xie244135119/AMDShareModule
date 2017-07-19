@@ -92,6 +92,11 @@
 - (void)initMaterialViewModel {
     AMDShareMaterialViewModel *viewmodel = [[AMDShareMaterialViewModel alloc]init];
     viewmodel.senderController = self;
+    viewmodel.completionHandle = ^(AMDShareType shareType, AMDShareResponseState responseState,NSError* error) {
+        if (_completionHandle) {
+            _completionHandle(shareType,responseState,error);
+        }
+    };
     viewmodel.serviceProtocal = self.serviceProtocal;
     viewmodel.shareContent = self.shareContent;
     viewmodel.shareImageUrls = self.shareImageUrls;

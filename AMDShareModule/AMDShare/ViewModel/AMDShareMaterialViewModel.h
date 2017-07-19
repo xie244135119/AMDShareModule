@@ -8,6 +8,7 @@
 
 #import <SSBaseLib/SSBaseLib.h>
 #import "MShareServiceProtocal.h"
+#import "AMDShareConfig.h"
 
 @interface AMDShareMaterialViewModel : AMDBaseViewModel
 
@@ -21,6 +22,8 @@
 @property (nonatomic ,copy)UIImage *backImage;
 
 @property(nonatomic, weak) id<MShareServiceProtocal>serviceProtocal;
+
+@property(nonatomic, copy) void  (^completionHandle)(AMDShareType shareType,AMDShareResponseState responseState,NSError* error);
 
 
 - (void)show;
