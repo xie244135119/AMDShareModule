@@ -362,7 +362,7 @@
         shareType = AMDShareTypeweChatTimeline;
     }
     else if ([_shareTitleArray[sender.tag] isEqualToString:@"图文分享" ]) {
-        shareType = AMDShareTypeTuwen;
+        shareType = AMDShareTypeTuwenShare;
         if (_completionHandle) {
             _completionHandle(shareType,AMDShareResponseSuccess,nil);
         }
