@@ -89,7 +89,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "AMDShareModule", "AMDShareModule/**/*.{h,m}"
+  s.source_files  = "AMDShareModule/AMDShareModule.h"
   s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
@@ -131,16 +131,34 @@ Pod::Spec.new do |s|
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # s.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$(SDKROOT)/UMSocialCore"}
-   s.dependency "SSBaseKit"
-	s.dependency "SSBaseLib"
-	s.dependency "ShareSDK3", '~>3.6.3'
-        # 微信(可选)
-        s.dependency "ShareSDK3/ShareSDKPlatforms/WeChat"
-        # 腾讯QQ(可选)
-        s.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
-        #新浪微博
-        s.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
-	s.dependency 'SDWebImage'
-	s.dependency 'UMengUShare/Core', '~>6.4.5'
-	s.dependency 'UMengUShare/Social/ReducedWeChat'
+    s.dependency "SSBaseKit"
+    s.dependency "SSBaseLib"
+
+	#Core
+	s.subspec "Core" do |st|
+	 	st.source_files="AMDShareModule/AMDShare/Control"
+		st.dependency 'AMDShareModule/Private'
+		st.dependency 'AMDShareModule/Protrol'
+	end
+	
+	s.subspec "Private" do |st|
+                st.source_files="AMDShareModule/AMDShare/Service", "AMDShareModule/AMDShare/ViewModel"
+		st.dependency 'AMDShareModule/Protrol'
+		st.dependency "ShareSDK3", '~>3.6.3'
+        	# 微信(可选)
+        	st.dependency "ShareSDK3/ShareSDKPlatforms/WeChat"
+        	# 腾讯QQ(可选)
+        	st.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
+        	#新浪微博
+        	st.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
+        	st.dependency 'SDWebImage'
+        	st.dependency 'UMengUShare/Core', '~>6.4.5'
+        	st.dependency 'UMengUShare/Social/ReducedWeChat'
+        end
+	
+	s.subspec "Protrol" do |st|
+                st.source_files="AMDShareModule/AMDShare/Protrol"
+        end
+
+
 end

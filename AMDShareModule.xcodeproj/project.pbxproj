@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		38B2694A61FD6094313403F6 /* Pods_AMDShareModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */; };
 		57621B78CE8DE0BD57A6B355 /* Pods_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBED50820877C7F6EC0691AD /* Pods_ios.framework */; };
+		7217B8981F1F042800B509A8 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 7217B8971F1F042800B509A8 /* MShareStaticMethod.h */; };
+		7217B89B1F1F056200B509A8 /* MShareServiceProtocal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7217B89A1F1F056200B509A8 /* MShareServiceProtocal.h */; };
 		7230F6C11F0B3FDC006A7952 /* AMDShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838951F09EBD700F373E1 /* AMDShareController.m */; };
 		7230F6C21F0B3FDF006A7952 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 		7230F6C61F0B4005006A7952 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
@@ -18,7 +20,6 @@
 		7230F6E51F0B769B006A7952 /* AMDShareModule.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */; };
 		7230F6E61F0B898D006A7952 /* AMDShareMaterialViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */; };
 		7230F6E71F0B898E006A7952 /* AMDShareMaterialViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */; };
-		724633A81F0CD8F40093C61D /* MShareServiceProtocal.h in Headers */ = {isa = PBXBuildFile; fileRef = 724633A71F0CD8F40093C61D /* MShareServiceProtocal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72C8387E1F09EA8600F373E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8387D1F09EA8600F373E1 /* main.m */; };
 		72C838811F09EA8600F373E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838801F09EA8600F373E1 /* AppDelegate.m */; };
@@ -34,7 +35,6 @@
 		72C838A01F09EF4000F373E1 /* AMDShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389B1F09EF4000F373E1 /* AMDShareManager.m */; };
 		72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8389C1F09EF4000F373E1 /* AMDUMSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */; };
-		72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */; };
 		72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */; };
 		72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
 /* End PBXBuildFile section */
@@ -42,10 +42,11 @@
 /* Begin PBXFileReference section */
 		416C00D4A17CFEF5D625C329 /* Pods-AMDShareModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.release.xcconfig"; sourceTree = "<group>"; };
 		4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7217B8971F1F042800B509A8 /* MShareStaticMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MShareStaticMethod.h; sourceTree = "<group>"; };
+		7217B89A1F1F056200B509A8 /* MShareServiceProtocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MShareServiceProtocal.h; sourceTree = "<group>"; };
 		7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareMaterialViewModel.h; sourceTree = "<group>"; };
 		7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareMaterialViewModel.m; sourceTree = "<group>"; };
 		7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMDShareModule.bundle; sourceTree = "<group>"; };
-		724633A71F0CD8F40093C61D /* MShareServiceProtocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MShareServiceProtocal.h; sourceTree = "<group>"; };
 		72C8385C1F09DD4E00F373E1 /* AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMDShareModule.h; sourceTree = "<group>"; };
 		72C838601F09DD4E00F373E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,7 +68,6 @@
 		72C8389B1F09EF4000F373E1 /* AMDShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareManager.m; sourceTree = "<group>"; };
 		72C8389C1F09EF4000F373E1 /* AMDUMSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDUMSDKManager.h; sourceTree = "<group>"; };
 		72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDUMSDKManager.m; sourceTree = "<group>"; };
-		72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MShareStaticMethod.h; sourceTree = "<group>"; };
 		72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareViewModel.h; sourceTree = "<group>"; };
 		72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareViewModel.m; sourceTree = "<group>"; };
 		C07D49A578844F6F8916350E /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -96,6 +96,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7217B8991F1F055700B509A8 /* Protrol */ = {
+			isa = PBXGroup;
+			children = (
+				7217B89A1F1F056200B509A8 /* MShareServiceProtocal.h */,
+			);
+			path = Protrol;
+			sourceTree = "<group>";
+		};
 		72C838521F09DD4E00F373E1 = {
 			isa = PBXGroup;
 			children = (
@@ -130,9 +138,9 @@
 		72C838671F09DE2400F373E1 /* AMDShare */ = {
 			isa = PBXGroup;
 			children = (
+				7217B8991F1F055700B509A8 /* Protrol */,
 				72C838751F09E83100F373E1 /* Control */,
 				72C838D61F0A47A200F373E1 /* ViewModel */,
-				72C838A31F09F0D400F373E1 /* OtherResources */,
 				72C838981F09EF3200F373E1 /* Service */,
 			);
 			path = AMDShare;
@@ -141,7 +149,6 @@
 		72C838751F09E83100F373E1 /* Control */ = {
 			isa = PBXGroup;
 			children = (
-				724633A71F0CD8F40093C61D /* MShareServiceProtocal.h */,
 				72C838941F09EBD700F373E1 /* AMDShareController.h */,
 				72C838951F09EBD700F373E1 /* AMDShareController.m */,
 			);
@@ -176,6 +183,7 @@
 		72C838981F09EF3200F373E1 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				7217B8971F1F042800B509A8 /* MShareStaticMethod.h */,
 				72C838991F09EF4000F373E1 /* AMDShareConfig.h */,
 				72C8389A1F09EF4000F373E1 /* AMDShareManager.h */,
 				72C8389B1F09EF4000F373E1 /* AMDShareManager.m */,
@@ -183,22 +191,6 @@
 				72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		72C838A31F09F0D400F373E1 /* OtherResources */ = {
-			isa = PBXGroup;
-			children = (
-				72C838C81F0A195D00F373E1 /* GlobalVar */,
-			);
-			path = OtherResources;
-			sourceTree = "<group>";
-		};
-		72C838C81F0A195D00F373E1 /* GlobalVar */ = {
-			isa = PBXGroup;
-			children = (
-				72C838C91F0A198D00F373E1 /* MShareStaticMethod.h */,
-			);
-			path = GlobalVar;
 			sourceTree = "<group>";
 		};
 		72C838D61F0A47A200F373E1 /* ViewModel */ = {
@@ -240,11 +232,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				72C8389F1F09EF4000F373E1 /* AMDShareManager.h in Headers */,
+				7217B8981F1F042800B509A8 /* MShareStaticMethod.h in Headers */,
 				72C838961F09EBD700F373E1 /* AMDShareController.h in Headers */,
 				72C8389E1F09EF4000F373E1 /* AMDShareConfig.h in Headers */,
-				72C838CA1F0A1CA000F373E1 /* MShareStaticMethod.h in Headers */,
 				72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */,
-				724633A81F0CD8F40093C61D /* MShareServiceProtocal.h in Headers */,
+				7217B89B1F1F056200B509A8 /* MShareServiceProtocal.h in Headers */,
 				72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */,
 				7230F6D51F0B648E006A7952 /* AMDShareMaterialViewModel.h in Headers */,
 				72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */,
