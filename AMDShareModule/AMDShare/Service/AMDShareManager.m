@@ -7,7 +7,7 @@
 //
 
 #import "AMDShareManager.h"
-#import <ShareSDK3/WXApi.h>
+#import <WXApi.h>
 #import <ShareSDK3/WeiboSDK.h>
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
@@ -112,18 +112,41 @@
           infoUrl:(NSString *)infourl
         competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion
 {
+    //这边不是单图分享不给予截图操作
+    if (title.length != 0 || content.length != 0||infourl.length != 0) {
+        // 卡片分享的时候处理图片裁剪--保证小比例图片分享
+        NSString *imagestring = [NSString stringWithFormat:@"%@",imageurl];
+        if ([[imageurl scheme] rangeOfString:@"http"].length>0&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
+            imagestring = [imagestring stringByAppendingString:@"?imageView2/1/w/80/h/80"];
+            imageurl = [NSURL URLWithString:imagestring];
+        }
+    }
+    [self _shareType:shareType content:content title:title imageUrl:imageurl infoUrl:infourl competion:completion];
+  }
+
+
+
+// 分享图片
++ (void)shareType:(AMDShareType)shareType photoURL:(NSURL *)imageurl competion:(void (^)(AMDShareResponseState responseState,NSError *error))completion
+{
+    // 自动调用图片类型
+    [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil competion:completion];
+}
+
+
+
+#pragma mark - private
++ (void)_shareType:(AMDShareType)shareType
+           content:(NSString *)content
+             title:(NSString *)title
+          imageUrl:(NSURL *)imageurl
+           infoUrl:(NSString *)infourl
+         competion:(void(^)(AMDShareResponseState responseState,NSError *error))completion{
     //字符截取处理规则(复制不截取)
     if (shareType != AMDShareTypeCopy) {
         // 标题不能超过20个字 详细内容不能超过140个字
         title = title.length > 30?[title substringToIndex:30]:title;
         content = content.length > 40?[content substringToIndex:40]:content;
-    }
-
-    // 卡片分享的时候处理图片裁剪--保证小比例图片分享
-    NSString *imagestring = [NSString stringWithFormat:@"%@",imageurl];
-    if ([[imageurl scheme] rangeOfString:@"http"].length>0&& [imagestring rangeOfString:@"?imageView2"].length == 0 ) {
-        imagestring = [imagestring stringByAppendingString:@"?imageView2/1/w/80/h/80"];
-        imageurl = [NSURL URLWithString:imagestring];
     }
     
     
@@ -154,13 +177,13 @@
             break;
         case AMDShareTypeCopy:              //复制
         {
-//            //调用系统剪切板
-//                if (content.length == 0) return;
-//            
-//                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-//                pasteboard.string = content;
-                  completion(AMDShareResponseSuccess,nil);
-                return;
+            //            //调用系统剪切板
+            //                if (content.length == 0) return;
+            //
+            //                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            //                pasteboard.string = content;
+            completion(AMDShareResponseSuccess,nil);
+            return;
         }
             break;
         default:
@@ -170,7 +193,7 @@
     
     //参数处理 如果内容、标题、infourl为空 即为图片分享
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-
+    
     if (content.length<=0&& title.length<=0&& infourl.length<=0) {
         //1、创建分享参数（必要）
         [shareParams SSDKSetupShareParamsByText:platformtype ==SSDKPlatformTypeSinaWeibo?@"分享给您一张图片～": nil
@@ -186,7 +209,7 @@
                                           title:title
                                            type:SSDKContentTypeAuto];
     }
-
+    
     [ShareSDK share:platformtype parameters:shareParams onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) {
         switch (state) {
             case SSDKResponseStateSuccess:{//成功
@@ -205,19 +228,9 @@
                 break;
         }
     }];
-        [shareParams SSDKEnableUseClientShare];
+    [shareParams SSDKEnableUseClientShare];
+    
 }
-
-
-
-// 分享图片
-+ (void)shareType:(AMDShareType)shareType photoURL:(NSURL *)imageurl competion:(void (^)(AMDShareResponseState responseState,NSError *error))completion
-{
-    // 自动调用图片类型
-    [self shareType:shareType content:nil title:nil imageUrl:imageurl infoUrl:nil competion:completion];
-}
-
-
 
 @end
 

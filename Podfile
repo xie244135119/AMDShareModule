@@ -9,7 +9,8 @@ target_arry.each do |t|
         pod 'SSBaseLib'
         pod 'ShareSDK3', '~>3.6.3'
         # 微信(可选)
-        pod 'ShareSDK3/ShareSDKPlatforms/WeChat'
+#        pod 'ShareSDK3/ShareSDKPlatforms/WeChat'
+       pod 'WechatOpenSDK','~>1.7.9'
         # 腾讯QQ(可选)
         pod 'ShareSDK3/ShareSDKPlatforms/QQ'
         #新浪微博

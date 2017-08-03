@@ -88,7 +88,7 @@
     UILabel *titlelb = [[UILabel alloc]init];
     titlelb.text = @"选择分享方式";
     titlelb.textAlignment = NSTextAlignmentCenter;
-    titlelb.textColor = DEFAULT_TEXT_GRAY_COLOR;
+    titlelb.textColor = SMDEFAULT_TEXT_GRAY_COLOR;
     titlelb.font = FontWithName(@"", 14);
     [middleView addSubview:titlelb];
     //    _titleLb = titlelb;
@@ -99,12 +99,12 @@
     
     // 线条
     AMDLineView *line = [[AMDLineView alloc]init];
-    line.lineColor = AMDLineColor;
+    line.lineColor = SMLineColor;
     [middleView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(@0);
         make.top.equalTo(titlelb.mas_bottom);
-        make.height.equalTo(@(AMDLineHeight));
+        make.height.equalTo(@(SMLineHeight));
     }];
     
     // 加载中间的按钮
@@ -115,13 +115,13 @@
     cancelbt.titleLabel.text = @"取消";
     cancelbt.titleLabel.font = FontWithName(@"", 15);
     [cancelbt setBackgroundColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cancelbt setBackgroundColor:AMDLineColor forState:UIControlStateHighlighted];
+    [cancelbt setBackgroundColor:SMLineColor forState:UIControlStateHighlighted];
     [cancelbt addTarget:self action:@selector(clickCancelAction:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelbt setTitleColor:DEFAULT_TEXT_COLOR forState:UIControlStateNormal];
+    [cancelbt setTitleColor:SMDEFAULT_TEXT_COLOR forState:UIControlStateNormal];
     [_middleView addSubview:cancelbt];
-    cancelbt.layer.borderWidth = AMDBorderWidth;
-    cancelbt.layer.borderColor = [summary_text_color CGColor];
-    cancelbt.layer.cornerRadius = AMDCornerRadius;
+    cancelbt.layer.borderWidth = SMBorderWidth;
+    cancelbt.layer.borderColor = [SMsummary_text_color CGColor];
+    cancelbt.layer.cornerRadius = SMCornerRadius;
     cancelbt.layer.masksToBounds = YES;
     [cancelbt mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@15);
@@ -208,7 +208,7 @@
         shareBt.layer.cornerRadius = 25;
         shareBt.layer.masksToBounds = YES;
         [shareBt setBackgroundColor:nil forState:UIControlStateHighlighted];
-        [shareBt setImage2:AMDShareSrcImage(images[i]) forState:UIControlStateNormal];
+        [shareBt setImage2:SMShareSrcImage(images[i]) forState:UIControlStateNormal];
         [shareBt addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
         [v addSubview:shareBt];
         [shareBt mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -220,7 +220,7 @@
         titleLB.text = titles[i];
         titleLB.textAlignment = NSTextAlignmentCenter;
         titleLB.font = FontWithName(@"", 12);
-        titleLB.textColor = DEFAULT_TEXT_GRAY_COLOR;
+        titleLB.textColor = SMDEFAULT_TEXT_GRAY_COLOR;
         [v addSubview:titleLB];
         [titleLB mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(@0);
@@ -429,7 +429,7 @@
 - (void)saveImagesToAlbumWithUrls:(NSArray *)imageurls
                        completion:(void (^)(NSError *error))completion
 {
-    if (_isImagesSaved){
+    if (_isImagesSaved||imageurls.count == 0){
         completion(nil);
         return;
     }

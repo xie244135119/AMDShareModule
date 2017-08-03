@@ -10,7 +10,7 @@
 #import "AMDShareViewModel.h"
 #import "MShareStaticMethod.h"
 #import "AMDShareMaterialViewModel.h"
-
+#import <SSBaseLib/SSBaseLib.h>
 
 @interface AMDShareController ()
 {
@@ -111,7 +111,7 @@
 - (UIImage *)renderImage
 {
     id<UIApplicationDelegate> app = [UIApplication sharedApplication].delegate;
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(APPWidth, APPHeight), 1, 0.0);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(SScreenWidth, SScreenHeight), 1, 0.0);
     [[app window].rootViewController.view drawViewHierarchyInRect:[app window].rootViewController.view.bounds afterScreenUpdates:NO];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

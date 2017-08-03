@@ -1,6 +1,6 @@
 PODS:
   - Masonry (1.0.2)
-  - MOBFoundation (3.0.0)
+  - MOBFoundation (3.0.1)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
   - SDWebImage/Core (4.0.0)
@@ -13,37 +13,42 @@ PODS:
     - MOBFoundation
   - ShareSDK3/ShareSDKPlatforms/SinaWeibo (3.6.3):
     - MOBFoundation
-  - ShareSDK3/ShareSDKPlatforms/WeChat (3.6.3):
-    - MOBFoundation
   - SSBaseKit (1.0.7):
     - Masonry
-  - SSBaseLib (1.0.1)
+  - SSBaseLib (1.0.4.2):
+    - SSBaseLib/Core (= 1.0.4.2)
+    - SSBaseLib/SSJSONModel (= 1.0.4.2)
+  - SSBaseLib/Core (1.0.4.2):
+    - SSBaseLib/SSJSONModel
+  - SSBaseLib/SSJSONModel (1.0.4.2)
   - UMengUShare/Core (6.4.5):
     - UMengUShare/Network
   - UMengUShare/Network (6.4.5)
   - UMengUShare/Social/ReducedWeChat (6.4.5):
     - UMengUShare/Core
+  - WechatOpenSDK (1.7.9)
 
 DEPENDENCIES:
   - SDWebImage
   - ShareSDK3 (~> 3.6.3)
   - ShareSDK3/ShareSDKPlatforms/QQ
   - ShareSDK3/ShareSDKPlatforms/SinaWeibo
-  - ShareSDK3/ShareSDKPlatforms/WeChat
   - SSBaseKit
   - SSBaseLib
   - UMengUShare/Core (~> 6.4.5)
   - UMengUShare/Social/ReducedWeChat
+  - WechatOpenSDK (~> 1.7.9)
 
 SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
-  MOBFoundation: e6572a62983a44fa048c4038842ade1494c10059
+  MOBFoundation: 08328ccde124b687ac5e4367c2ccfc5b4d0235b7
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   ShareSDK3: d271520113160eb24b31cd642b45b38fcd592d93
   SSBaseKit: f0c904f54d2090a412f89a47a00aa5607dc2eeda
-  SSBaseLib: 41f3eb12b04e619e230aa1996b3e0a628b550c4f
+  SSBaseLib: b385f3ecd87c7a8d9fd48d2c5d50b9dadf1e111f
   UMengUShare: a5711c54e640b04e3048e931d2b88d50f9cfa55c
+  WechatOpenSDK: 1fe7e3b07db860d6a936c3ff4a5aba6b890958d9
 
-PODFILE CHECKSUM: fc1d7fa0bd2dbd2d57e42454e523246fa8cb5ec7
+PODFILE CHECKSUM: b5ad6e705a92391d4bf1404c9ac65926de6c7e9d
 
 COCOAPODS: 1.2.1
