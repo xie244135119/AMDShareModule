@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "AMDShareModule"
-  s.version      = "1.0.5.12"
+  s.version      = "1.0.5.14"
   s.summary      = "the module of share"
 
   # This description is used to generate tags and improve search results.
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/xie244135119/AMDShareModule.git", :tag => "#{s.version}" }
+  s.source       = { :git => "git@git.wdwd.com:appmodules/amdsharemodule.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -146,8 +146,8 @@ Pod::Spec.new do |s|
 		st.dependency 'AMDShareModule/Protrol'
 		st.dependency "ShareSDK3", '~>3.6.3'
         	# 微信(可选)
-        	st.dependency "ShareSDK3/ShareSDKPlatforms/WeChat"
-        	# 腾讯QQ(可选)
+		st.dependency 'WechatOpenSDK','~>1.7.9'        	
+		# 腾讯QQ(可选)
         	st.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
         	#新浪微博
         	st.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
