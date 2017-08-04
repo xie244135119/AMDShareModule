@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "AMDShareModule"
-  s.version      = "1.0.5.15"
+  s.version      = "1.0.5.16"
   s.summary      = "the module of share"
 
   # This description is used to generate tags and improve search results.
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "git@git.wdwd.com:appmodules/amdsharemodule.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://git.wdwd.com/appmodules/amdsharemodule.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
