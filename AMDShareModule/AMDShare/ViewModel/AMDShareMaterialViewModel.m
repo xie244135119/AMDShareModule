@@ -12,7 +12,7 @@
 #import <Social/Social.h>
 #import "MShareStaticMethod.h"
 #import <SDWebImage/SDWebImageManager.h>
-
+#import "AMDShareManager.h"
 
 @interface AMDShareMaterialViewModel()
 {
@@ -341,6 +341,11 @@
     }
     __weak typeof(self) weakself = self;
     compostVc.completionHandler = ^(SLComposeViewControllerResult result) {
+        if (result == SLComposeViewControllerResultCancelled) {
+            if (weakself.completionHandle) {
+                weakself.completionHandle(AMDShareTypeWeChatSession,AMDShareResponseCancel,nil );
+            }
+        }
         // 隐藏粘贴视图
         _wechatPasteView.alpha = 0;
         // 隐藏视图
