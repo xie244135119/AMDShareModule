@@ -94,6 +94,7 @@
 {
     if(!sender)
         return NO;
+
     
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
@@ -108,6 +109,11 @@
     }else{
         NSURL *imageUrl = sender;
 //       UIImage *img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:imageUrl]];
+        if ([imageUrl.scheme isEqualToString:@"http"]) {
+            NSString *img = [NSString stringWithFormat:@"%@",sender];
+            img = [img stringByReplacingOccurrencesOfString:@"http" withString:@"https"];
+            imageUrl  = [NSURL URLWithString:img];
+        }
         [shareObject setShareImage:imageUrl.relativeString];
     }
     

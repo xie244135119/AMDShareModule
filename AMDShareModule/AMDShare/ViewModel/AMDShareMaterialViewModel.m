@@ -18,14 +18,13 @@
 {
     __weak UIView *_middleView;          //内部视图
     __weak UIView *_wechatPasteView;        // 微信文案复制视图
+    __weak UILabel *_wechatPasteLabel;      //文案 视图
     __block NSMutableArray *_allCacheImages;        //缓存图片类
     __block BOOL _isImagesSaved;                //图片已经保存
     __block BOOL _isImagesCached;                //图片已经缓存
     __weak AMDRootViewController *_senderController;
     __weak UIView *_currentBackView;
 }
-
-
 
 @end
 
@@ -147,6 +146,7 @@
         titlelb.font = FontWithName(@"", 12);
         titlelb.text = @"分享文案已复制，去粘贴";
         [v addSubview:titlelb];
+        _wechatPasteLabel = titlelb;
         NSMutableAttributedString *att = [titlelb.attributedText mutableCopy];
         [att addAttribute:NSKernAttributeName value:@1 range:NSMakeRange(0, titlelb.text.length)];
         titlelb.attributedText = att;
@@ -236,18 +236,22 @@
 // 按钮事件
 - (void)clickAction:(AMDButton *)sender
 {
+    // 隐藏分享视图
+    
+    // 复制文本
+    [self pasteText:_shareContent];
+    
     switch (sender.tag) {
         case 1:     //微信好友
         case 2:     //微信朋友圈
         {
+            //  调用展示视图
+            _wechatPasteLabel.text = @"分享文案已复制，去粘贴";
+            [self _showWechatPasteView];
+            
             __weak typeof(self) weakself = self;
             [self cachePostPhotosCompletion:^(NSArray *cachesImages ,NSError *error) {
                 if (error == nil) {
-                    //
-                    [weakself _showWechatPasteView];
-                    
-                    // 调用微信分享和复制文本
-                    [weakself pasteText:weakself.shareContent];
                     [weakself wechatShareWithText:weakself.shareContent images:cachesImages url:weakself.shareUrl];
                 }
                 else {
@@ -258,10 +262,16 @@
             break;
         case 3:     //保存图文
         {
+            _wechatPasteLabel.text = @"图片正在保存中...";
+            [self _showWechatPasteView];
+            
             __weak typeof(self) weakself = self;
             [self saveImagesToAlbumWithUrls:self.shareImageUrls completion:^(NSError *error) {
+                // 隐藏展示视图
+                _wechatPasteView.alpha = 0;
+                
                 if (error == nil) {
-                    [weakself pasteText:weakself.shareContent];
+//                    [weakself pasteText:weakself.shareContent];
                    //回调提示
                     if (weakself.completionHandle) {
                         weakself.completionHandle(AMDShareTypeTuwenSave, AMDShareResponseSuccess, nil);
@@ -318,6 +328,23 @@
 }
 
 
+// 仅隐藏视图
+- (void)hideShareView
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        _currentBackView.backgroundColor = [UIColor clearColor];
+        
+        [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(@310);
+        }];
+        [_senderController.contentView layoutIfNeeded];
+        
+    } completion:^(BOOL finished) {
+        [_senderController dismissViewControllerAnimated:NO completion:nil];
+    }];
+}
+
+
 #pragma mark - private api
 #pragma mark  直接调用微信相关点击
 // 直接调用微信分享
@@ -351,8 +378,6 @@
         // 隐藏视图
         [weakself hide];
     };
-    
-//    id app = [UIApplication sharedApplication].delegate;
     [self.senderController presentViewController:compostVc animated:YES completion:nil];
 }
 
