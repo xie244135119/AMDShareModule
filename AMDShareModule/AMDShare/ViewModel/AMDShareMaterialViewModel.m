@@ -255,6 +255,10 @@
                     [weakself wechatShareWithText:weakself.shareContent images:cachesImages url:weakself.shareUrl];
                 }
                 else {
+                    if (weakself.completionHandle) {
+                        weakself.completionHandle(AMDShareTypeQQ, AMDShareResponseFail, nil);
+                    }
+                    
                     [weakself hide];
                 }
             }];
@@ -270,13 +274,11 @@
                 // 隐藏展示视图
                 _wechatPasteView.alpha = 0;
                 
-                if (error == nil) {
 //                    [weakself pasteText:weakself.shareContent];
                    //回调提示
                     if (weakself.completionHandle) {
-                        weakself.completionHandle(AMDShareTypeTuwenSave, AMDShareResponseSuccess, nil);
+                        weakself.completionHandle(AMDShareTypeWeChatSession, error == nil ?AMDShareResponseSuccess:AMDShareResponseFail, nil);
                     }
-                }
             }];
         }
             break;
@@ -412,6 +414,9 @@
         if (error == nil) {
             _isImagesCached = YES;
             completion(cachesImages, error);
+        }else{
+            _isImagesCached = NO;
+            completion(nil, error);
         }
     }];
     //    }
@@ -429,7 +434,7 @@
     [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
         // 加载动画
         //
-        if (finished) {
+        if (!error) {
             if ((cacheType == SDImageCacheTypeMemory && image) || data ) {
                 [_allCacheImages addObject:image];
                 if (_allCacheImages.count == weakself.shareImageUrls.count) {
@@ -446,7 +451,7 @@
             }
         }
         else {
-            //            completion(_allCacheImages, error);
+            completion(_allCacheImages, error);
         }
     }];
 }
