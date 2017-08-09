@@ -12,20 +12,19 @@
 #import <Social/Social.h>
 #import "MShareStaticMethod.h"
 #import <SDWebImage/SDWebImageManager.h>
-
+#import "AMDShareManager.h"
 
 @interface AMDShareMaterialViewModel()
 {
     __weak UIView *_middleView;          //内部视图
     __weak UIView *_wechatPasteView;        // 微信文案复制视图
+    __weak UILabel *_wechatPasteLabel;      //文案 视图
     __block NSMutableArray *_allCacheImages;        //缓存图片类
     __block BOOL _isImagesSaved;                //图片已经保存
     __block BOOL _isImagesCached;                //图片已经缓存
     __weak AMDRootViewController *_senderController;
     __weak UIView *_currentBackView;
 }
-
-
 
 @end
 
@@ -145,8 +144,9 @@
         UILabel *titlelb = [[UILabel alloc]init];
         titlelb.textColor = [UIColor whiteColor];
         titlelb.font = FontWithName(@"", 12);
-        titlelb.text = @"分享文案已复制，去粘贴";
+        titlelb.text = @"分享文案已复制，请等待图片下载完成...";
         [v addSubview:titlelb];
+        _wechatPasteLabel = titlelb;
         NSMutableAttributedString *att = [titlelb.attributedText mutableCopy];
         [att addAttribute:NSKernAttributeName value:@1 range:NSMakeRange(0, titlelb.text.length)];
         titlelb.attributedText = att;
@@ -236,21 +236,29 @@
 // 按钮事件
 - (void)clickAction:(AMDButton *)sender
 {
+    // 隐藏分享视图
+//    [self hideShareView];
+    // 复制文本
+    [self pasteText:_shareContent];
+    
     switch (sender.tag) {
         case 1:     //微信好友
         case 2:     //微信朋友圈
         {
+            //  调用展示视图
+            _wechatPasteLabel.text = @"分享文案已复制，请等待图片下载完成...";
+            [self _showWechatPasteView];
+            
             __weak typeof(self) weakself = self;
             [self cachePostPhotosCompletion:^(NSArray *cachesImages ,NSError *error) {
                 if (error == nil) {
-                    //
-                    [weakself _showWechatPasteView];
-                    
-                    // 调用微信分享和复制文本
-                    [weakself pasteText:weakself.shareContent];
                     [weakself wechatShareWithText:weakself.shareContent images:cachesImages url:weakself.shareUrl];
                 }
                 else {
+                    if (weakself.completionHandle) {
+                        weakself.completionHandle(AMDShareTypeQQ, AMDShareResponseFail, nil);
+                    }
+                    
                     [weakself hide];
                 }
             }];
@@ -258,15 +266,19 @@
             break;
         case 3:     //保存图文
         {
+            _wechatPasteLabel.text = @"图片正在保存中...";
+            [self _showWechatPasteView];
+            
             __weak typeof(self) weakself = self;
             [self saveImagesToAlbumWithUrls:self.shareImageUrls completion:^(NSError *error) {
-                if (error == nil) {
-                    [weakself pasteText:weakself.shareContent];
+                // 隐藏展示视图
+                _wechatPasteView.alpha = 0;
+                
+//                    [weakself pasteText:weakself.shareContent];
                    //回调提示
                     if (weakself.completionHandle) {
-                        weakself.completionHandle(AMDShareTypeTuwenSave, AMDShareResponseSuccess, nil);
+                        weakself.completionHandle(AMDShareTypeWeChatSession, error == nil ?AMDShareResponseSuccess:AMDShareResponseFail, nil);
                     }
-                }
             }];
         }
             break;
@@ -318,6 +330,20 @@
 }
 
 
+//// 仅隐藏视图
+//- (void)hideShareView
+//{
+//    [UIView animateWithDuration:0.25 animations:^{
+//        _currentBackView.backgroundColor = [UIColor clearColor];
+//        
+//        [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(@310);
+//        }];
+//        [_senderController.contentView layoutIfNeeded];
+//    }];
+//}
+
+
 #pragma mark - private api
 #pragma mark  直接调用微信相关点击
 // 直接调用微信分享
@@ -341,13 +367,16 @@
     }
     __weak typeof(self) weakself = self;
     compostVc.completionHandler = ^(SLComposeViewControllerResult result) {
+        if (result == SLComposeViewControllerResultCancelled) {
+            if (weakself.completionHandle) {
+                weakself.completionHandle(AMDShareTypeWeChatSession,AMDShareResponseCancel,nil );
+            }
+        }
         // 隐藏粘贴视图
         _wechatPasteView.alpha = 0;
         // 隐藏视图
         [weakself hide];
     };
-    
-//    id app = [UIApplication sharedApplication].delegate;
     [self.senderController presentViewController:compostVc animated:YES completion:nil];
 }
 
@@ -385,6 +414,9 @@
         if (error == nil) {
             _isImagesCached = YES;
             completion(cachesImages, error);
+        }else{
+            _isImagesCached = NO;
+            completion(nil, error);
         }
     }];
     //    }
@@ -402,7 +434,7 @@
     [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
         // 加载动画
         //
-        if (finished) {
+        if (!error) {
             if ((cacheType == SDImageCacheTypeMemory && image) || data ) {
                 [_allCacheImages addObject:image];
                 if (_allCacheImages.count == weakself.shareImageUrls.count) {
@@ -419,7 +451,7 @@
             }
         }
         else {
-            //            completion(_allCacheImages, error);
+            completion(_allCacheImages, error);
         }
     }];
 }

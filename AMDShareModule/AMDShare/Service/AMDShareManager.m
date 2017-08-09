@@ -31,7 +31,7 @@
         // 取消授权
         [ShareSDK cancelAuthorize:SSDKPlatformTypeWechat];
         //
-        handle(state==SSDKResponseStateSuccess,user.rawData,error);
+        handle(state==SSDKResponseStateSuccess?AMDShareResponseSuccess:state==SSDKResponseStateFail?AMDShareResponseFail:AMDShareResponseCancel,user.rawData,error);
     }];
 }
 

@@ -32,7 +32,8 @@
 
 - (void)click {
     
-//    UIImage *img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://wdwd-prod.wdwdcdn.com/5965d340aec6c.jpg_640x640.jpg?imageView2/3/w/640/h/100"]]];
+////    UIImage *img =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://wdwd-prod.wdwdcdn.com/5965d340aec6c.jpg_640x640.jpg?imageView2/3/w/640/h/100"]]];
+//    NSURL *img =[NSURL URLWithString:@"http://wdwd-prod.wdwdcdn.com/5965d340aec6c.jpg_640x640.jpg?imageView2/3/w/640/h/100"];
 //    [AMDUMSDKManager shareUMType:AMDShareTypeWeChatSession sender:img competion:^(AMDShareResponseState responseState, NSError *error) {
 //    }];
     

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AMDShareConfig.h"
 
-typedef void(^AMDWechatLoginHandle) (BOOL result, NSDictionary *userInfo, id error);
+typedef void(^AMDWechatLoginHandle) (AMDShareResponseState type, NSDictionary *userInfo, id error);
 
 
 @interface AMDShareManager : NSObject
