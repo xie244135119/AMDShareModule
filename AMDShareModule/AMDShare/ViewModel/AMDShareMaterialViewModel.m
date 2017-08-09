@@ -9,10 +9,11 @@
 #import "AMDShareMaterialViewModel.h"
 #import <Masonry/Masonry.h>
 #import <SSBaseKit/SSBaseKit.h>
-#import <Social/Social.h>
+//#import <Social/Social.h>
 #import "MShareStaticMethod.h"
 #import <SDWebImage/SDWebImageManager.h>
 #import "AMDShareManager.h"
+#import "SSAppPluginShare.h"
 
 @interface AMDShareMaterialViewModel()
 {
@@ -252,7 +253,18 @@
             __weak typeof(self) weakself = self;
             [self cachePostPhotosCompletion:^(NSArray *cachesImages ,NSError *error) {
                 if (error == nil) {
-                    [weakself wechatShareWithText:weakself.shareContent images:cachesImages url:weakself.shareUrl];
+//                    [weakself wechatShareWithText:weakself.shareContent images:cachesImages url:weakself.shareUrl];
+                    [SSAppPluginShare pluginShareWithType:SSPluginShareWechat text:weakself.shareContent images:cachesImages url:nil rootController:weakself.senderController completion:^(NSInteger resault) {
+                        if (resault == 2) {
+                            if (weakself.completionHandle) {
+                                weakself.completionHandle(AMDShareTypeWeChatSession,AMDShareResponseCancel,nil );
+                            }
+                        }
+                        // 隐藏粘贴视图
+                        _wechatPasteView.alpha = 0;
+                        // 隐藏视图
+                        [weakself hide];
+                    }];
                 }
                 else {
                     if (weakself.completionHandle) {
@@ -347,7 +359,7 @@
 #pragma mark - private api
 #pragma mark  直接调用微信相关点击
 // 直接调用微信分享
-- (void)wechatShareWithText:(NSString *)aText
+/*- (void)wechatShareWithText:(NSString *)aText
                      images:(NSArray *)aImages
                         url:(NSString *)aUrl
 {
@@ -378,7 +390,7 @@
         [weakself hide];
     };
     [self.senderController presentViewController:compostVc animated:YES completion:nil];
-}
+}*/
 
 
 // 保存文字到剪切板
@@ -407,19 +419,11 @@
     }
     [_allCacheImages removeAllObjects];
     
-    // 判断图片权限
-    //    if ([self permissionFromAlbum]) {
     // 下载图片
     [self _batchDownloadImageWithUrl:self.shareImageUrls[0] completion:^(NSArray *cachesImages ,NSError *error) {
-        if (error == nil) {
-            _isImagesCached = YES;
-            completion(cachesImages, error);
-        }else{
-            _isImagesCached = NO;
-            completion(nil, error);
-        }
+        _isImagesCached = (error == nil);
+        completion(cachesImages, error);
     }];
-    //    }
 }
 
 
@@ -445,9 +449,6 @@
                 
                 // 继续执行
                 [weakself _batchDownloadImageWithUrl:weakself.shareImageUrls[_allCacheImages.count] completion:completion];
-            }
-            else {
-                //                completion(_allCacheImages, error);
             }
         }
         else {
