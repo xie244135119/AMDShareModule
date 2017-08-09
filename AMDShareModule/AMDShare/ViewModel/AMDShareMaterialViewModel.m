@@ -144,7 +144,7 @@
         UILabel *titlelb = [[UILabel alloc]init];
         titlelb.textColor = [UIColor whiteColor];
         titlelb.font = FontWithName(@"", 12);
-        titlelb.text = @"分享文案已复制，去粘贴";
+        titlelb.text = @"分享文案已复制，请等待图片下载完成...";
         [v addSubview:titlelb];
         _wechatPasteLabel = titlelb;
         NSMutableAttributedString *att = [titlelb.attributedText mutableCopy];
@@ -237,7 +237,7 @@
 - (void)clickAction:(AMDButton *)sender
 {
     // 隐藏分享视图
-    
+//    [self hideShareView];
     // 复制文本
     [self pasteText:_shareContent];
     
@@ -246,7 +246,7 @@
         case 2:     //微信朋友圈
         {
             //  调用展示视图
-            _wechatPasteLabel.text = @"分享文案已复制，去粘贴";
+            _wechatPasteLabel.text = @"分享文案已复制，请等待图片下载完成...";
             [self _showWechatPasteView];
             
             __weak typeof(self) weakself = self;
@@ -328,21 +328,18 @@
 }
 
 
-// 仅隐藏视图
-- (void)hideShareView
-{
-    [UIView animateWithDuration:0.25 animations:^{
-        _currentBackView.backgroundColor = [UIColor clearColor];
-        
-        [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(@310);
-        }];
-        [_senderController.contentView layoutIfNeeded];
-        
-    } completion:^(BOOL finished) {
-        [_senderController dismissViewControllerAnimated:NO completion:nil];
-    }];
-}
+//// 仅隐藏视图
+//- (void)hideShareView
+//{
+//    [UIView animateWithDuration:0.25 animations:^{
+//        _currentBackView.backgroundColor = [UIColor clearColor];
+//        
+//        [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(@310);
+//        }];
+//        [_senderController.contentView layoutIfNeeded];
+//    }];
+//}
 
 
 #pragma mark - private api
