@@ -9,7 +9,6 @@
 #import "AMDShareMaterialViewModel.h"
 #import <Masonry/Masonry.h>
 #import <SSBaseKit/SSBaseKit.h>
-//#import <Social/Social.h>
 #import "MShareStaticMethod.h"
 #import <SDWebImage/SDWebImageManager.h>
 #import "AMDShareManager.h"
