@@ -47,6 +47,7 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
 //
 - (void)share:(void (^)(NSInteger resault, NSError *error))completion
 {
+    _allCacheImages = [[NSMutableArray alloc]init];
     [self pasteText:_shareContent];
     // 加载文案视图
     [self initAnimateViewOnView:_senderController.view];

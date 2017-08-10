@@ -20,6 +20,13 @@
 		7230F6E51F0B769B006A7952 /* AMDShareModule.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */; };
 		7230F6E61F0B898D006A7952 /* AMDShareMaterialViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */; };
 		7230F6E71F0B898E006A7952 /* AMDShareMaterialViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */; };
+		724E773B1F3C50A100954225 /* SMGreatShareController.h in Headers */ = {isa = PBXBuildFile; fileRef = 724E77391F3C50A100954225 /* SMGreatShareController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		724E773C1F3C50A100954225 /* SMGreatShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 724E773A1F3C50A100954225 /* SMGreatShareController.m */; };
+		724E773D1F3C50A100954225 /* SMGreatShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 724E773A1F3C50A100954225 /* SMGreatShareController.m */; };
+		724E77401F3C50A900954225 /* SMGreatShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 724E773E1F3C50A900954225 /* SMGreatShareViewModel.h */; };
+		724E77411F3C50A900954225 /* SMGreatShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 724E773F1F3C50A900954225 /* SMGreatShareViewModel.m */; };
+		724E77421F3C50A900954225 /* SMGreatShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 724E773F1F3C50A900954225 /* SMGreatShareViewModel.m */; };
+		724E77441F3C547E00954225 /* HiraginoSansGBW3.otf in Resources */ = {isa = PBXBuildFile; fileRef = 724E77431F3C547E00954225 /* HiraginoSansGBW3.otf */; };
 		72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72C8387E1F09EA8600F373E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8387D1F09EA8600F373E1 /* main.m */; };
 		72C838811F09EA8600F373E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838801F09EA8600F373E1 /* AppDelegate.m */; };
@@ -50,6 +57,11 @@
 		7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareMaterialViewModel.h; sourceTree = "<group>"; };
 		7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareMaterialViewModel.m; sourceTree = "<group>"; };
 		7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMDShareModule.bundle; sourceTree = "<group>"; };
+		724E77391F3C50A100954225 /* SMGreatShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMGreatShareController.h; sourceTree = "<group>"; };
+		724E773A1F3C50A100954225 /* SMGreatShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMGreatShareController.m; sourceTree = "<group>"; };
+		724E773E1F3C50A900954225 /* SMGreatShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMGreatShareViewModel.h; sourceTree = "<group>"; };
+		724E773F1F3C50A900954225 /* SMGreatShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMGreatShareViewModel.m; sourceTree = "<group>"; };
+		724E77431F3C547E00954225 /* HiraginoSansGBW3.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HiraginoSansGBW3.otf; sourceTree = "<group>"; };
 		72C8385C1F09DD4E00F373E1 /* AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMDShareModule.h; sourceTree = "<group>"; };
 		72C838601F09DD4E00F373E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -154,6 +166,8 @@
 		72C838751F09E83100F373E1 /* Control */ = {
 			isa = PBXGroup;
 			children = (
+				724E77391F3C50A100954225 /* SMGreatShareController.h */,
+				724E773A1F3C50A100954225 /* SMGreatShareController.m */,
 				72C838941F09EBD700F373E1 /* AMDShareController.h */,
 				72C838951F09EBD700F373E1 /* AMDShareController.m */,
 				CB592FA51F3AFA8700545E55 /* SSAppPluginShare.h */,
@@ -169,6 +183,7 @@
 				72C838801F09EA8600F373E1 /* AppDelegate.m */,
 				72C838821F09EA8600F373E1 /* ViewController.h */,
 				72C838831F09EA8600F373E1 /* ViewController.m */,
+				724E77431F3C547E00954225 /* HiraginoSansGBW3.otf */,
 				72C838851F09EA8600F373E1 /* Main.storyboard */,
 				72C8388B1F09EA8600F373E1 /* Assets.xcassets */,
 				72C8388D1F09EA8600F373E1 /* LaunchScreen.storyboard */,
@@ -203,6 +218,8 @@
 		72C838D61F0A47A200F373E1 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				724E773E1F3C50A900954225 /* SMGreatShareViewModel.h */,
+				724E773F1F3C50A900954225 /* SMGreatShareViewModel.m */,
 				72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */,
 				72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */,
 				7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */,
@@ -245,8 +262,10 @@
 				72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */,
 				CB592FA71F3AFA8700545E55 /* SSAppPluginShare.h in Headers */,
 				7217B89B1F1F056200B509A8 /* MShareServiceProtocal.h in Headers */,
+				724E77401F3C50A900954225 /* SMGreatShareViewModel.h in Headers */,
 				72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */,
 				7230F6D51F0B648E006A7952 /* AMDShareMaterialViewModel.h in Headers */,
+				724E773B1F3C50A100954225 /* SMGreatShareController.h in Headers */,
 				72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,6 +368,7 @@
 				72C8388F1F09EA8600F373E1 /* LaunchScreen.storyboard in Resources */,
 				72C8388C1F09EA8600F373E1 /* Assets.xcassets in Resources */,
 				72C838871F09EA8600F373E1 /* Main.storyboard in Resources */,
+				724E77441F3C547E00954225 /* HiraginoSansGBW3.otf in Resources */,
 				7230F6E51F0B769B006A7952 /* AMDShareModule.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,6 +461,8 @@
 				72C838971F09EBD700F373E1 /* AMDShareController.m in Sources */,
 				72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */,
 				CB592FA81F3AFA8700545E55 /* SSAppPluginShare.m in Sources */,
+				724E773C1F3C50A100954225 /* SMGreatShareController.m in Sources */,
+				724E77411F3C50A900954225 /* SMGreatShareViewModel.m in Sources */,
 				72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */,
 				72C838A01F09EF4000F373E1 /* AMDShareManager.m in Sources */,
 				7230F6E71F0B898E006A7952 /* AMDShareMaterialViewModel.m in Sources */,
@@ -455,8 +477,10 @@
 				72C838841F09EA8600F373E1 /* ViewController.m in Sources */,
 				7230F6C61F0B4005006A7952 /* AMDShareManager.m in Sources */,
 				72C838811F09EA8600F373E1 /* AppDelegate.m in Sources */,
+				724E77421F3C50A900954225 /* SMGreatShareViewModel.m in Sources */,
 				7230F6C11F0B3FDC006A7952 /* AMDShareController.m in Sources */,
 				72C8387E1F09EA8600F373E1 /* main.m in Sources */,
+				724E773D1F3C50A100954225 /* SMGreatShareController.m in Sources */,
 				7230F6E61F0B898D006A7952 /* AMDShareMaterialViewModel.m in Sources */,
 				7230F6C71F0B4007006A7952 /* AMDUMSDKManager.m in Sources */,
 				72C8388A1F09EA8600F373E1 /* ios.xcdatamodeld in Sources */,
