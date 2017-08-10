@@ -27,7 +27,7 @@ DerivedData
 .idea/
 Tests/Pods
 Tests/Podfile.lock
-Tests/AFNetworking Tests.xcodeproj/xcshareddata/xcschemes/
+Teststignore/AFNetworking Tests.xcodeproj/xcshareddata/xcschemes/
 *.Breakpoints_v2.xcbkptlist
 
 Podfile.lock
