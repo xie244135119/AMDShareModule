@@ -1,7 +1,7 @@
 //
 //  SSAppPluginShare.h
 //  AMDShareModule
-//
+//  直接插件分享
 //  Created by SunSet on 2017/8/9.
 //  Copyright © 2017年 Sherry. All rights reserved.
 //
@@ -20,6 +20,20 @@ extern NSString * const SSPluginShareSina;
 
 @interface SSAppPluginShare : NSObject
 
+
+// 一组url
+@property(nonatomic, strong) NSArray<NSURL *> *shareImageUrls;
+// 内容
+@property(nonatomic, copy) NSString *shareContent;
+// url
+@property(nonatomic, strong) NSURL *shareUrl;
+// 承载的控制器
+@property(nonatomic, weak) UIViewController *senderController;
+
+// 插件类型 SSPluginShareWechat等
+@property(nonatomic, copy) NSString *pluginIder;
+
+
 /**
  插件分享
 
@@ -30,12 +44,32 @@ extern NSString * const SSPluginShareSina;
  @param controller 控制器
  @param completion 完成事件<1完成 2取消>
  */
-+ (void)pluginShareWithType:(NSString *)shareType
-                       text:(NSString *)aText
-                     images:(NSArray *)aImages
-                        url:(NSURL *)aUrl
-             rootController:(UIViewController *)controller
-                 completion:(void (^)(NSInteger resault))completion;
+//- (void)pluginShareWithType:(NSString *)shareType
+//                       text:(NSString *)aText
+//                     images:(NSArray *)aImages
+//                        url:(NSURL *)aUrl
+//             rootController:(UIViewController *)controller
+//                 completion:(void (^)(NSInteger resault))completion;
+
+
+/**
+ 分享
+
+ @param completion 完成事件<1完成 2取消 0失败>
+ */
+- (void)share:(void (^)(NSInteger resault, NSError *error))completion;
+
+
+
+
+#pragma mark -
+
+/**
+ 已经缓存的图片地址
+
+ @return <#return value description#>
+ */
+- (NSArray *)allCacheImages;
 
 
 

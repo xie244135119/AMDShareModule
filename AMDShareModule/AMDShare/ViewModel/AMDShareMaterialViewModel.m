@@ -20,11 +20,13 @@
     __weak UIView *_middleView;          //内部视图
     __weak UIView *_wechatPasteView;        // 微信文案复制视图
     __weak UILabel *_wechatPasteLabel;      //文案 视图
-    __block NSMutableArray *_allCacheImages;        //缓存图片类
+//    __block NSMutableArray *_allCacheImages;        //缓存图片类
     __block BOOL _isImagesSaved;                //图片已经保存
-    __block BOOL _isImagesCached;                //图片已经缓存
+//    __block BOOL _isImagesCached;                //图片已经缓存
     __weak AMDRootViewController *_senderController;
     __weak UIView *_currentBackView;
+    
+    SSAppPluginShare *_pluginShare;             //分享插件类
 }
 
 @end
@@ -34,17 +36,18 @@
 
 - (void)dealloc
 {
-    _allCacheImages = nil;
+//    _allCacheImages = nil;
     self.shareImageUrls = nil;
     self.shareUrl = nil;
     self.shareContent = nil;
+    _pluginShare = nil;
 }
 
 
 -(void)prepareView{
     _senderController = (AMDRootViewController *)self.senderController;
     [self initContentView];
-    [self initMembory];
+//    [self initMembory];
 }
 
 
@@ -167,10 +170,10 @@
 }
 
 // 加载内存
-- (void)initMembory
-{
-    _allCacheImages = [[NSMutableArray alloc]init];
-}
+//- (void)initMembory
+//{
+//    _allCacheImages = [[NSMutableArray alloc]init];
+//}
 
 
 
@@ -237,41 +240,43 @@
 // 按钮事件
 - (void)clickAction:(AMDButton *)sender
 {
-    // 隐藏分享视图
-//    [self hideShareView];
-    // 复制文本
-    [self pasteText:_shareContent];
+    // 先隐藏 分享ui 视图
+    [self hideShareView];
     
     switch (sender.tag) {
         case 1:     //微信好友
         case 2:     //微信朋友圈
         {
-            //  调用展示视图
-            _wechatPasteLabel.text = @"分享文案已复制，请等待图片下载完成...";
-            [self _showWechatPasteView];
+            if (_pluginShare == nil) {
+                _pluginShare = [[SSAppPluginShare alloc]init];
+                _pluginShare.shareImageUrls = _shareImageUrls;
+                _pluginShare.shareUrl = [NSURL URLWithString:_shareUrl?_shareUrl:@""];
+                _pluginShare.shareContent = _shareContent;
+                _pluginShare.senderController = self.senderController;
+                _pluginShare.pluginIder = SSPluginShareWechat;
+            }
             
             __weak typeof(self) weakself = self;
-            [self cachePostPhotosCompletion:^(NSArray *cachesImages ,NSError *error) {
-                if (error == nil) {
-//                    [weakself wechatShareWithText:weakself.shareContent images:cachesImages url:weakself.shareUrl];
-                    [SSAppPluginShare pluginShareWithType:SSPluginShareWechat text:weakself.shareContent images:cachesImages url:nil rootController:weakself.senderController completion:^(NSInteger resault) {
-                        if (resault == 2) {
-                            if (weakself.completionHandle) {
-                                weakself.completionHandle(AMDShareTypeWeChatSession,AMDShareResponseCancel,nil );
-                            }
+            [_pluginShare share:^(NSInteger resault, NSError *error) {
+                switch (resault) {
+                    case 0: {   //失败
+                        if (weakself.completionHandle) {
+                            weakself.completionHandle(AMDShareTypeWeChatSession,AMDShareResponseFail,nil);
                         }
-                        // 隐藏粘贴视图
-                        _wechatPasteView.alpha = 0;
-                        // 隐藏视图
-                        [weakself hide];
-                    }];
-                }
-                else {
-                    if (weakself.completionHandle) {
-                        weakself.completionHandle(AMDShareTypeQQ, AMDShareResponseFail, nil);
                     }
-                    
-                    [weakself hide];
+                        break;
+                    case 1: {   //完成
+                        [weakself hide];
+                    }
+                        break;
+                    case 2: {   //取消
+                        if (weakself.completionHandle) {
+                            weakself.completionHandle(AMDShareTypeWeChatSession,AMDShareResponseCancel,nil);
+                        }
+                    }
+                        break;
+                    default:
+                        break;
                 }
             }];
         }
@@ -280,13 +285,14 @@
         {
             _wechatPasteLabel.text = @"图片正在保存中...";
             [self _showWechatPasteView];
+            // 复制文本
+            [self pasteText:_shareContent];
             
             __weak typeof(self) weakself = self;
             [self saveImagesToAlbumWithUrls:self.shareImageUrls completion:^(NSError *error) {
                 // 隐藏展示视图
                 _wechatPasteView.alpha = 0;
-                
-//                    [weakself pasteText:weakself.shareContent];
+
                    //回调提示
                     if (weakself.completionHandle) {
                         weakself.completionHandle(AMDShareTypeWeChatSession, error == nil ?AMDShareResponseSuccess:AMDShareResponseFail, nil);
@@ -343,55 +349,21 @@
 
 
 //// 仅隐藏视图
-//- (void)hideShareView
-//{
-//    [UIView animateWithDuration:0.25 animations:^{
-//        _currentBackView.backgroundColor = [UIColor clearColor];
-//        
-//        [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(@310);
-//        }];
-//        [_senderController.contentView layoutIfNeeded];
-//    }];
-//}
+- (void)hideShareView
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        _currentBackView.backgroundColor = [UIColor clearColor];
+        
+        [_middleView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(@310);
+        }];
+        [_senderController.contentView layoutIfNeeded];
+    }];
+}
 
 
 #pragma mark - private api
 #pragma mark  直接调用微信相关点击
-// 直接调用微信分享
-/*- (void)wechatShareWithText:(NSString *)aText
-                     images:(NSArray *)aImages
-                        url:(NSString *)aUrl
-{
-    NSString *wechat = @"com.tencent.xin.sharetimeline";
-    if (![SLComposeViewController isAvailableForServiceType:wechat]) {
-        NSLog(@" 不支持相关账号 ");
-        return;
-    }
-    SLComposeViewController *compostVc = [SLComposeViewController composeViewControllerForServiceType:wechat];
-    if (compostVc == nil)  return;
-    [compostVc setInitialText:aText];
-    for (UIImage *image in aImages) {
-        [compostVc addImage:image];
-    }
-    if (aUrl.length > 0) {
-        
-    }
-    __weak typeof(self) weakself = self;
-    compostVc.completionHandler = ^(SLComposeViewControllerResult result) {
-        if (result == SLComposeViewControllerResultCancelled) {
-            if (weakself.completionHandle) {
-                weakself.completionHandle(AMDShareTypeWeChatSession,AMDShareResponseCancel,nil );
-            }
-        }
-        // 隐藏粘贴视图
-        _wechatPasteView.alpha = 0;
-        // 隐藏视图
-        [weakself hide];
-    };
-    [self.senderController presentViewController:compostVc animated:YES completion:nil];
-}*/
-
 
 // 保存文字到剪切板
 - (void)pasteText:(NSString *)text
@@ -399,62 +371,6 @@
     if (text.length > 0) {
         [[UIPasteboard generalPasteboard] setString:text];
     }
-
-}
-
-
-// 缓存九图处理
-- (void)cachePostPhotosCompletion:(void (^)(NSArray *cachesImages ,NSError *error))completion
-{
-    // 没有图片的情况下
-    if (self.shareImageUrls.count == 0) {
-        completion(nil, [NSError errorWithDomain:@"没有找到素材相关图片" code:101 userInfo:nil]);
-        return;
-    }
-    
-    // 已经下载完成的情况下
-    if (_isImagesCached) {
-        completion(_allCacheImages, nil);
-        return;
-    }
-    [_allCacheImages removeAllObjects];
-    
-    // 下载图片
-    [self _batchDownloadImageWithUrl:self.shareImageUrls[0] completion:^(NSArray *cachesImages ,NSError *error) {
-        _isImagesCached = (error == nil);
-        completion(cachesImages, error);
-    }];
-}
-
-
-
-// 批量下载图片处理
-- (void)_batchDownloadImageWithUrl:(NSURL *)imageurl
-                        completion:(void (^)(NSArray *cachesImages, NSError *error))completion
-{
-    // 加载动画
-    __weak typeof(self) weakself = self;
-    NSURL *url = imageurl;
-    [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
-        // 加载动画
-        //
-        if (!error) {
-            if ((cacheType == SDImageCacheTypeMemory && image) || data ) {
-                [_allCacheImages addObject:image];
-                if (_allCacheImages.count == weakself.shareImageUrls.count) {
-                    // 下载完成
-                    completion(_allCacheImages, nil);
-                    return ;
-                }
-                
-                // 继续执行
-                [weakself _batchDownloadImageWithUrl:weakself.shareImageUrls[_allCacheImages.count] completion:completion];
-            }
-        }
-        else {
-            completion(_allCacheImages, error);
-        }
-    }];
 }
 
 
@@ -462,7 +378,7 @@
 - (void)saveImagesToAlbumWithUrls:(NSArray *)imageurls
                        completion:(void (^)(NSError *error))completion
 {
-    if (_isImagesSaved||imageurls.count == 0){
+    if (_isImagesSaved || imageurls.count == 0){
         completion(nil);
         return;
     }
@@ -475,11 +391,11 @@
     [self.serviceProtocal perpareForSendNinePhotos:self.shareImageUrls successAction:^(NSArray * _Nullable cachePicImages, NSError * _Nullable error) {
         if (cachePicImages.count > 0) {
                         _isImagesSaved = YES;
-                        if (!_isImagesCached) {
-                            _isImagesCached = YES;
-                            [_allCacheImages removeAllObjects];
-                            [_allCacheImages addObjectsFromArray:cachePicImages];
-                        }
+//                        if (!_isImagesCached) {
+//                            _isImagesCached = YES;
+//                            [_allCacheImages removeAllObjects];
+//                            [_allCacheImages addObjectsFromArray:cachePicImages];
+//                        }
                     }
         completion(nil);
 
