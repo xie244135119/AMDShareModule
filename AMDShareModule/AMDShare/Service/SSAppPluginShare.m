@@ -56,15 +56,19 @@ NSString * const SSPluginShareSina = @"sina";
     
     __weak typeof(self) weakself = self;
     [self _cachePostPhotosCompletion:^(NSArray *cachesImages, NSError *error) {
-        // ui处理
-        [weakself _hideWechatPasteView];
+       
         if (error) {
+            // ui处理
+            [weakself _hideWechatPasteView];
             //
             completion(0, error);
         }
         else {
+            _wechatShareLabel.text = @"图片已下载。。。";
             // 调用微信分享
             [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_allCacheImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
+                // ui处理
+                [weakself _hideWechatPasteView];
                 completion(resault, nil);
             }];
         }
