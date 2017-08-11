@@ -11,6 +11,10 @@
 #import <Masonry/Masonry.h>
 #import "SSAppPluginShare.h"
 #import "MShareStaticMethod.h"
+//#import "AMDShareManager.h"
+#import "SMAlertView.h"
+#import "SMImagePreviewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface SMGreatShareViewModel()
 {
@@ -19,6 +23,7 @@
     UILabel *_imageCountLB;                                         //选中的图片数量
     UITextView *_shareContentTV;                 //分享语编辑
     SSAppPluginShare *_pluginShare;                             //分享插件类
+    SMAlertView *_alertView;                 //提示框
     
 }
 @end
@@ -46,8 +51,6 @@
     _currentSelectedImages = [[NSMutableArray alloc]init];
     //背景滑动视图
     UIScrollView *scrollView = [[UIScrollView alloc]init];
-    scrollView.layer.borderWidth = 1;
-    scrollView.layer.borderColor = [UIColor redColor].CGColor;
     [_senderController.contentView addSubview:scrollView];
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.offset(0);
@@ -60,7 +63,7 @@
     }
     //承载视图
     UIView *contentBackView = [[UIView alloc]init];
-    contentBackView.layer.borderWidth = 1;
+    contentBackView.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:contentBackView];
     [contentBackView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(scrollView).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
@@ -80,8 +83,6 @@
     
     //提示标题
     AMDImgViewLabelView *prompTitleView = [[AMDImgViewLabelView alloc]init];
-    //    prompTitleView.headImgView.layer.borderWidth = 1;
-    //    prompTitleView.textLabel.layer.borderWidth = 1;
     [promptingContr addSubview:prompTitleView];
     [prompTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(15);
@@ -95,12 +96,11 @@
     }];
     [prompTitleView.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(prompTitleView.headImgView.mas_right).offset(3);
-        make.top.bottom.right.offset(0);
+        make.top.bottom.right.offset(5);
     }];
     
     //提示内容
     AMDLabelShowView *prompContentView = [[AMDLabelShowView alloc]init];
-    //    prompContentView.titleLabel.text = @"规则";
     prompContentView.titleLabel.textAlignment = NSTextAlignmentRight;
     prompContentView.titleLabel.font = FontWithName(@"", 12);
     prompContentView.rightArrowShow = YES;
@@ -117,19 +117,20 @@
     //选择图片标题 数量
     AMDLabelShowView *selectLb = [[AMDLabelShowView alloc]init];
     selectLb.titleLabel.text = @"选择图片";
+    selectLb.titleLabel.font = FontWithName(@"", 15);
+    selectLb.titleLabel.textColor = ColorWithRGB(51, 51, 51, 1);
     selectLb.contentLabel.text = @"已选0张";
     _imageCountLB = selectLb.contentLabel;
-    selectLb.layer.borderWidth = 1;
     [contentBackView addSubview:selectLb];
+    [self invokeImageCountTitleWithLable:selectLb.contentLabel];
     [selectLb mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.offset(0);
         make.top.equalTo(promptingContr.mas_bottom).offset(10);
-        make.height.offset(30);
+        make.height.offset(40);
     }];
     
     //图片滑动视图
     UIScrollView *imageScroll = [[UIScrollView alloc]init];
-    imageScroll.layer.borderWidth = 1;
     [contentBackView addSubview:imageScroll];
     [imageScroll mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.offset(0);
@@ -139,8 +140,6 @@
     
     //图片承载视图
     UIView *imageBack = [[UIView alloc]init];
-    imageBack.layer.borderWidth = 3;
-    imageBack.layer.borderColor = [UIColor redColor].CGColor;
     [imageScroll addSubview:imageBack];
     [imageBack mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(imageScroll).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
@@ -154,37 +153,43 @@
     {
         AMDButton *shareImageView = [[AMDButton alloc]init];
         shareImageView.tag = i;
-        shareImageView.backgroundColor = [UIColor yellowColor];
-        shareImageView.layer.borderWidth = 1;
-        shareImageView.imageView.layer.borderWidth = 1;
-        [shareImageView addTarget:self action:@selector(selectShareImage:) forControlEvents:UIControlEventTouchUpInside];
-        [shareImageView setImage:SMShareSrcImage(@"") forState:UIControlStateNormal];
-        [shareImageView setImage:SMShareSrcImage(@"M_weibo_68@2x.png") forState:UIControlStateSelected];
+        shareImageView.layer.borderWidth = .5;
+        shareImageView.layer.borderColor = SMLineColor.CGColor;
+        [shareImageView addTarget:self action:@selector(clickImage:) forControlEvents:UIControlEventTouchUpInside];
+        NSURL *imgurl = [[NSURL alloc]initWithString:[self.shareImageArray[i] stringByAppendingString:@"?imageView2/1/w/100/h/100"]];
+        [shareImageView.imageView sd_setImageWithURL:imgurl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
         [imageBack addSubview:shareImageView];
         [shareImageArray addObject:shareImageView];
-        [shareImageView.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.offset(3);
-            make.right.offset(-3);
-            make.width.height.offset(24);
-        }];
-        
-        AMDImageView *selectIcon = [[AMDImageView alloc]init];
-        [selectIcon setImageWithUrl:self.shareImageArray[i] placeHolder:nil];
-        selectIcon.layer.borderWidth = 1;
-        [shareImageView addSubview:selectIcon];
-        [selectIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(shareImageView).width.insets(UIEdgeInsetsMake(0, 0, 0, 0));
-        }];
         [shareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.height.equalTo(@100);
             make.top.equalTo(@0);
             make.left.equalTo(@(110*i+15));
+        }];
+        [shareImageView.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.left.right.offset(0);
+        }];
+        
+        AMDButton *selectIcon = [[AMDButton alloc]init];
+        selectIcon.tag = i;
+        [selectIcon addTarget:self action:@selector(seletImage:) forControlEvents:UIControlEventTouchUpInside];
+        [selectIcon setImage2:SMShareSrcImage(@"cart_riadio@2x.png") forState:UIControlStateNormal];
+        [selectIcon setImage2:SMShareSrcImage(@"cart_riadio-select@2x.png") forState:UIControlStateSelected];
+        [shareImageView addSubview:selectIcon];
+        [selectIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.offset(3);
+            make.right.offset(-3);
+            make.width.height.offset(24);
+        }];
+        [selectIcon.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.left.right.offset(0);
         }];
     }
     
     //编辑文案
     UILabel *editTitleLB = [[UILabel alloc]init];
     editTitleLB.text = @"编辑分享文案";
+    editTitleLB.textColor = ColorWithRGB(51, 51, 51, 1);
+    editTitleLB.font = FontWithName(@"", 15);
     [contentBackView addSubview:editTitleLB];
     [editTitleLB mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(15);
@@ -195,7 +200,8 @@
     
     UIView *tvBackView = [[UIView alloc]init];
     tvBackView.layer.borderWidth = .5;
-    tvBackView.layer.borderColor = [UIColor grayColor].CGColor;
+    tvBackView.layer.borderColor = SMLineColor.CGColor;
+    tvBackView.backgroundColor = [UIColor whiteColor];
     [contentBackView addSubview:tvBackView];
     [tvBackView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(15);
@@ -207,9 +213,9 @@
     //文案输入框
     UITextView *editTV = [[UITextView alloc]init];
     _shareContentTV = editTV;
+    editTV.font = FontWithName(@"", 14);
+    editTV.textColor = ColorWithRGB(79, 79, 79, 1);
     editTV.text = self.shareContent;
-    editTV.layer.borderWidth = .5;
-    editTV.layer.borderColor = [UIColor grayColor].CGColor;
     [contentBackView addSubview:editTV];
     [editTV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(tvBackView).width.insets(UIEdgeInsetsMake(10, 10, 10, 10));
@@ -228,16 +234,18 @@
     
     //复制按钮
     AMDButton *copyBT = [[AMDButton alloc]init];
-    copyBT.titleLabel.text = @"复制文案";
+    copyBT.titleLabel.text = @"仅复制分享文案";
+    copyBT.titleLabel.font = FontWithName(@"", 15);
     copyBT.titleLabel.textAlignment = NSTextAlignmentRight;
-    copyBT.titleLabel.textColor = [UIColor orangeColor];
-    copyBT.layer.borderWidth = 1;
+    copyBT.titleLabel.textColor = ColorWithRGB(230, 99, 14, 1);
+    [copyBT addTarget:self action:@selector(copyText) forControlEvents:UIControlEventTouchUpInside];
+//    copyBT.layer.borderWidth = 1;
     [contentBackView addSubview:copyBT];
     [copyBT mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.offset(-15);
-        make.top.equalTo(promptWordsLB);
+        make.top.equalTo(promptWordsLB).offset(5);
         make.width.offset(130);
-        make.height.offset(15);
+        make.height.offset(30);
     }];
     
     //文字描述
@@ -258,6 +266,7 @@
 -(void)initShareView{
     //分享背景视图
     UIView *shareBackView = [[UIView alloc]init];
+    shareBackView.backgroundColor = [UIColor whiteColor];
     [_senderController.contentView addSubview:shareBackView];
     [shareBackView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.offset(0);
@@ -265,7 +274,7 @@
     }];
     
     AMDLineView *line = [[AMDLineView alloc]init];
-    line.lineColor = [UIColor grayColor];
+    line.lineColor = SMLineColor;
     [shareBackView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.offset(0);
@@ -274,6 +283,8 @@
     }];
     
     UILabel *headingLB = [[UILabel alloc]init];
+    headingLB.textColor = ColorWithRGB(51, 51, 51, 1);
+    headingLB.font = FontWithName(@"", 14);
     headingLB.textAlignment = NSTextAlignmentCenter;
     headingLB.backgroundColor = [UIColor whiteColor];
     headingLB.text = @"图文分享到";
@@ -290,14 +301,12 @@
     NSArray *images = @[@"share_weixin@2x.png",@"share_weixin-friend@2x.png",@"share_qq@2x.png",@"share_weibo@2x.png"];
     
     for (NSInteger i = 0; i<titles.count; i++) {
-        
         UIView *v = [[UIView alloc]init];
         [shareBackView addSubview:v];
         [v mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(@50);
             make.height.equalTo(@80);
             make.top.equalTo(@40);
-            
             make.centerX.equalTo(shareBackView.mas_centerX).multipliedBy((CGFloat)(2*i+1)/4);
         }];
         
@@ -368,7 +377,7 @@
             }
                 break;
             case 1: {   //完成
-                [_senderController.navigationController popViewControllerAnimated: YES];
+//                [_senderController.navigationController popViewControllerAnimated: YES];
             }
                 break;
             case 2: {   //取消
@@ -385,31 +394,68 @@
 
 
 //选择需要分享的图片
--(void)selectShareImage:(AMDButton *)sender{
-    NSLog(@"-----%ld",sender.tag);
-    NSLog(@"****%@",self.shareImageArray[sender.tag]);
-    NSLog(@"====%@",_currentSelectedImages);
-    NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+-(void)clickImage:(AMDButton *)sender{
+    NSMutableArray *frameArr = [NSMutableArray array] ;
+        for (int i = 0; i < _shareImageArray.count; i++) {
+        CGRect frame  = CGRectMake(110*i+15, 100, 100, 100);
+        [frameArr addObject:NSStringFromCGRect(frame)];
+    }
+    // 跳到预览页面
+    SMImagePreviewController *VC = [[SMImagePreviewController alloc]init];
+    VC.originalFrames = frameArr;
+    VC.remoteImagePaths = self.shareImageArray;
+    __block NSUInteger index = sender.tag;
+    VC.currentIndex = index;
+    VC.transitioningDelegate = VC;
+    [_senderController presentViewController:VC animated:YES completion:nil];
+}
+
+
+//选择图片
+-(void)seletImage:(AMDButton *)sender{
     if (sender.selected)
     {//取消选中状态
         sender.selected = NO;
-        NSURL *imageUrl = self.shareImageArray[sender.tag];
+        NSString *imageUrl = self.shareImageArray[sender.tag];
         if ([_currentSelectedImages containsObject:imageUrl]) {
             [_currentSelectedImages removeObject:imageUrl];
         }
     }else
     {//添加选中状态
         sender.selected = YES;
-        NSURL *imageUrl = self.shareImageArray[sender.tag];
+        NSString *imageUrl = self.shareImageArray[sender.tag];
         if (![_currentSelectedImages containsObject:imageUrl]) {
             [_currentSelectedImages addObject:imageUrl];
         }
     }
-    NSLog(@"-----%ld",sender.tag);
-    NSLog(@"****%@",self.shareImageArray[sender.tag]);
-    NSLog(@"====%@",_currentSelectedImages);
     _imageCountLB.text = [NSString stringWithFormat:@"已选%ld张",_currentSelectedImages.count];
     [self invokeImageCountTitleWithLable:_imageCountLB];
+
+}
+
+
+//复制文案
+-(void)copyText{
+    [self pasteText:self.shareContent];
+    if (!_alertView) {
+        SMAlertView *alertV = [[SMAlertView alloc]init];
+        _alertView = alertV;
+    }
+    _alertView.alertContent = self.shareContent;
+    [_senderController.contentView addSubview:_alertView];
+    [_alertView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.offset(0);
+    }];
+    [_alertView show];
+}
+
+
+// 保存文字到剪切板
+- (void)pasteText:(NSString *)text
+{
+    if (text.length > 0) {
+        [[UIPasteboard generalPasteboard] setString:text];
+    }
 }
 
 
@@ -417,14 +463,15 @@
 -(void)invokeImageCountTitleWithLable:(UILabel *)countLb{
     NSRange range = NSMakeRange(2, countLb.text.length-3);
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:countLb.text];
+    [attributedString addAttribute:NSKernAttributeName value:@2 range:NSMakeRange(0, countLb.text.length)];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:range];
-    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 13) range:range];
+    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 15) range:range];
     NSRange headerRange = NSMakeRange(0, 2);
     NSRange footerRange =  NSMakeRange(countLb.text.length-1, 1);
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:headerRange];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:footerRange];
-    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 10) range:footerRange];
-    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 10) range:headerRange];
+    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 15) range:footerRange];
+    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 15) range:headerRange];
     countLb.attributedText = attributedString;
 }
 

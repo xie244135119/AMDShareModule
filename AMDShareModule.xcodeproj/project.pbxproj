@@ -29,6 +29,13 @@
 		724E77441F3C547E00954225 /* HiraginoSansGBW3.otf in Resources */ = {isa = PBXBuildFile; fileRef = 724E77431F3C547E00954225 /* HiraginoSansGBW3.otf */; };
 		724E77471F3C6F8A00954225 /* SSAppPluginShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 724E77451F3C6F8A00954225 /* SSAppPluginShare.h */; };
 		724E77481F3C6F8A00954225 /* SSAppPluginShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 724E77461F3C6F8A00954225 /* SSAppPluginShare.m */; };
+		724E77491F3C70CA00954225 /* SSAppPluginShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 724E77461F3C6F8A00954225 /* SSAppPluginShare.m */; };
+		724F60FB1F3D7FE3000E1AD9 /* SMAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 724F60F91F3D7FE3000E1AD9 /* SMAlertView.h */; };
+		724F60FC1F3D7FE3000E1AD9 /* SMAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 724F60FA1F3D7FE3000E1AD9 /* SMAlertView.m */; };
+		724F60FD1F3D7FE3000E1AD9 /* SMAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 724F60FA1F3D7FE3000E1AD9 /* SMAlertView.m */; };
+		724F61051F3DAB61000E1AD9 /* SMImagePreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 724F61031F3DAB61000E1AD9 /* SMImagePreviewController.h */; };
+		724F61061F3DAB61000E1AD9 /* SMImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 724F61041F3DAB61000E1AD9 /* SMImagePreviewController.m */; };
+		724F61071F3DAB61000E1AD9 /* SMImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 724F61041F3DAB61000E1AD9 /* SMImagePreviewController.m */; };
 		72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72C8387E1F09EA8600F373E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8387D1F09EA8600F373E1 /* main.m */; };
 		72C838811F09EA8600F373E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838801F09EA8600F373E1 /* AppDelegate.m */; };
@@ -63,6 +70,10 @@
 		724E77431F3C547E00954225 /* HiraginoSansGBW3.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HiraginoSansGBW3.otf; sourceTree = "<group>"; };
 		724E77451F3C6F8A00954225 /* SSAppPluginShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAppPluginShare.h; sourceTree = "<group>"; };
 		724E77461F3C6F8A00954225 /* SSAppPluginShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAppPluginShare.m; sourceTree = "<group>"; };
+		724F60F91F3D7FE3000E1AD9 /* SMAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAlertView.h; sourceTree = "<group>"; };
+		724F60FA1F3D7FE3000E1AD9 /* SMAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAlertView.m; sourceTree = "<group>"; };
+		724F61031F3DAB61000E1AD9 /* SMImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMImagePreviewController.h; sourceTree = "<group>"; };
+		724F61041F3DAB61000E1AD9 /* SMImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMImagePreviewController.m; sourceTree = "<group>"; };
 		72C8385C1F09DD4E00F373E1 /* AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AMDShareModule.h; sourceTree = "<group>"; };
 		72C838601F09DD4E00F373E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,6 +131,16 @@
 			path = Protrol;
 			sourceTree = "<group>";
 		};
+		724F60F81F3D7FBD000E1AD9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				724F60F91F3D7FE3000E1AD9 /* SMAlertView.h */,
+				724F60FA1F3D7FE3000E1AD9 /* SMAlertView.m */,
+			);
+			name = View;
+			path = AMDShare/View;
+			sourceTree = "<group>";
+		};
 		72C838521F09DD4E00F373E1 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +164,7 @@
 		72C8385E1F09DD4E00F373E1 /* AMDShareModule */ = {
 			isa = PBXGroup;
 			children = (
+				724F60F81F3D7FBD000E1AD9 /* View */,
 				7230F6E31F0B769B006A7952 /* AMDShareModule.bundle */,
 				72C838671F09DE2400F373E1 /* AMDShare */,
 				72C8385F1F09DD4E00F373E1 /* AMDShareModule.h */,
@@ -165,6 +187,8 @@
 		72C838751F09E83100F373E1 /* Control */ = {
 			isa = PBXGroup;
 			children = (
+				724F61031F3DAB61000E1AD9 /* SMImagePreviewController.h */,
+				724F61041F3DAB61000E1AD9 /* SMImagePreviewController.m */,
 				724E77391F3C50A100954225 /* SMGreatShareController.h */,
 				724E773A1F3C50A100954225 /* SMGreatShareController.m */,
 				72C838941F09EBD700F373E1 /* AMDShareController.h */,
@@ -257,6 +281,7 @@
 				72C8389F1F09EF4000F373E1 /* AMDShareManager.h in Headers */,
 				7217B8981F1F042800B509A8 /* MShareStaticMethod.h in Headers */,
 				72C838961F09EBD700F373E1 /* AMDShareController.h in Headers */,
+				724F60FB1F3D7FE3000E1AD9 /* SMAlertView.h in Headers */,
 				72C8389E1F09EF4000F373E1 /* AMDShareConfig.h in Headers */,
 				72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */,
 				724E77471F3C6F8A00954225 /* SSAppPluginShare.h in Headers */,
@@ -266,6 +291,7 @@
 				7230F6D51F0B648E006A7952 /* AMDShareMaterialViewModel.h in Headers */,
 				724E773B1F3C50A100954225 /* SMGreatShareController.h in Headers */,
 				72C838611F09DD4E00F373E1 /* AMDShareModule.h in Headers */,
+				724F61051F3DAB61000E1AD9 /* SMImagePreviewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,9 +483,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				724F60FC1F3D7FE3000E1AD9 /* SMAlertView.m in Sources */,
 				72C838971F09EBD700F373E1 /* AMDShareController.m in Sources */,
 				72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */,
 				724E773C1F3C50A100954225 /* SMGreatShareController.m in Sources */,
+				724F61061F3DAB61000E1AD9 /* SMImagePreviewController.m in Sources */,
 				724E77411F3C50A900954225 /* SMGreatShareViewModel.m in Sources */,
 				724E77481F3C6F8A00954225 /* SSAppPluginShare.m in Sources */,
 				72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */,
@@ -474,8 +502,11 @@
 			files = (
 				72C838841F09EA8600F373E1 /* ViewController.m in Sources */,
 				7230F6C61F0B4005006A7952 /* AMDShareManager.m in Sources */,
+				724F61071F3DAB61000E1AD9 /* SMImagePreviewController.m in Sources */,
+				724E77491F3C70CA00954225 /* SSAppPluginShare.m in Sources */,
 				72C838811F09EA8600F373E1 /* AppDelegate.m in Sources */,
 				724E77421F3C50A900954225 /* SMGreatShareViewModel.m in Sources */,
+				724F60FD1F3D7FE3000E1AD9 /* SMAlertView.m in Sources */,
 				7230F6C11F0B3FDC006A7952 /* AMDShareController.m in Sources */,
 				72C8387E1F09EA8600F373E1 /* main.m in Sources */,
 				724E773D1F3C50A100954225 /* SMGreatShareController.m in Sources */,

@@ -16,7 +16,7 @@ NSString * const SSPluginShareWechat = @"com.tencent.xin.sharetimeline";
 // qq分享
 NSString * const SSPluginShareQQ = @"com.tencent.mqq.ShareExtension";
 // 微博分享
-NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
+NSString * const SSPluginShareSina = @"sina";
 
 
 @interface SSAppPluginShare()
@@ -47,7 +47,6 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
 //
 - (void)share:(void (^)(NSInteger resault, NSError *error))completion
 {
-    _allCacheImages = [[NSMutableArray alloc]init];
     [self pasteText:_shareContent];
     // 加载文案视图
     [self initAnimateViewOnView:_senderController.view];
@@ -57,20 +56,15 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
     
     __weak typeof(self) weakself = self;
     [self _cachePostPhotosCompletion:^(NSArray *cachesImages, NSError *error) {
-        
+        // ui处理
+        [weakself _hideWechatPasteView];
         if (error) {
-            // ui处理
-            [weakself _hideWechatPasteView];
-            
             //
             completion(0, error);
         }
         else {
             // 调用微信分享
-            [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:nil url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
-                // ui处理
-                [weakself _hideWechatPasteView];
-                
+            [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_allCacheImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
                 completion(resault, nil);
             }];
         }
@@ -97,7 +91,7 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
              rootController:(UIViewController *)controller
                  completion:(void (^)(NSInteger resault))completion
 {
-    NSString *wechat = shareType;
+    NSString *wechat = [shareType isEqualToString:@"sina"]?SLServiceTypeSinaWeibo:shareType;
     if (![SLComposeViewController isAvailableForServiceType:wechat]) {
         NSLog(@" 不支持当前应用 ");
         return;
@@ -143,6 +137,11 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
         completion(_allCacheImages, nil);
         return;
     }
+    
+    if (_allCacheImages == nil) {
+        _allCacheImages = [[NSMutableArray alloc]init];
+    }
+    
     [_allCacheImages removeAllObjects];
     
     // 下载图片
@@ -238,8 +237,8 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
     // 分享文案视图加个 上移 动画
     CABasicAnimation *animation = [CABasicAnimation animation];
     animation.keyPath = @"position.y";
-    animation.toValue = @(_wechatPasteView.center.y);
-    animation.fromValue = @(_wechatPasteView.center.y+150);
+    animation.toValue = @(114/2);
+    animation.fromValue = @(114/2+150);
     animation.repeatCount = 1;
     animation.duration = 0.25;
     animation.removedOnCompletion = YES;
@@ -257,7 +256,7 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
     
     // 后背景视图展示
     [UIView animateWithDuration:0.05 animations:^{
-        _backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
+        _backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
     }];
 }
 
@@ -268,6 +267,9 @@ NSString * const SSPluginShareSina = @"com.apple.UIKit.activity.PostToWeib";
     [UIView animateWithDuration:0.05 animations:^{
         _backgroundView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
         _wechatShareLabel.superview.alpha = 0;
+    } completion:^(BOOL finished) {
+        [_backgroundView removeFromSuperview];
+        [_wechatShareLabel removeFromSuperview];
     }];
 }
 
