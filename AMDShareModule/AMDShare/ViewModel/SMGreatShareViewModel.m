@@ -132,6 +132,7 @@
     //图片滑动视图
     UIScrollView *imageScroll = [[UIScrollView alloc]init];
     [contentBackView addSubview:imageScroll];
+    imageScroll.showsHorizontalScrollIndicator = NO;
     [imageScroll mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.offset(0);
         make.top.equalTo(selectLb.mas_bottom).offset(10);

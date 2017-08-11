@@ -696,7 +696,6 @@
 				DEVELOPMENT_TEAM = Q8464WP5RD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
@@ -717,7 +716,6 @@
 				DEVELOPMENT_TEAM = Q8464WP5RD;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/AMDShareModule",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
