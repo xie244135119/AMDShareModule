@@ -21,11 +21,13 @@ NSString * const SSPluginShareSina = @"sina";
 
 @interface SSAppPluginShare()
 {
-    __block BOOL _isImagesCached;           //图片缓存
+//    __block BOOL _isImagesCached;           //图片缓存
     __weak UIView *_backgroundView;         //后背景视图
     
-    __block NSMutableArray *_allCacheImages;        //所有的缓存图片
+//    __block NSMutableArray *_allCacheImages;        //所有的缓存图片
     __weak UILabel *_wechatShareLabel;               //分享文案视图
+    
+//    __weak NSMutableArray *_selectImageArray;           //选中的图片
 }
 @end
 
@@ -39,7 +41,8 @@ NSString * const SSPluginShareSina = @"sina";
     self.shareUrl = nil;
     self.shareContent = nil;
     self.pluginIder = nil;
-    _allCacheImages = nil;
+//    _allCacheImages = nil;
+//    _selectImageArray = nil;
 }
 
 
@@ -48,18 +51,8 @@ NSString * const SSPluginShareSina = @"sina";
 //
 - (void)share:(void (^)(NSInteger resault, NSError *error))completion
 {
+    // 复制文本
     [self pasteText:_shareContent];
-    
-    //没有图片的情况下仅分享文字
-    if (_shareImageUrls.count == 0) {
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"分享文案已复制" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-        [alertCtr addAction:cancelAction];
-        id<UIApplicationDelegate> app = [[UIApplication sharedApplication] delegate];
-        UIViewController *VC = app.window.rootViewController;
-        [VC presentViewController:alertCtr animated:YES completion:nil];
-            return;
-    }
     
     // 加载文案视图
     [self initAnimateViewOnView:_senderController.view];
@@ -68,6 +61,17 @@ NSString * const SSPluginShareSina = @"sina";
     [self _showWechatPasteView];
     
     __weak typeof(self) weakself = self;
+    // _shareImages 直接分享发原图的情况下
+    if (_shareImages.count > 0) {
+        // 调用微信分享
+        [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_shareImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
+            // ui处理
+            [weakself _hideWechatPasteView];
+            completion(resault, nil);
+        }];
+        return;
+    }
+    
     [self _cachePostPhotosCompletion:^(NSArray *cachesImages, NSError *error) {
        
         if (error) {
@@ -78,7 +82,7 @@ NSString * const SSPluginShareSina = @"sina";
         }
         else {
             // 调用微信分享
-            [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_allCacheImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
+            [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:cachesImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
                 // ui处理
                 [weakself _hideWechatPasteView];
                 completion(resault, nil);
@@ -86,14 +90,6 @@ NSString * const SSPluginShareSina = @"sina";
         }
     }];
 }
-
-
-- (NSArray *)allCacheImages
-{
-    return _allCacheImages;
-}
-
-
 
 
 
@@ -143,35 +139,17 @@ NSString * const SSPluginShareSina = @"sina";
 // 缓存九图处理
 - (void)_cachePostPhotosCompletion:(void (^)(NSArray *cachesImages ,NSError *error))completion
 {
-    if (_allCacheImages == nil) {
-        _allCacheImages = [[NSMutableArray alloc]init];
-    }
-    
-    // 优先判断 _shareImages 值
-    if (_shareImages.count > 0) {
-        [_allCacheImages addObjectsFromArray:_shareImages];
-        completion(_shareImages, nil);
-        return;
-    }
-    
     // 没有图片的情况下
     if (_shareImageUrls.count == 0) {
         completion(nil, [NSError errorWithDomain:@"没有找到素材相关图片" code:101 userInfo:nil]);
         return;
     }
-    
-    // 已经下载完成的情况下
-    if (_isImagesCached) {
-        completion(_allCacheImages, nil);
-        return;
-    }
-    
-    [_allCacheImages removeAllObjects];
-    
+
     // 下载图片
-    [self _batchDownloadImageWithUrl:self.shareImageUrls[0] completion:^(NSArray *cachesImages ,NSError *error) {
-        _isImagesCached = (error == nil);
+    [self _batchDownloadImageWithUrl:_shareImageUrls[0] completion:^(NSArray *cachesImages ,NSError *error) {
         completion(cachesImages, error);
+        // 情况处理
+        cachesImages = nil;
     }];
 }
 
@@ -180,15 +158,21 @@ NSString * const SSPluginShareSina = @"sina";
 - (void)_batchDownloadImageWithUrl:(NSURL *)imageurl
                         completion:(void (^)(NSArray *cachesImages, NSError *error))completion
 {
+    static NSMutableArray *_allCacheImages = nil;
+    if (_allCacheImages == nil) {
+        _allCacheImages = [[NSMutableArray alloc]init];
+    }
     // 加载动画
     __weak typeof(self) weakself = self;
     NSURL *url = imageurl;
     [[SDWebImageManager sharedManager] loadImageWithURL:url options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
         // 加载动画
         //
-        if (!error) {
-            if ((cacheType == SDImageCacheTypeMemory && image) || data ) {
-                [_allCacheImages addObject:image];
+        if (error == nil) {
+            if ((cacheType == SDImageCacheTypeMemory && image) || data.length>0 ) {
+                if (image) {
+                    [_allCacheImages addObject:image];
+                }
                 if (_allCacheImages.count == weakself.shareImageUrls.count) {
                     // 下载完成
                     completion(_allCacheImages, nil);

@@ -11,7 +11,6 @@
 #import <Masonry/Masonry.h>
 #import "SSAppPluginShare.h"
 #import "MShareStaticMethod.h"
-//#import "AMDShareManager.h"
 #import "SMAlertView.h"
 //#import "SMImagePreviewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -37,6 +36,11 @@
     _currentSelectedImages = nil;
     _imageCountLB = nil;
     _shareContentTV = nil;
+    _shareImageUrlArray = nil;
+    _shareImageArray = nil;
+    _shareUrl = nil;
+    _shareContent = nil;
+    _completionHandle = nil;
 }
 
 
@@ -165,7 +169,7 @@
             NSURL *imgurl = _currentImageArr[i];
             [shareImageView.imageView sd_setImageWithURL:imgurl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
         }
-
+        
         [imageBack addSubview:shareImageView];
         [shareImageArray addObject:shareImageView];
         [shareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -247,7 +251,7 @@
     copyBT.titleLabel.textAlignment = NSTextAlignmentRight;
     copyBT.titleLabel.textColor = ColorWithRGB(230, 99, 14, 1);
     [copyBT addTarget:self action:@selector(copyText) forControlEvents:UIControlEventTouchUpInside];
-//    copyBT.layer.borderWidth = 1;
+    //    copyBT.layer.borderWidth = 1;
     [contentBackView addSubview:copyBT];
     [copyBT mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.offset(-15);
@@ -348,13 +352,31 @@
 
 #pragma mark - 点击事件
 -(void)clickShareAction:(AMDButton*)sender{
+    //没有图片的情况下仅分享文字
+    if (_currentSelectedImages.count == 0) {
+        //复制文字
+        [self pasteText:self.shareContent];
+        //弹出提示框
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"分享文案已复制" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertCtr addAction:cancelAction];
+        id<UIApplicationDelegate> app = [[UIApplication sharedApplication] delegate];
+        UIViewController *VC = app.window.rootViewController;
+        [VC presentViewController:alertCtr animated:YES completion:nil];
+        return;
+    }
+    
+    //选择图片的情况下
     if (_pluginShare == nil) {
         _pluginShare = [[SSAppPluginShare alloc]init];
     }
-    _pluginShare.shareImageUrls = _currentSelectedImages;
+    if (_shareImageUrlArray.count > 0) {
+        _pluginShare.shareImageUrls = _currentSelectedImages;
+    }else{
+        _pluginShare.shareImages = _currentSelectedImages;
+    }
     _pluginShare.shareContent = _shareContentTV.text;
     _pluginShare.shareUrl = self.shareUrl;
-    _pluginShare.shareImages = self.shareImageArray;
     _pluginShare.senderController = _senderController;
     switch (sender.tag) {
         case 1://微信
@@ -386,7 +408,7 @@
             }
                 break;
             case 1: {   //完成
-//                [_senderController.navigationController popViewControllerAnimated: YES];
+                //                [_senderController.navigationController popViewControllerAnimated: YES];
             }
                 break;
             case 2: {   //取消
@@ -405,18 +427,18 @@
 //选择需要分享的图片
 -(void)clickImage:(AMDButton *)sender{
     NSMutableArray *frameArr = [NSMutableArray array] ;
-        for (int i = 0; i < _currentImageArr.count; i++) {
+    for (int i = 0; i < _currentImageArr.count; i++) {
         CGRect frame  = CGRectMake(110*i+15, 100, 100, 100);
         [frameArr addObject:NSStringFromCGRect(frame)];
     }
     // 跳到预览页面
-//    SMImagePreviewController *VC = [[SMImagePreviewController alloc]init];
-//    VC.originalFrames = frameArr;
-//    VC.remoteImagePaths = self.shareImageArray;
-//    __block NSUInteger index = sender.tag;
-//    VC.currentIndex = index;
-//    VC.transitioningDelegate = VC;
-//    [_senderController presentViewController:VC animated:YES completion:nil];
+    //    SMImagePreviewController *VC = [[SMImagePreviewController alloc]init];
+    //    VC.originalFrames = frameArr;
+    //    VC.remoteImagePaths = self.shareImageArray;
+    //    __block NSUInteger index = sender.tag;
+    //    VC.currentIndex = index;
+    //    VC.transitioningDelegate = VC;
+    //    [_senderController presentViewController:VC animated:YES completion:nil];
 }
 
 
@@ -439,7 +461,7 @@
     }
     _imageCountLB.text = [NSString stringWithFormat:@"已选%ld张",(unsigned long)_currentSelectedImages.count];
     [self invokeImageCountTitleWithLable:_imageCountLB];
-
+    
 }
 
 

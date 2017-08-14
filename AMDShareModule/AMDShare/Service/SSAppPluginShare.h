@@ -71,7 +71,7 @@ extern NSString * const SSPluginShareSina;
 
  @return <#return value description#>
  */
-- (NSArray *)allCacheImages;
+//- (NSArray *)allCacheImages;
 
 
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Td0-6h-P4I">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Mfj-ap-SeW">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,31 +20,104 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HFk-Ij-OOT">
+                                <rect key="frame" x="138" y="204" width="98" height="30"/>
+                                <state key="normal" title="创建分享TEST"/>
+                                <connections>
+                                    <action selector="greatShare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yR4-CG-yy9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTu-ml-bbO">
+                                <rect key="frame" x="138.5" y="258" width="98" height="30"/>
+                                <state key="normal" title="默认分享TEST"/>
+                                <connections>
+                                    <action selector="defaultShare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="C5i-RA-9XT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hkp-fy-i45">
+                                <rect key="frame" x="138" y="312" width="98" height="30"/>
+                                <state key="normal" title="素材分享TEST"/>
+                                <connections>
+                                    <action selector="materialShare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0yJ-bv-iOP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pCs-Pq-nDK">
+                                <rect key="frame" x="138" y="366" width="98" height="30"/>
+                                <state key="normal" title="单图分享TEST"/>
+                                <connections>
+                                    <action selector="PicShare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oUy-sw-g7m"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="OTu-ml-bbO" firstAttribute="top" secondItem="HFk-Ij-OOT" secondAttribute="bottom" constant="24" id="BlP-57-Tgg"/>
+                            <constraint firstItem="pCs-Pq-nDK" firstAttribute="top" secondItem="Hkp-fy-i45" secondAttribute="bottom" constant="24" id="HOR-J7-bcO"/>
+                            <constraint firstItem="OTu-ml-bbO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="If8-nA-CXU"/>
+                            <constraint firstItem="pCs-Pq-nDK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KeO-bo-s8m"/>
+                            <constraint firstItem="Hkp-fy-i45" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LJO-7g-tjh"/>
+                            <constraint firstItem="HFk-Ij-OOT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="140" id="fOc-Je-EXs"/>
+                            <constraint firstItem="Hkp-fy-i45" firstAttribute="top" secondItem="OTu-ml-bbO" secondAttribute="bottom" constant="24" id="owb-QZ-wsp"/>
+                            <constraint firstItem="HFk-Ij-OOT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tqq-Qt-qnX"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QFe-3c-B1Y"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="120.98950524737631"/>
+            <point key="canvasLocation" x="2346" y="787"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="cIt-sW-Rgd">
+            <objects>
+                <viewController id="clL-wr-mTI" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JJz-Mn-An8"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZSJ-HQ-Jtg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cjt-hA-gcP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hEI-s0-iTA">
+                                <rect key="frame" x="125.5" y="315.5" width="123" height="36"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
+                                <state key="normal" title="进入调试界面"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="push" id="Csd-Uq-gZU"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hEI-s0-iTA" firstAttribute="centerY" secondItem="cjt-hA-gcP" secondAttribute="centerY" id="HXT-26-mTH"/>
+                            <constraint firstItem="hEI-s0-iTA" firstAttribute="centerX" secondItem="cjt-hA-gcP" secondAttribute="centerX" id="Y4d-I4-nkg"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="gYI-4P-aUN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TWc-MX-ZIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1476" y="786.65667166416802"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="zuK-Rb-D1y">
+        <scene sceneID="LNq-1A-LnU">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Td0-6h-P4I" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Mfj-ap-SeW" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ySm-DY-ebe">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="n8q-cM-WRj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="2sw-Mk-g61"/>
+                        <segue destination="clL-wr-mTI" kind="relationship" relationship="rootViewController" id="RV0-XA-Rrx"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sOa-u3-Djd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nfj-rZ-0WG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="774.96251874062978"/>
+            <point key="canvasLocation" x="536.79999999999995" y="786.65667166416802"/>
         </scene>
     </scenes>
 </document>

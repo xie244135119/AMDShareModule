@@ -18,10 +18,21 @@
 
 @implementation SMGreatShareController
 
+
+-(void)dealloc{
+    _shareImageUrlArray = nil;
+    _shareImageArray = nil;
+    _shareUrl = nil;
+    _shareContent = nil;
+    _completionHandle = nil;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initViewModel];
 }
+
 
 -(void)initViewModel{
     self.supportBackBt = YES;
