@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "AMDShareModule"
-  s.version      = "1.0.5.23"
+  s.version      = "1.0.5.24"
   s.summary      = "the module of share"
 
   # This description is used to generate tags and improve search results.
