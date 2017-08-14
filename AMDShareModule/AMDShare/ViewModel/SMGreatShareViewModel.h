@@ -11,7 +11,10 @@
 
 @interface SMGreatShareViewModel : AMDBaseViewModel
 
-@property(nonatomic, strong)NSArray<NSString*>*shareImageArray;//分享的图片数组
+@property(nonatomic, strong)NSArray<NSURL*>*shareImageUrlArray;//分享的图片URL数组
+
+@property(nonatomic, strong)NSArray<UIImage*>*shareImageArray;//分享的图片数组
+
 
 @property(nonatomic, strong)NSString *shareContent;//分享内容
 

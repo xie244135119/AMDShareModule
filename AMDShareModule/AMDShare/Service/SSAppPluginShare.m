@@ -48,16 +48,17 @@ NSString * const SSPluginShareSina = @"sina";
 - (void)share:(void (^)(NSInteger resault, NSError *error))completion
 {
     [self pasteText:_shareContent];
+    
     //没有图片的情况下仅分享文字
     if (_shareImageUrls.count == 0) {
-        // 调用微信分享
-        [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_allCacheImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
-            completion(resault, nil);
-        }];
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"分享文案已复制" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertCtr addAction:cancelAction];
+        id<UIApplicationDelegate> app = [[UIApplication sharedApplication] delegate];
+        UIViewController *VC = app.window.rootViewController;
+        [VC presentViewController:alertCtr animated:YES completion:nil];
             return;
     }
-
-    
     
     // 加载文案视图
     [self initAnimateViewOnView:_senderController.view];
@@ -107,6 +108,7 @@ NSString * const SSPluginShareSina = @"sina";
 {
     NSString *wechat = [shareType isEqualToString:@"sina"]?SLServiceTypeSinaWeibo:shareType;
     if (![SLComposeViewController isAvailableForServiceType:wechat]) {
+        completion(2);
         NSLog(@" 不支持当前应用 ");
         return;
     }

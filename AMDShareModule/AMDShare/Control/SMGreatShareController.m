@@ -34,6 +34,7 @@
     };
     viewModel.shareUrl = self.shareUrl;
     viewModel.shareContent = self.shareContent;
+    viewModel.shareImageUrlArray = self.shareImageUrlArray;
     viewModel.shareImageArray = self.shareImageArray;
     viewModel.senderController = self;
     _viewModel = viewModel;

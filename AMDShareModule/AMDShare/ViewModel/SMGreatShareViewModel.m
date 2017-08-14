@@ -144,20 +144,20 @@
     [imageScroll addSubview:imageBack];
     [imageBack mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(imageScroll).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
-        make.width.equalTo(@(self.shareImageArray.count*110+20));
+        make.width.equalTo(@(self.shareImageUrlArray.count*110+20));
         make.height.equalTo(imageScroll.mas_height);
     }];
     
     //需要分享的图片数组
     NSMutableArray *shareImageArray = [[NSMutableArray alloc]init];
-    for (int i = 0; i < self.shareImageArray.count; i++)
+    for (int i = 0; i < self.shareImageUrlArray.count; i++)
     {
         AMDButton *shareImageView = [[AMDButton alloc]init];
         shareImageView.tag = i;
         shareImageView.layer.borderWidth = .5;
         shareImageView.layer.borderColor = SMLineColor.CGColor;
         [shareImageView addTarget:self action:@selector(clickImage:) forControlEvents:UIControlEventTouchUpInside];
-        NSURL *imgurl = [[NSURL alloc]initWithString:[self.shareImageArray[i] stringByAppendingString:@"?imageView2/1/w/100/h/100"]];
+        NSURL *imgurl = self.shareImageUrlArray[i];
         [shareImageView.imageView sd_setImageWithURL:imgurl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
         [imageBack addSubview:shareImageView];
         [shareImageArray addObject:shareImageView];
@@ -397,7 +397,7 @@
 //选择需要分享的图片
 -(void)clickImage:(AMDButton *)sender{
     NSMutableArray *frameArr = [NSMutableArray array] ;
-        for (int i = 0; i < _shareImageArray.count; i++) {
+        for (int i = 0; i < _shareImageUrlArray.count; i++) {
         CGRect frame  = CGRectMake(110*i+15, 100, 100, 100);
         [frameArr addObject:NSStringFromCGRect(frame)];
     }
@@ -417,14 +417,14 @@
     if (sender.selected)
     {//取消选中状态
         sender.selected = NO;
-        NSString *imageUrl = self.shareImageArray[sender.tag];
+        NSURL *imageUrl = self.shareImageUrlArray[sender.tag];
         if ([_currentSelectedImages containsObject:imageUrl]) {
             [_currentSelectedImages removeObject:imageUrl];
         }
     }else
     {//添加选中状态
         sender.selected = YES;
-        NSString *imageUrl = self.shareImageArray[sender.tag];
+        NSURL *imageUrl = self.shareImageUrlArray[sender.tag];
         if (![_currentSelectedImages containsObject:imageUrl]) {
             [_currentSelectedImages addObject:imageUrl];
         }

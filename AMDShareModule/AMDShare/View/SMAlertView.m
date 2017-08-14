@@ -12,6 +12,7 @@
 #import <SSBaseKit/SSBaseKit.h>
 #import "MShareStaticMethod.h"
 #import "AMDShareManager.h"
+
 @interface SMAlertView()<UITextViewDelegate>
 {
     UITextView *_contentTextView;
@@ -141,19 +142,18 @@
             break;
             case 2://跳转到微信
         {
-            NSURL * url = [NSURL URLWithString:@"weixin://"];
-            if ([[UIApplication sharedApplication] canOpenURL:url]) {
-                NSLog(@"canOpenURL");
-                [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
-                    
-                }];
-            }
+//            NSURL * url = [NSURL URLWithString:@"weixin://"];
+//            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+//                [[UIApplication sharedApplication] openURL:url];
+//            }
+            [AMDShareManager openWechat];
         }
             break;
         default:
             break;
     }
 }
+
 
 
 #pragma mark - 展示或者隐藏
