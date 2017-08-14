@@ -13,7 +13,7 @@
 #import "MShareStaticMethod.h"
 //#import "AMDShareManager.h"
 #import "SMAlertView.h"
-#import "SMImagePreviewController.h"
+//#import "SMImagePreviewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface SMGreatShareViewModel()
@@ -132,6 +132,7 @@
     //图片滑动视图
     UIScrollView *imageScroll = [[UIScrollView alloc]init];
     [contentBackView addSubview:imageScroll];
+    imageScroll.showsHorizontalScrollIndicator = NO;
     [imageScroll mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.offset(0);
         make.top.equalTo(selectLb.mas_bottom).offset(10);
@@ -401,13 +402,13 @@
         [frameArr addObject:NSStringFromCGRect(frame)];
     }
     // 跳到预览页面
-    SMImagePreviewController *VC = [[SMImagePreviewController alloc]init];
-    VC.originalFrames = frameArr;
-    VC.remoteImagePaths = self.shareImageArray;
-    __block NSUInteger index = sender.tag;
-    VC.currentIndex = index;
-    VC.transitioningDelegate = VC;
-    [_senderController presentViewController:VC animated:YES completion:nil];
+//    SMImagePreviewController *VC = [[SMImagePreviewController alloc]init];
+//    VC.originalFrames = frameArr;
+//    VC.remoteImagePaths = self.shareImageArray;
+//    __block NSUInteger index = sender.tag;
+//    VC.currentIndex = index;
+//    VC.transitioningDelegate = VC;
+//    [_senderController presentViewController:VC animated:YES completion:nil];
 }
 
 

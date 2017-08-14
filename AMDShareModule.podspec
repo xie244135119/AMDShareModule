@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "AMDShareModule"
-  s.version      = "1.0.5.20"
+  s.version      = "1.0.5.21"
   s.summary      = "the module of share"
 
   # This description is used to generate tags and improve search results.
@@ -142,7 +142,7 @@ Pod::Spec.new do |s|
 	end
 	
 	s.subspec "Private" do |st|
-                st.source_files="AMDShareModule/AMDShare/Service", "AMDShareModule/AMDShare/ViewModel"
+                st.source_files="AMDShareModule/AMDShare/Service", "AMDShareModule/AMDShare/ViewModel","AMDShareModule/AMDShare/View"
 		st.dependency 'AMDShareModule/Protrol'
 		st.dependency "ShareSDK3", '~>3.6.3'
         	# 微信(可选)
