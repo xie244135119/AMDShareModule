@@ -48,6 +48,17 @@ NSString * const SSPluginShareSina = @"sina";
 - (void)share:(void (^)(NSInteger resault, NSError *error))completion
 {
     [self pasteText:_shareContent];
+    //没有图片的情况下仅分享文字
+    if (_shareImageUrls.count == 0) {
+        // 调用微信分享
+        [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_allCacheImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
+            completion(resault, nil);
+        }];
+            return;
+    }
+
+    
+    
     // 加载文案视图
     [self initAnimateViewOnView:_senderController.view];
     
@@ -64,7 +75,6 @@ NSString * const SSPluginShareSina = @"sina";
             completion(0, error);
         }
         else {
-            _wechatShareLabel.text = @"图片已下载。。。";
             // 调用微信分享
             [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_allCacheImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
                 // ui处理

@@ -353,7 +353,7 @@
 					};
 					72C838791F09EA8600F373E1 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = Q8464WP5RD;
+						DevelopmentTeam = R59VTBUQ8S;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -692,8 +692,9 @@
 			baseConfigurationReference = C07D49A578844F6F8916350E /* Pods-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Q8464WP5RD;
+				CODE_SIGN_IDENTITY = "iPhone Developer: qiang xie (Q3SGH93VLG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: qiang xie (Q3SGH93VLG)";
+				DEVELOPMENT_TEAM = R59VTBUQ8S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
@@ -701,10 +702,10 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wdwd.wfx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ylwdwd.wfx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "63b497c9-8704-4fad-8b89-1156a160b973";
-				PROVISIONING_PROFILE_SPECIFIER = TempTestYlDevelop;
+				PROVISIONING_PROFILE = "13df1024-7788-4618-a8b7-d6d0af0c09c2";
+				PROVISIONING_PROFILE_SPECIFIER = ylwdwdwfx_develop;
 			};
 			name = Debug;
 		};
@@ -713,8 +714,9 @@
 			baseConfigurationReference = D303828E1D22F662D1087E0B /* Pods-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Q8464WP5RD;
+				CODE_SIGN_IDENTITY = "iPhone Developer: qiang xie (Q3SGH93VLG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: qiang xie (Q3SGH93VLG)";
+				DEVELOPMENT_TEAM = R59VTBUQ8S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AMDShareModule/AMDShare/OtherResources/libUMSocial/UMSocialSDK",
@@ -722,10 +724,10 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.wdwd.wfx;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ylwdwd.wfx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "63b497c9-8704-4fad-8b89-1156a160b973";
-				PROVISIONING_PROFILE_SPECIFIER = TempTestYlDevelop;
+				PROVISIONING_PROFILE = "13df1024-7788-4618-a8b7-d6d0af0c09c2";
+				PROVISIONING_PROFILE_SPECIFIER = ylwdwdwfx_develop;
 			};
 			name = Release;
 		};
