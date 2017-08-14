@@ -34,6 +34,7 @@ NSString * const SSPluginShareSina = @"sina";
 
 - (void)dealloc
 {
+    self.shareImages = nil;
     self.shareImageUrls = nil;
     self.shareUrl = nil;
     self.shareContent = nil;
@@ -142,6 +143,17 @@ NSString * const SSPluginShareSina = @"sina";
 // 缓存九图处理
 - (void)_cachePostPhotosCompletion:(void (^)(NSArray *cachesImages ,NSError *error))completion
 {
+    if (_allCacheImages == nil) {
+        _allCacheImages = [[NSMutableArray alloc]init];
+    }
+    
+    // 优先判断 _shareImages 值
+    if (_shareImages.count > 0) {
+        [_allCacheImages addObjectsFromArray:_shareImages];
+        completion(_shareImages, nil);
+        return;
+    }
+    
     // 没有图片的情况下
     if (_shareImageUrls.count == 0) {
         completion(nil, [NSError errorWithDomain:@"没有找到素材相关图片" code:101 userInfo:nil]);
@@ -152,10 +164,6 @@ NSString * const SSPluginShareSina = @"sina";
     if (_isImagesCached) {
         completion(_allCacheImages, nil);
         return;
-    }
-    
-    if (_allCacheImages == nil) {
-        _allCacheImages = [[NSMutableArray alloc]init];
     }
     
     [_allCacheImages removeAllObjects];

@@ -13,7 +13,7 @@
 #import <WXApi.h>
 //#import "MShareManager.h"
 //#import "AMDShareMaterialController.h"
-
+#import "MShareStaticMethod.h"
 @interface ViewController ()
 {
 
@@ -37,8 +37,9 @@
     
     SMGreatShareController *VC = [[SMGreatShareController alloc]initWithTitle:@"创建商品" titileViewShow:YES tabBarShow:NO];
 
-
-    VC.shareImageUrlArray =  @[@"http://wdwd-prod.wdwdcdn.com/5965d340aec6c.jpg_640x640.jpg?imageView2/3/w/640/h/100",@"http://wdwd-prod.wdwdcdn.com/597713f192953.jpg",@"http://wdwd-prod.wdwdcdn.com/596726da1bb6e.jpg",@"http://wdwd-prod.wdwdcdn.com/596726d454c85.jpg"];
+    UIImage *img = SMShareSrcImage(@"share_weixin@2x.png");
+    VC.shareImageArray = @[img];
+//    VC.shareImageUrlArray =  @[@"http://wdwd-prod.wdwdcdn.com/5965d340aec6c.jpg_640x640.jpg?imageView2/3/w/640/h/100",@"http://wdwd-prod.wdwdcdn.com/597713f192953.jpg",@"http://wdwd-prod.wdwdcdn.com/596726da1bb6e.jpg",@"http://wdwd-prod.wdwdcdn.com/596726d454c85.jpg"];
     VC.shareContent = @"我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！";
     VC.completionHandle = ^(AMDShareType shareType, AMDShareResponseState responseState, NSError *error) {
         NSLog(@"----%lu",(unsigned long)responseState);

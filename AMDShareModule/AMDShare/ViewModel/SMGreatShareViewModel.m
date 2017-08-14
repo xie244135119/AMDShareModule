@@ -24,7 +24,7 @@
     UITextView *_shareContentTV;                 //分享语编辑
     SSAppPluginShare *_pluginShare;                             //分享插件类
     SMAlertView *_alertView;                 //提示框
-    
+    NSMutableArray *_currentImageArr;  //当前所有的图片
 }
 @end
 
@@ -48,6 +48,7 @@
 
 //搭建视图
 -(void)initContentView{
+    _currentImageArr = _shareImageArray.count>0?_shareImageArray.mutableCopy:_shareImageUrlArray.mutableCopy;
     _currentSelectedImages = [[NSMutableArray alloc]init];
     //背景滑动视图
     UIScrollView *scrollView = [[UIScrollView alloc]init];
@@ -144,21 +145,27 @@
     [imageScroll addSubview:imageBack];
     [imageBack mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(imageScroll).with.insets(UIEdgeInsetsMake(0, 0, 0, 0));
-        make.width.equalTo(@(self.shareImageUrlArray.count*110+20));
+        make.width.equalTo(@(_currentImageArr.count*110+20));
         make.height.equalTo(imageScroll.mas_height);
     }];
     
     //需要分享的图片数组
     NSMutableArray *shareImageArray = [[NSMutableArray alloc]init];
-    for (int i = 0; i < self.shareImageUrlArray.count; i++)
+    for (int i = 0; i < _currentImageArr.count; i++)
     {
         AMDButton *shareImageView = [[AMDButton alloc]init];
         shareImageView.tag = i;
         shareImageView.layer.borderWidth = .5;
         shareImageView.layer.borderColor = SMLineColor.CGColor;
         [shareImageView addTarget:self action:@selector(clickImage:) forControlEvents:UIControlEventTouchUpInside];
-        NSURL *imgurl = self.shareImageUrlArray[i];
-        [shareImageView.imageView sd_setImageWithURL:imgurl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
+        if ([_currentImageArr[i] isKindOfClass:[UIImage class]]) {
+            UIImage *image = _currentImageArr[i];
+            shareImageView.imageView.image = image;
+        }else{
+            NSURL *imgurl = _currentImageArr[i];
+            [shareImageView.imageView sd_setImageWithURL:imgurl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
+        }
+
         [imageBack addSubview:shareImageView];
         [shareImageArray addObject:shareImageView];
         [shareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -347,6 +354,7 @@
     _pluginShare.shareImageUrls = _currentSelectedImages;
     _pluginShare.shareContent = _shareContentTV.text;
     _pluginShare.shareUrl = self.shareUrl;
+    _pluginShare.shareImages = self.shareImageArray;
     _pluginShare.senderController = _senderController;
     switch (sender.tag) {
         case 1://微信
@@ -397,7 +405,7 @@
 //选择需要分享的图片
 -(void)clickImage:(AMDButton *)sender{
     NSMutableArray *frameArr = [NSMutableArray array] ;
-        for (int i = 0; i < _shareImageUrlArray.count; i++) {
+        for (int i = 0; i < _currentImageArr.count; i++) {
         CGRect frame  = CGRectMake(110*i+15, 100, 100, 100);
         [frameArr addObject:NSStringFromCGRect(frame)];
     }
@@ -417,19 +425,19 @@
     if (sender.selected)
     {//取消选中状态
         sender.selected = NO;
-        NSURL *imageUrl = self.shareImageUrlArray[sender.tag];
+        NSURL *imageUrl = _currentImageArr[sender.tag];
         if ([_currentSelectedImages containsObject:imageUrl]) {
             [_currentSelectedImages removeObject:imageUrl];
         }
     }else
     {//添加选中状态
         sender.selected = YES;
-        NSURL *imageUrl = self.shareImageUrlArray[sender.tag];
+        NSURL *imageUrl = _currentImageArr[sender.tag];
         if (![_currentSelectedImages containsObject:imageUrl]) {
             [_currentSelectedImages addObject:imageUrl];
         }
     }
-    _imageCountLB.text = [NSString stringWithFormat:@"已选%ld张",_currentSelectedImages.count];
+    _imageCountLB.text = [NSString stringWithFormat:@"已选%ld张",(unsigned long)_currentSelectedImages.count];
     [self invokeImageCountTitleWithLable:_imageCountLB];
 
 }
