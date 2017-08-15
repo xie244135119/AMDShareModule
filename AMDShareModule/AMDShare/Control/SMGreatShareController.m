@@ -63,12 +63,13 @@
 - (void)viewController:(id)viewController object:(id)sender{
     if ([sender[@"type"] isEqualToString:@"save"]) {
         BOOL type = sender[@"status"];
-        if (self.completionHandle) {
-            self.completionHandle(AMDShareTypeTuwenShare,type?AMDShareResponseSuccess:AMDShareResponseFail,nil);
+        if (_completionHandle) {
+            _completionHandle(AMDShareTypeTuwenShare,type?AMDShareResponseSuccess:AMDShareResponseFail,nil);
         }
     }else{
         NSNumber *tag = sender[@"tag"];
-        [_viewModel invokeImageIconWithIndex:tag.integerValue];
+//        [_viewModel invokeImageIconWithIndex:tag.integerValue];
+        [_viewModel selectImageWithIndex:tag.integerValue];
     }
 }
 

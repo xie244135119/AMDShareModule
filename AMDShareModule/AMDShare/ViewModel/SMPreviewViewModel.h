@@ -13,8 +13,8 @@
 //返回图片是否被选中
 @property(nonatomic ,copy) void(^callBack)(BOOL select);
 
-//需要展示的图片
-@property(nonatomic, strong)NSArray *showImages;
+// 需要展示的图片<NSURL 或者 UIImage>
+@property(nonatomic, strong) NSArray *showImages;
 
 -(void)invoImageCurrentIndex:(NSInteger)index;
 

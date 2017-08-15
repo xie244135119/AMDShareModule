@@ -248,7 +248,7 @@
         {
             if (_pluginShare == nil) {
                 _pluginShare = [[SSAppPluginShare alloc]init];
-                _pluginShare.shareImageUrls = _shareImageUrls;
+                _pluginShare.shareImages = _shareImageUrls;
                 _pluginShare.shareUrl = [NSURL URLWithString:_shareUrl?_shareUrl:@""];
                 _pluginShare.shareContent = _shareContent;
                 _pluginShare.senderController = self.senderController;

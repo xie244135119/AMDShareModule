@@ -20,7 +20,15 @@
 
 @property(nonatomic, strong)NSURL *shareUrl;//分享链接
 
--(void)invokeImageIconWithIndex:(NSInteger)index;
+
+
+
+/**
+ 选中某张图片
+
+ @param index 某个索引
+ */
+-(void)selectImageWithIndex:(NSInteger)index;
 
 /**
  分享结果

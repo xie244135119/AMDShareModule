@@ -43,13 +43,13 @@
 - (IBAction)greatShare:(id)sender {
     SMGreatShareController *VC = [[SMGreatShareController alloc]initWithTitle:@"创建商品" titileViewShow:YES tabBarShow:NO];
     
-    //    UIImage *img = SMShareSrcImage(@"share_weixin@2x.png");
-    //    UIImage *img2 = SMShareSrcImage(@"share_weixin-friend@2x.png");
-    //    UIImage *img3 = SMShareSrcImage(@"share_qq@2x.png");
+    UIImage *img = SMShareSrcImage(@"share_weixin@2x.png");
+    UIImage *img2 = SMShareSrcImage(@"share_weixin-friend@2x.png");
+    UIImage *img3 = SMShareSrcImage(@"share_qq@2x.png");
     
-    //    VC.shareImageArray = @[img,img2,img3];
+    VC.shareImageArray = @[img,img2,img3];
     NSArray *imageurls =  @[ [NSURL URLWithString:@"http://wdwd-prod.wdwdcdn.com/597713f192953.jpg"],[NSURL URLWithString:@"http://wdwd-prod.wdwdcdn.com/596726da1bb6e.jpg"],[NSURL URLWithString:@"http://wdwd-prod.wdwdcdn.com/5965d340aec6c.jpg_640x640.jpg?imageView2/3/w/640/h/100"]];
-
+    
     VC.shareImageUrlArray =  imageurls;
     VC.shareContent = @"我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！我是分享的内容test！！！！";
     VC.completionHandle = ^(AMDShareType shareType, AMDShareResponseState responseState, NSError *error) {

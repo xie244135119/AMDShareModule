@@ -14,20 +14,29 @@
 
 }
 
+// UIImage 或者 NSUrl
 @property(nonatomic, strong)NSArray *currentImages;
 
-@property(nonatomic, strong)NSArray *currentImageUrls;
+//@property(nonatomic, strong)NSArray *currentImageUrls;
 
 @property(nonatomic, strong)SMPreviewViewModel *viewModel;
 
 @property(nonatomic)NSInteger currentIndex;
 
 
-@property(nonatomic ,strong) void(^callBack)(NSArray<NSNumber *>* selectImages);
+@property(nonatomic ,copy) void(^callBack)(NSArray<NSNumber *>* selectImages);
 
 @end
 
 @implementation SMPreviewController
+
+- (void)dealloc
+{
+    self.currentImages = nil;
+    self.viewModel = nil;
+    self.callBack = nil;
+}
+
 
 
 - (void)viewDidLoad {
@@ -45,7 +54,8 @@
 -(void)initViewModel{
     SMPreviewViewModel *viewModel = [[SMPreviewViewModel alloc]init];
     _viewModel = viewModel;
-    viewModel.showImages = _currentImages.count>0?_currentImages:_currentImageUrls;
+    
+    viewModel.showImages = _currentImages;
     viewModel.senderController = self;
     [viewModel prepareView];
     [viewModel invoImageCurrentIndex:_currentIndex];
@@ -57,12 +67,18 @@
                  imageUrl:(NSArray<NSURL*>*)imageurls
                 showIndex:(NSUInteger)showIndex
                completion:(void(^)(NSArray<NSNumber *>* selectImages))completion{
-    static SMPreviewController *VC = nil;
+    SMPreviewController *VC = nil;
     if (VC == nil) {
         VC = [[SMPreviewController alloc]init];
         VC.callBack = completion;
-        VC.currentImages = images;
-        VC.currentImageUrls = imageurls;
+        NSMutableArray *imagearry = [[NSMutableArray alloc]init];
+        if (imageurls.count > 0) {
+            [imagearry addObjectsFromArray:imageurls];
+        }
+        if (images.count > 0) {
+            [imagearry addObjectsFromArray:images];
+        }
+        VC.currentImages = imagearry;
     }
     if (VC.viewModel) {
         [VC.viewModel invoImageCurrentIndex:showIndex];

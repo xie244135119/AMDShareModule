@@ -21,13 +21,10 @@ NSString * const SSPluginShareSina = @"sina";
 
 @interface SSAppPluginShare()
 {
-//    __block BOOL _isImagesCached;           //图片缓存
     __weak UIView *_backgroundView;         //后背景视图
-    
-//    __block NSMutableArray *_allCacheImages;        //所有的缓存图片
     __weak UILabel *_wechatShareLabel;               //分享文案视图
     
-//    __weak NSMutableArray *_selectImageArray;           //选中的图片
+    __block NSMutableArray<NSURL *> *_shareImageUrls;           //所有分享的图片 url
 }
 @end
 
@@ -37,7 +34,8 @@ NSString * const SSPluginShareSina = @"sina";
 - (void)dealloc
 {
     self.shareImages = nil;
-    self.shareImageUrls = nil;
+//    self.shareImageUrls = nil;
+    _shareImageUrls = nil;
     self.shareUrl = nil;
     self.shareContent = nil;
     self.pluginIder = nil;
@@ -61,8 +59,8 @@ NSString * const SSPluginShareSina = @"sina";
     [self _showWechatPasteView];
     
     __weak typeof(self) weakself = self;
-    // _shareImages 直接分享发原图的情况下
-    if (_shareImages.count > 0) {
+    // 只有本地图片分享
+    if (_shareImages.count > 0 && _shareImageUrls == 0) {
         // 调用微信分享
         [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:_shareImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
             // ui处理
@@ -93,6 +91,28 @@ NSString * const SSPluginShareSina = @"sina";
 
 
 
+#pragma mark - SET
+- (void)setShareImages:(NSArray *)shareImages
+{
+    if (_shareImages != shareImages) {
+        _shareImages = shareImages;
+        
+        if (_shareImageUrls == nil) {
+            _shareImageUrls = [[NSMutableArray alloc]init];
+        }
+        // 默认清空操作
+        [_shareImageUrls removeAllObjects];
+        [_shareImages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[NSURL class]]) {
+                [_shareImageUrls addObject:obj];
+            }
+        }];
+    }
+}
+
+
+
+
 #pragma mark - private api
 #pragma mark  直接调用微信相关点击
 // 直接调用微信分享
@@ -110,7 +130,12 @@ NSString * const SSPluginShareSina = @"sina";
         return;
     }
     SLComposeViewController *compostVc = [SLComposeViewController composeViewControllerForServiceType:wechat];
-    if (compostVc == nil)  return;
+    if (compostVc == nil) {
+        completion(2);
+        NSLog(@" 插件不支持 ");
+        return;
+    }
+    
     [compostVc setInitialText:aText];
     for (UIImage *image in aImages) {
         [compostVc addImage:image];
@@ -162,6 +187,11 @@ NSString * const SSPluginShareSina = @"sina";
     if (_allCacheImages == nil) {
         _allCacheImages = [[NSMutableArray alloc]init];
     }
+    // 如果为重新加载
+    if ([_shareImageUrls indexOfObject:imageurl] == 0) {
+        [_allCacheImages removeAllObjects];
+    }
+    
     // 加载动画
     __weak typeof(self) weakself = self;
     NSURL *url = imageurl;
@@ -173,14 +203,14 @@ NSString * const SSPluginShareSina = @"sina";
                 if (image) {
                     [_allCacheImages addObject:image];
                 }
-                if (_allCacheImages.count == weakself.shareImageUrls.count) {
+                if (_allCacheImages.count == _shareImageUrls.count) {
                     // 下载完成
                     completion(_allCacheImages, nil);
                     return ;
                 }
                 
                 // 继续执行
-                [weakself _batchDownloadImageWithUrl:weakself.shareImageUrls[_allCacheImages.count] completion:completion];
+                [weakself _batchDownloadImageWithUrl:_shareImageUrls[_allCacheImages.count] completion:completion];
             }
         }
         else {

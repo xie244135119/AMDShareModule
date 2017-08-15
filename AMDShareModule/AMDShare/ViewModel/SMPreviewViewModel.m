@@ -71,11 +71,13 @@
     for (int i = 0; i < _showImages.count; i++) {
         CGRect imageRect = CGRectMake(0, 0, 0, 0);
         UIImageView *showImageView = [[UIImageView alloc]init];
-        if ([_showImages[i] isKindOfClass:[UIImage class]]) {
-            showImageView.image = _showImages[i];
+        id imageobject = _showImages[i];
+        if ([imageobject isKindOfClass:[UIImage class]]) {
+            showImageView.image = imageobject;
             imageRect.size = showImageView.image.size;
-        }else{
-            NSURL *imageUrl = _showImages[i];
+        }
+        else if([imageobject isKindOfClass:[NSURL class]]){
+            NSURL *imageUrl = imageobject;
             [showImageView sd_setImageWithURL:imageUrl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
             UIImage *localImage = [[SDImageCache sharedImageCache] imageFromCacheForKey:imageUrl.relativeString];
             imageRect = [self dealFrameWithImage:localImage];
@@ -240,15 +242,17 @@
 //保存图片
 -(void)saveImage:(AMDButton *)sender{
     UIImage *image = nil;
-    if ([_showImages[_currentPageControl.currentPage] isKindOfClass:[UIImage class]]) {
-        image = _showImages[_currentPageControl.currentPage];
+    id imageobject = _showImages[_currentPageControl.currentPage];
+    if ([imageobject isKindOfClass:[UIImage class]]) {
+        image = imageobject;
         [self savePhotoAlbumWithImage:image completion:^(BOOL success, NSError *error) {
             if ([_senderController respondsToSelector:@selector(viewController:object:)]) {
                 [(id<AMDControllerTransitionDelegate>)_senderController viewController:self object:@{@"type":@"save",@"status":@(success)}];
             };
         }];
-    }else{
-        NSURL *imageurl = _showImages[_currentPageControl.currentPage];
+    }
+    else if ([imageobject isKindOfClass:[NSURL class]]){
+        NSURL *imageurl = imageobject;
         __weak typeof(self) weakself = self;
         [self saveImageWithUrl:imageurl completion:^(UIImage *cachesImage, NSError *error) {
             [weakself savePhotoAlbumWithImage:cachesImage completion:^(BOOL success, NSError *error) {
@@ -261,7 +265,10 @@
 }
 
 
--(void)saveImageWithUrl:(NSURL *)imageUrl completion:(void (^)(UIImage *cachesImage, NSError *error))completion{
+// 保存图文
+- (void)saveImageWithUrl:(NSURL *)imageUrl
+              completion:(void (^)(UIImage *cachesImage, NSError *error))completion
+{
     [[SDWebImageManager sharedManager] loadImageWithURL:imageUrl options:SDWebImageProgressiveDownload progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
         // 加载动画
         //
@@ -282,6 +289,7 @@
 
 //选择图片
 -(void)selectImage:(AMDButton *)sender{
+    
     if (sender.selected)
     {//取消选中状态
         sender.selected = NO;
@@ -385,7 +393,10 @@
 }
 
 -(void)invoImageCurrentIndex:(NSInteger)index{
-    [_currentScrollView setContentOffset:CGPointMake(index*SScreenWidth, 0) animated:YES];
+    if (index > 0) {
+        [_currentScrollView.superview layoutIfNeeded];
+        [_currentScrollView setContentOffset:CGPointMake(index*SScreenWidth, 0) animated:NO];
+    }
 }
 
 @end

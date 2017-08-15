@@ -18,13 +18,13 @@
 @interface SMGreatShareViewModel()<AMDControllerTransitionDelegate,UITextViewDelegate>
 {
     AMDRootViewController *_senderController;
-    NSMutableArray *_currentSelectedImages;         //选中的需要分享的图片
+    NSMutableArray *_currentSelectedImages;             //选中的需要分享的图片
     UILabel *_imageCountLB;                                         //选中的图片数量
-    UITextView *_shareContentTV;                 //分享语编辑
+    UITextView *_shareContentTV;                        //分享语编辑
     SSAppPluginShare *_pluginShare;                             //分享插件类
-    SMAlertView *_alertView;                 //提示框
-    NSMutableArray *_currentImageArr;  //当前所有的图片
-    NSMutableArray *_selectImageBtArray;
+    SMAlertView *_alertView;                            //提示框
+    NSMutableArray *_currentImageArr;                   //当前所有的图片
+    NSMutableArray *_selectImageBtArray;                //所有选中的图片
 }
 @end
 
@@ -45,17 +45,37 @@
 }
 
 
--(void)prepareView{
+-(void)prepareView
+{
     _senderController = (AMDRootViewController*)self.senderController;
+    [self initMembory];
     [self initContentView];
+}
+
+
+// 内存初始化
+- (void)initMembory
+{
+    // 合并两者数据
+    if (_currentImageArr == nil) {
+        _currentImageArr = [[NSMutableArray alloc]init];
+    }
+    // urls
+    if (_shareImageUrlArray.count > 0) {
+        [_currentImageArr addObjectsFromArray:_shareImageUrlArray];
+    }
+    
+    // uiimage
+    if (_shareImageArray.count > 0) {
+        [_currentImageArr addObjectsFromArray:_shareImageArray];
+    }
+    _currentSelectedImages = [[NSMutableArray alloc]init];
+    _selectImageBtArray = [[NSMutableArray alloc]init];
 }
 
 
 //搭建视图
 -(void)initContentView{
-    _currentImageArr = _shareImageArray.count>0?_shareImageArray.mutableCopy:_shareImageUrlArray.mutableCopy;
-    _currentSelectedImages = [[NSMutableArray alloc]init];
-    _selectImageBtArray = [[NSMutableArray alloc]init];
     //背景滑动视图
     UIScrollView *scrollView = [[UIScrollView alloc]init];
     [_senderController.contentView addSubview:scrollView];
@@ -164,11 +184,13 @@
         shareImageView.layer.borderWidth = .5;
         shareImageView.layer.borderColor = SMLineColor.CGColor;
         [shareImageView addTarget:self action:@selector(clickImage:) forControlEvents:UIControlEventTouchUpInside];
-        if ([_currentImageArr[i] isKindOfClass:[UIImage class]]) {
-            UIImage *image = _currentImageArr[i];
+        id senderobject = _currentImageArr[i];
+        if ([senderobject isKindOfClass:[UIImage class]]) {
+            UIImage *image = senderobject;
             shareImageView.imageView.image = image;
-        }else{
-            NSURL *imgurl = _currentImageArr[i];
+        }
+        else if([senderobject isKindOfClass:[NSURL class]]){
+            NSURL *imgurl = senderobject;
             [shareImageView.imageView sd_setImageWithURL:imgurl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
         }
         
@@ -383,11 +405,8 @@
     if (_pluginShare == nil) {
         _pluginShare = [[SSAppPluginShare alloc]init];
     }
-    if (_shareImageUrlArray.count > 0) {
-        _pluginShare.shareImageUrls = _currentSelectedImages;
-    }else{
-        _pluginShare.shareImages = _currentSelectedImages;
-    }
+    
+    _pluginShare.shareImages = _currentSelectedImages;
     _pluginShare.shareContent = _shareContentTV.text;
     _pluginShare.shareUrl = self.shareUrl;
     _pluginShare.senderController = _senderController;
@@ -443,30 +462,31 @@
     if (_selectAction) {
         _selectAction(sender.tag);
     }
-
 }
 
 
 //选择图片
--(void)seletImage:(AMDButton *)sender{
+-(void)seletImage:(AMDButton *)sender
+{
+    // 可能为NSUrl 或者 UIImage
+    id imageobject = _currentImageArr[sender.tag];
     if (sender.selected)
-    {//取消选中状态
+    {
         sender.selected = NO;
-        NSURL *imageUrl = _currentImageArr[sender.tag];
-        if ([_currentSelectedImages containsObject:imageUrl]) {
-            [_currentSelectedImages removeObject:imageUrl];
+        //
+        if ([_currentSelectedImages containsObject:imageobject]) {
+            [_currentSelectedImages removeObject:imageobject];
         }
-    }else
-    {//添加选中状态
+    }
+    else {//添加选中状态
         sender.selected = YES;
-        NSURL *imageUrl = _currentImageArr[sender.tag];
-        if (![_currentSelectedImages containsObject:imageUrl]) {
-            [_currentSelectedImages addObject:imageUrl];
+        //
+        if (![_currentSelectedImages containsObject:imageobject]) {
+            [_currentSelectedImages addObject:imageobject];
         }
     }
     _imageCountLB.text = [NSString stringWithFormat:@"已选%ld张",(unsigned long)_currentSelectedImages.count];
     [self invokeImageCountTitleWithLable:_imageCountLB];
-    
 }
 
 
@@ -513,7 +533,9 @@
 
 
 #pragma mark - 配置选择图片icon
--(void)invokeImageIconWithIndex:(NSInteger)index{
+// 选中某张图片
+-(void)selectImageWithIndex:(NSInteger)index
+{
     AMDButton *bt = _selectImageBtArray[index];
     [self seletImage:bt];
 }

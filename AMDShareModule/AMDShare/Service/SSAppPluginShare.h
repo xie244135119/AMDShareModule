@@ -22,9 +22,11 @@ extern NSString * const SSPluginShareSina;
 
 
 // 一组url
-@property(nonatomic, strong) NSArray<NSURL *> *shareImageUrls;
+//@property(nonatomic, strong) NSArray<NSURL *> *shareImageUrls;
 // 一组image
-@property(nonatomic, strong) NSArray<UIImage *> *shareImages;
+//@property(nonatomic, strong) NSArray<UIImage *> *shareImages;
+// 一组对象<UIImage 或NSUrl>
+@property(nonatomic, strong) NSArray *shareImages;
 // 内容
 @property(nonatomic, copy) NSString *shareContent;
 // url
