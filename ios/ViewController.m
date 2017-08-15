@@ -92,13 +92,16 @@
 }
 
 - (IBAction)showPic:(id)sender {
-    //    UIImage *img = SMShareSrcImage(@"share_weixin@2x.png");
-    //    UIImage *img2 = SMShareSrcImage(@"share_weixin-friend@2x.png");
-    //    UIImage *img3 = SMShareSrcImage(@"share_qq@2x.png");
-    //    NSArray *imageurls = @[img,img2,img3];
+    UIImage *img = [UIImage imageNamed:@"1.pic.jpg"];
+    UIImage *img2 = [UIImage imageNamed:@"2.pic.jpg"];
+    //        UIImage *img2 = SMShareSrcImage(@"share_weixin-friend@2x.png");
+    //        UIImage *img3 = SMShareSrcImage(@"share_qq@2x.png");
+    NSArray *localimags = @[img,img2];
     
     NSArray *imageurls =  @[ [NSURL URLWithString:@"http://wdwd-prod.wdwdcdn.com/597713f192953.jpg"],[NSURL URLWithString:@"http://wdwd-prod.wdwdcdn.com/596726da1bb6e.jpg"],[NSURL URLWithString:@"http://wdwd-prod.wdwdcdn.com/5965d340aec6c.jpg_640x640.jpg?imageView2/3/w/640/h/100"]];
-    SMPreviewController *VC = [SMPreviewController showImage:nil imageUrl:imageurls selectImages:nil showIndex:0 completion:nil];
+    NSMutableArray *arrys = [[NSMutableArray alloc]initWithArray:nil];
+    [arrys addObjectsFromArray:localimags];
+    SMPreviewController *VC = [SMPreviewController showImage:nil imageUrl:arrys selectImages:nil showIndex:0 completion:nil];
     VC.delegate = self;
     [self.navigationController pushViewController:VC animated:YES];
 }

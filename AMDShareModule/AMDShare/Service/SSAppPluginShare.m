@@ -24,7 +24,10 @@ NSString * const SSPluginShareSina = @"sina";
     __weak UIView *_backgroundView;         //后背景视图
     __weak UILabel *_wechatShareLabel;               //分享文案视图
     
-    __block NSMutableArray<NSURL *> *_shareImageUrls;           //所有分享的图片 url
+    //所有分享的图片 url
+    __block NSMutableArray<NSURL *> *_shareImageUrls;
+    // 所有分享的image
+    __block NSMutableArray<UIImage *> *_shareImageObjects;
 }
 @end
 
@@ -39,6 +42,7 @@ NSString * const SSPluginShareSina = @"sina";
     self.shareUrl = nil;
     self.shareContent = nil;
     self.pluginIder = nil;
+    _shareImageObjects = nil;
 //    _allCacheImages = nil;
 //    _selectImageArray = nil;
 }
@@ -80,7 +84,11 @@ NSString * const SSPluginShareSina = @"sina";
         }
         else {
             // 调用微信分享
-            [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:cachesImages url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
+            NSMutableArray *images = [[NSMutableArray alloc]initWithObjects:cachesImages, nil];
+            if (_shareImageObjects.count > 0) {
+                [images addObjectsFromArray:_shareImageObjects];
+            }
+            [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:images url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
                 // ui处理
                 [weakself _hideWechatPasteView];
                 completion(resault, nil);
@@ -105,6 +113,9 @@ NSString * const SSPluginShareSina = @"sina";
         [_shareImages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj isKindOfClass:[NSURL class]]) {
                 [_shareImageUrls addObject:obj];
+            }
+            else if ([obj isKindOfClass:[UIImage class]]) {
+                [_shareImageObjects addObject:obj];
             }
         }];
     }

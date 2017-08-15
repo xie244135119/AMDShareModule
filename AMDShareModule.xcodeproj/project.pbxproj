@@ -56,6 +56,8 @@
 		72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C8389D1F09EF4000F373E1 /* AMDUMSDKManager.m */; };
 		72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */; };
 		72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */; };
+		CB4BF7DB1F42F63400DA33F7 /* 2.pic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CB4BF7DA1F42F63400DA33F7 /* 2.pic.jpg */; };
+		CB4BF7DD1F42F64400DA33F7 /* 1.pic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CB4BF7DC1F42F64400DA33F7 /* 1.pic.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +105,8 @@
 		72C838D71F0A47C300F373E1 /* AMDShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareViewModel.h; sourceTree = "<group>"; };
 		72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMDShareViewModel.m; sourceTree = "<group>"; };
 		C07D49A578844F6F8916350E /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		CB4BF7DA1F42F63400DA33F7 /* 2.pic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.pic.jpg; sourceTree = "<group>"; };
+		CB4BF7DC1F42F64400DA33F7 /* 1.pic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.pic.jpg; sourceTree = "<group>"; };
 		CBED50820877C7F6EC0691AD /* Pods_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02F3B10BB8314E9E1BF25A8 /* Pods-AMDShareModule.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.debug.xcconfig"; sourceTree = "<group>"; };
 		D303828E1D22F662D1087E0B /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 		72C8387B1F09EA8600F373E1 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				CB4BF7DC1F42F64400DA33F7 /* 1.pic.jpg */,
+				CB4BF7DA1F42F63400DA33F7 /* 2.pic.jpg */,
 				72C8387F1F09EA8600F373E1 /* AppDelegate.h */,
 				72C838801F09EA8600F373E1 /* AppDelegate.m */,
 				72C838821F09EA8600F373E1 /* ViewController.h */,
@@ -399,9 +405,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				72C8388F1F09EA8600F373E1 /* LaunchScreen.storyboard in Resources */,
+				CB4BF7DD1F42F64400DA33F7 /* 1.pic.jpg in Resources */,
 				72C8388C1F09EA8600F373E1 /* Assets.xcassets in Resources */,
 				72C838871F09EA8600F373E1 /* Main.storyboard in Resources */,
 				724E77441F3C547E00954225 /* HiraginoSansGBW3.otf in Resources */,
+				CB4BF7DB1F42F63400DA33F7 /* 2.pic.jpg in Resources */,
 				7230F6E51F0B769B006A7952 /* AMDShareModule.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

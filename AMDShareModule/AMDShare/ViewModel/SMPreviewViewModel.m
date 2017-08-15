@@ -80,16 +80,19 @@
     for (int i = 0; i < _showImages.count; i++) {
         CGRect imageRect = CGRectMake(0, 0, 0, 0);
         UIImageView *showImageView = [[UIImageView alloc]init];
+        imageRect = [self dealFrameWithImage:nil];
+        showImageView.frame = imageRect;
         id imageobject = _showImages[i];
         if ([imageobject isKindOfClass:[UIImage class]]) {
             showImageView.image = imageobject;
-            imageRect.size = showImageView.image.size;
+//            imageRect.size = showImageView.image.size;
         }
         else if([imageobject isKindOfClass:[NSURL class]]){
             NSURL *imageUrl = imageobject;
+//            [showImageView sd_setImageWithURL:imageUrl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
             [showImageView sd_setImageWithURL:imageUrl placeholderImage:SMShareSrcImage(@"xnormal_img@2x.png")];
-            UIImage *localImage = [[SDImageCache sharedImageCache] imageFromCacheForKey:imageUrl.relativeString];
-            imageRect = [self dealFrameWithImage:localImage];
+//            UIImage *localImage = [[SDImageCache sharedImageCache] imageFromCacheForKey:imageUrl.relativeString];
+            
         }
         [scrollerContentView addSubview:showImageView];
         [showImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,6 +136,7 @@
 //    imageCountLB.text = @"0";
     imageCountLB.textAlignment = NSTextAlignmentCenter;
     _currentSelectCountLB = imageCountLB;
+    imageCountLB.font = FontWithName(@"", 12);
     imageCountLB.backgroundColor = [UIColor redColor];
     imageCountLB.textColor = [UIColor whiteColor];
     imageCountLB.layer.masksToBounds = YES;
@@ -203,8 +207,9 @@
 // 根据图片原始尺寸计算大小
 -(CGRect)dealFrameWithImage:(UIImage *)image
 {
-    CGSize size = [self convertFrame:image.size];
-    return CGRectMake(0, 0, size.width, size.height);
+    return CGRectMake(0, 0, SScreenWidth, SScreenWidth);
+//    CGSize size = [self convertFrame:image.size];
+//    return CGRectMake(0, 0, size.width, size.height);
 }
 
 
@@ -423,6 +428,9 @@
         if ([_selectImageArray containsObject:@(index)]) {
             _selectImageButton.selected = YES;
         }
+        // 配置确定按钮旁的文字
+        _currentSelectCountLB.hidden = NO;
+        _currentSelectCountLB.text = [NSString stringWithFormat:@"%lu",(unsigned long)_selectImageArray.count];
     }
 }
 

@@ -65,7 +65,7 @@
     if ([sender[@"type"] isEqualToString:@"save"]) {
         BOOL type = sender[@"status"];
         if (_completionHandle) {
-            _completionHandle(AMDShareTypeTuwenShare,type?AMDShareResponseSuccess:AMDShareResponseFail,nil);
+            _completionHandle(AMDShareTypeTuwenSave,type?AMDShareResponseSuccess:AMDShareResponseFail,nil);
         }
     }else{
         NSNumber *tag = sender[@"tag"];
