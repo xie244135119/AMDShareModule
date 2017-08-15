@@ -20,10 +20,17 @@
 
 @property(nonatomic, strong)NSURL *shareUrl;//分享链接
 
+-(void)invokeImageIconWithIndex:(NSInteger)index;
+
 /**
  分享结果
  */
 @property(nonatomic, copy) void  (^completionHandle)(AMDShareType shareType,AMDShareResponseState responseState,NSError* error);
+
+/**
+页面跳转
+ */
+@property(nonatomic, copy) void  (^selectAction)(NSInteger index);
 
 
 @end

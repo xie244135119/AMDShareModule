@@ -8,9 +8,9 @@
 
 #import "SMGreatShareController.h"
 #import "SMGreatShareViewModel.h"
+#import "SMPreviewController.h"
 
-
-@interface SMGreatShareController ()
+@interface SMGreatShareController ()<AMDControllerTransitionDelegate>
 {
     SMGreatShareViewModel *_viewModel;
 }
@@ -43,6 +43,12 @@
             weakself.completionHandle(shareType,responseState,error);
         }
     };
+    viewModel.selectAction = ^(NSInteger index) {
+        SMPreviewController *VC = [SMPreviewController showImage:_shareImageArray imageUrl:_shareImageUrlArray showIndex:index completion:nil];
+        VC.delegate = weakself;
+        [weakself.navigationController pushViewController:VC animated:YES];
+    };
+    
     viewModel.shareUrl = self.shareUrl;
     viewModel.shareContent = self.shareContent;
     viewModel.shareImageUrlArray = self.shareImageUrlArray;
@@ -52,5 +58,18 @@
     [viewModel prepareView];
 }
 
+
+#pragma mark - AMDControllerTransitionDelegate
+- (void)viewController:(id)viewController object:(id)sender{
+    if ([sender[@"type"] isEqualToString:@"save"]) {
+        BOOL type = sender[@"status"];
+        if (self.completionHandle) {
+            self.completionHandle(AMDShareTypeTuwenShare,type?AMDShareResponseSuccess:AMDShareResponseFail,nil);
+        }
+    }else{
+        NSNumber *tag = sender[@"tag"];
+        [_viewModel invokeImageIconWithIndex:tag.integerValue];
+    }
+}
 
 @end

@@ -14,7 +14,6 @@
 #import "SMAlertView.h"
 //#import "SMImagePreviewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "SMPreviewController.h"
 
 @interface SMGreatShareViewModel()<AMDControllerTransitionDelegate,UITextViewDelegate>
 {
@@ -440,9 +439,11 @@
 
 //选择需要分享的图片
 -(void)clickImage:(AMDButton *)sender{
-    SMPreviewController *VC = [SMPreviewController showImage:_shareImageArray imageUrl:_shareImageUrlArray showIndex:sender.tag completion:nil];
-    VC.delegate = self;
-    [_senderController.navigationController pushViewController:VC animated:YES];
+    
+    if (_selectAction) {
+        _selectAction(sender.tag);
+    }
+
 }
 
 
@@ -511,18 +512,10 @@
 }
 
 
-#pragma mark - AMDControllerTransitionDelegate
-- (void)viewController:(id)viewController object:(id)sender{
-    if ([sender[@"type"] isEqualToString:@"save"]) {
-        BOOL type = sender[@"status"];
-        if (self.completionHandle) {
-            self.completionHandle(AMDShareTypeTuwenShare,type?AMDShareResponseSuccess:AMDShareResponseFail,nil);
-        }
-    }else{
-        NSNumber *tag = sender[@"tag"];
-        AMDButton *bt = _selectImageBtArray[tag.integerValue];
-        [self seletImage:bt];
-    }
+#pragma mark - 配置选择图片icon
+-(void)invokeImageIconWithIndex:(NSInteger)index{
+    AMDButton *bt = _selectImageBtArray[index];
+    [self seletImage:bt];
 }
 
 
