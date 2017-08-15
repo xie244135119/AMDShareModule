@@ -16,6 +16,14 @@
 // 需要展示的图片<NSURL 或者 UIImage>
 @property(nonatomic, strong) NSArray *showImages;
 
--(void)invoImageCurrentIndex:(NSInteger)index;
+
+// 配置加载图片的位置
+//- (void)invoImageCurrentIndex:(NSInteger)index;
+
+// 配置选中的图片
+// 配置加载图片的位置
+- (void)configSelectImageIndexs:(NSArray<NSNumber *> *)selectImages
+                      showIndex:(NSInteger)index;
+
 
 @end

@@ -12,7 +12,7 @@
 
 @interface SMGreatShareController ()<AMDControllerTransitionDelegate>
 {
-    SMGreatShareViewModel *_viewModel;
+    __block SMGreatShareViewModel *_viewModel;
 }
 @end
 
@@ -25,6 +25,7 @@
     _shareUrl = nil;
     _shareContent = nil;
     _completionHandle = nil;
+    _viewModel = nil;
 }
 
 
@@ -44,7 +45,7 @@
         }
     };
     viewModel.selectAction = ^(NSInteger index) {
-        SMPreviewController *VC = [SMPreviewController showImage:_shareImageArray imageUrl:_shareImageUrlArray showIndex:index completion:nil];
+        SMPreviewController *VC = [SMPreviewController showImage:_shareImageArray imageUrl:_shareImageUrlArray selectImages:[_viewModel selectImageIndexs] showIndex:index completion:nil];
         VC.delegate = weakself;
         [weakself.navigationController pushViewController:VC animated:YES];
     };

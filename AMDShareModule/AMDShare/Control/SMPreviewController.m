@@ -17,13 +17,12 @@
 // UIImage 或者 NSUrl
 @property(nonatomic, strong)NSArray *currentImages;
 
-//@property(nonatomic, strong)NSArray *currentImageUrls;
-
 @property(nonatomic, strong)SMPreviewViewModel *viewModel;
 
-@property(nonatomic)NSInteger currentIndex;
-
-
+@property(nonatomic) NSInteger currentIndex;
+// 选中的图片
+@property(nonatomic, strong) NSArray<NSNumber *> *selectImageIndexs;
+//
 @property(nonatomic ,copy) void(^callBack)(NSArray<NSNumber *>* selectImages);
 
 @end
@@ -35,6 +34,7 @@
     self.currentImages = nil;
     self.viewModel = nil;
     self.callBack = nil;
+    self.selectImageIndexs = nil;
 }
 
 
@@ -58,15 +58,18 @@
     viewModel.showImages = _currentImages;
     viewModel.senderController = self;
     [viewModel prepareView];
-    [viewModel invoImageCurrentIndex:_currentIndex];
+//    [viewModel invoImageCurrentIndex:_currentIndex];
+    [viewModel configSelectImageIndexs:_selectImageIndexs showIndex:_currentIndex];
 }
 
 
 //初始化
 + (instancetype)showImage:(NSArray<UIImage *> *)images
                  imageUrl:(NSArray<NSURL*>*)imageurls
+             selectImages:(NSArray<NSNumber *> *)selectImages
                 showIndex:(NSUInteger)showIndex
-               completion:(void(^)(NSArray<NSNumber *>* selectImages))completion{
+               completion:(void(^)(NSArray<NSNumber *>* selectImages))completion
+{
     SMPreviewController *VC = nil;
     if (VC == nil) {
         VC = [[SMPreviewController alloc]init];
@@ -79,10 +82,11 @@
             [imagearry addObjectsFromArray:images];
         }
         VC.currentImages = imagearry;
+        VC.selectImageIndexs = selectImages;
     }
-    if (VC.viewModel) {
-        [VC.viewModel invoImageCurrentIndex:showIndex];
-    }
+//    if (VC.viewModel) {
+//        [VC.viewModel ];
+//    }
     VC.currentIndex = showIndex;
     return VC;
 }

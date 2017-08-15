@@ -21,6 +21,7 @@
  */
 + (instancetype)showImage:(NSArray<UIImage *> *)images
                imageUrl:(NSArray<NSURL*>*)imageurls
+             selectImages:(NSArray<NSNumber *> *)selectImages
                 showIndex:(NSUInteger)showIndex
        completion:(void(^)(NSArray<NSNumber *>* selectImages))completion;
 

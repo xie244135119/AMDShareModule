@@ -17,14 +17,14 @@
 
 @interface SMGreatShareViewModel()<AMDControllerTransitionDelegate,UITextViewDelegate>
 {
-    AMDRootViewController *_senderController;
-    NSMutableArray *_currentSelectedImages;             //选中的需要分享的图片
+    __weak AMDRootViewController *_senderController;
+    __block NSMutableArray *_currentSelectedImages;             //选中的需要分享的图片
     UILabel *_imageCountLB;                                         //选中的图片数量
     UITextView *_shareContentTV;                        //分享语编辑
     SSAppPluginShare *_pluginShare;                             //分享插件类
     SMAlertView *_alertView;                            //提示框
-    NSMutableArray *_currentImageArr;                   //当前所有的图片
-    NSMutableArray *_selectImageBtArray;                //所有选中的图片
+    __block NSMutableArray *_currentImageArr;                   //当前所有的图片
+    __block NSMutableArray *_selectImageBtArray;                //所有选中的图片
 }
 @end
 
@@ -538,6 +538,19 @@
 {
     AMDButton *bt = _selectImageBtArray[index];
     [self seletImage:bt];
+}
+
+- (NSArray<NSNumber *> *)selectImageIndexs
+{
+    if (_currentSelectedImages.count == 0) {
+        return nil;
+    }
+    NSMutableArray *arry = [[NSMutableArray alloc]init];
+    [_currentSelectedImages enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSInteger index = [_currentImageArr indexOfObject:obj];
+        [arry addObject:@(index)];
+    }];
+    return arry;
 }
 
 

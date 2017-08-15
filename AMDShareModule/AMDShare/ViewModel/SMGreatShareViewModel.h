@@ -41,4 +41,13 @@
 @property(nonatomic, copy) void  (^selectAction)(NSInteger index);
 
 
+
+/**
+ 选中的图片索引位置
+
+ @return 所有选中的图片索引
+ */
+- (NSArray<NSNumber *> *)selectImageIndexs;
+
+
 @end

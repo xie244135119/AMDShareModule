@@ -16,12 +16,12 @@
 
 @interface SMPreviewViewModel()<UIScrollViewDelegate>
 {
-    AMDRootViewController *_senderController;
-    UIScrollView *_currentScrollView;
-    UIPageControl *_currentPageControl;
-    NSMutableArray *_selectImageArray;
-    UILabel *_currentSelectCountLB;  //当前选中的图片数量
-    AMDButton *_selectImageButton;
+    __weak AMDRootViewController *_senderController;
+    __weak UIScrollView *_currentScrollView;
+    __weak UIPageControl *_currentPageControl;
+    __weak UILabel *_currentSelectCountLB;                 //当前选中的图片数量
+    __weak AMDButton *_selectImageButton;                  //选中的图片按钮
+    NSMutableArray<NSNumber *> *_selectImageArray;              //选中的图片Index
 }
 
 @end
@@ -32,17 +32,26 @@
     _senderController = nil;
     _currentScrollView = nil;
     _currentPageControl = nil;
+    _selectImageArray = nil;
 }
 
 
--(void)prepareView{
+-(void)prepareView
+{
     _senderController = (AMDRootViewController *)self.senderController;
+    [self initMembory];
     [self initContenView];
+}
+
+// 内存初始化
+- (void)initMembory
+{
+    _selectImageArray = [[NSMutableArray alloc]init];
 }
 
 
 -(void)initContenView{
-    _selectImageArray = [[NSMutableArray alloc]init];
+    
     //
     _senderController.contentView.backgroundColor = [UIColor blackColor];
     //
@@ -392,12 +401,34 @@
     return name;
 }
 
--(void)invoImageCurrentIndex:(NSInteger)index{
+
+#pragma mark - public api
+//
+
+// 配置选中的图片索引位置
+- (void)configSelectImageIndexs:(NSArray<NSNumber *> *)selectImages
+                      showIndex:(NSInteger)index
+{
+    // 显示当前的索引
     if (index > 0) {
         [_currentScrollView.superview layoutIfNeeded];
         [_currentScrollView setContentOffset:CGPointMake(index*SScreenWidth, 0) animated:NO];
     }
+    
+    // 配置选中的图片数据源
+    if (selectImages.count > 0) {
+        //
+        [_selectImageArray addObjectsFromArray:selectImages];
+        // 设置选中状态
+        if ([_selectImageArray containsObject:@(index)]) {
+            _selectImageButton.selected = YES;
+        }
+    }
 }
+
+
+
+
 
 @end
 
