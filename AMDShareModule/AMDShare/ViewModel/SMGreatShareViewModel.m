@@ -14,8 +14,9 @@
 #import "SMAlertView.h"
 //#import "SMImagePreviewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "SMPreviewController.h"
 
-@interface SMGreatShareViewModel()
+@interface SMGreatShareViewModel()<AMDControllerTransitionDelegate,UITextViewDelegate>
 {
     AMDRootViewController *_senderController;
     NSMutableArray *_currentSelectedImages;         //选中的需要分享的图片
@@ -24,6 +25,7 @@
     SSAppPluginShare *_pluginShare;                             //分享插件类
     SMAlertView *_alertView;                 //提示框
     NSMutableArray *_currentImageArr;  //当前所有的图片
+    NSMutableArray *_selectImageBtArray;
 }
 @end
 
@@ -54,6 +56,7 @@
 -(void)initContentView{
     _currentImageArr = _shareImageArray.count>0?_shareImageArray.mutableCopy:_shareImageUrlArray.mutableCopy;
     _currentSelectedImages = [[NSMutableArray alloc]init];
+    _selectImageBtArray = [[NSMutableArray alloc]init];
     //背景滑动视图
     UIScrollView *scrollView = [[UIScrollView alloc]init];
     [_senderController.contentView addSubview:scrollView];
@@ -195,6 +198,7 @@
         [selectIcon.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.left.right.offset(0);
         }];
+        [_selectImageBtArray addObject:selectIcon];
     }
     
     //编辑文案
@@ -224,6 +228,8 @@
     
     //文案输入框
     UITextView *editTV = [[UITextView alloc]init];
+    editTV.delegate = self;
+    editTV .returnKeyType = UIReturnKeyDone;
     _shareContentTV = editTV;
     editTV.font = FontWithName(@"", 14);
     editTV.textColor = ColorWithRGB(79, 79, 79, 1);
@@ -347,6 +353,14 @@
             make.height.equalTo(@20);
         }];
     }
+    
+    //添加手势回收键盘
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide)];
+    //设置成NO表示当前控件响应后会传播到其他控件上，默认为YES。
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    //将触摸事件添加到当前view
+    [_senderController.contentView addGestureRecognizer:tapGestureRecognizer];
+
 }
 
 
@@ -426,19 +440,9 @@
 
 //选择需要分享的图片
 -(void)clickImage:(AMDButton *)sender{
-    NSMutableArray *frameArr = [NSMutableArray array] ;
-    for (int i = 0; i < _currentImageArr.count; i++) {
-        CGRect frame  = CGRectMake(110*i+15, 100, 100, 100);
-        [frameArr addObject:NSStringFromCGRect(frame)];
-    }
-    // 跳到预览页面
-    //    SMImagePreviewController *VC = [[SMImagePreviewController alloc]init];
-    //    VC.originalFrames = frameArr;
-    //    VC.remoteImagePaths = self.shareImageArray;
-    //    __block NSUInteger index = sender.tag;
-    //    VC.currentIndex = index;
-    //    VC.transitioningDelegate = VC;
-    //    [_senderController presentViewController:VC animated:YES completion:nil];
+    SMPreviewController *VC = [SMPreviewController showImage:_shareImageArray imageUrl:_shareImageUrlArray showIndex:sender.tag completion:nil];
+    VC.delegate = self;
+    [_senderController.navigationController pushViewController:VC animated:YES];
 }
 
 
@@ -507,6 +511,33 @@
 }
 
 
+#pragma mark - AMDControllerTransitionDelegate
+- (void)viewController:(id)viewController object:(id)sender{
+    if ([sender[@"type"] isEqualToString:@"save"]) {
+        BOOL type = sender[@"status"];
+        if (self.completionHandle) {
+            self.completionHandle(AMDShareTypeTuwenShare,type?AMDShareResponseSuccess:AMDShareResponseFail,nil);
+        }
+    }else{
+        NSNumber *tag = sender[@"tag"];
+        AMDButton *bt = _selectImageBtArray[tag.integerValue];
+        [self seletImage:bt];
+    }
+}
 
+
+#pragma mark - UITextViewDelegate
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+-(void)keyboardHide{
+    [_shareContentTV resignFirstResponder];
+}
 
 @end

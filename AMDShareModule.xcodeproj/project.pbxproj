@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		38B2694A61FD6094313403F6 /* Pods_AMDShareModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */; };
 		57621B78CE8DE0BD57A6B355 /* Pods_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBED50820877C7F6EC0691AD /* Pods_ios.framework */; };
+		72127B171F41988A00D668BB /* SMPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 72127B151F41988A00D668BB /* SMPreviewController.h */; };
+		72127B181F41988A00D668BB /* SMPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B161F41988A00D668BB /* SMPreviewController.m */; };
+		72127B1B1F4198AA00D668BB /* SMPreviewViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72127B191F4198AA00D668BB /* SMPreviewViewModel.h */; };
+		72127B1C1F4198AA00D668BB /* SMPreviewViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B1A1F4198AA00D668BB /* SMPreviewViewModel.m */; };
+		72127B1D1F4198C600D668BB /* SMPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B161F41988A00D668BB /* SMPreviewController.m */; };
+		72127B1E1F4198CA00D668BB /* SMPreviewViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B1A1F4198AA00D668BB /* SMPreviewViewModel.m */; };
 		7217B8981F1F042800B509A8 /* MShareStaticMethod.h in Headers */ = {isa = PBXBuildFile; fileRef = 7217B8971F1F042800B509A8 /* MShareStaticMethod.h */; };
 		7217B89B1F1F056200B509A8 /* MShareServiceProtocal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7217B89A1F1F056200B509A8 /* MShareServiceProtocal.h */; };
 		7230F6C11F0B3FDC006A7952 /* AMDShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72C838951F09EBD700F373E1 /* AMDShareController.m */; };
@@ -55,6 +61,10 @@
 /* Begin PBXFileReference section */
 		416C00D4A17CFEF5D625C329 /* Pods-AMDShareModule.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMDShareModule.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMDShareModule/Pods-AMDShareModule.release.xcconfig"; sourceTree = "<group>"; };
 		4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMDShareModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72127B151F41988A00D668BB /* SMPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPreviewController.h; sourceTree = "<group>"; };
+		72127B161F41988A00D668BB /* SMPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMPreviewController.m; sourceTree = "<group>"; };
+		72127B191F4198AA00D668BB /* SMPreviewViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPreviewViewModel.h; sourceTree = "<group>"; };
+		72127B1A1F4198AA00D668BB /* SMPreviewViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMPreviewViewModel.m; sourceTree = "<group>"; };
 		7217B8971F1F042800B509A8 /* MShareStaticMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MShareStaticMethod.h; sourceTree = "<group>"; };
 		7217B89A1F1F056200B509A8 /* MShareServiceProtocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MShareServiceProtocal.h; sourceTree = "<group>"; };
 		7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMDShareMaterialViewModel.h; sourceTree = "<group>"; };
@@ -186,6 +196,8 @@
 				724E773A1F3C50A100954225 /* SMGreatShareController.m */,
 				72C838941F09EBD700F373E1 /* AMDShareController.h */,
 				72C838951F09EBD700F373E1 /* AMDShareController.m */,
+				72127B151F41988A00D668BB /* SMPreviewController.h */,
+				72127B161F41988A00D668BB /* SMPreviewController.m */,
 			);
 			path = Control;
 			sourceTree = "<group>";
@@ -240,6 +252,8 @@
 				72C838D81F0A47C300F373E1 /* AMDShareViewModel.m */,
 				7230F6D31F0B648E006A7952 /* AMDShareMaterialViewModel.h */,
 				7230F6D41F0B648E006A7952 /* AMDShareMaterialViewModel.m */,
+				72127B191F4198AA00D668BB /* SMPreviewViewModel.h */,
+				72127B1A1F4198AA00D668BB /* SMPreviewViewModel.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -272,12 +286,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				72C8389F1F09EF4000F373E1 /* AMDShareManager.h in Headers */,
+				72127B1B1F4198AA00D668BB /* SMPreviewViewModel.h in Headers */,
 				7217B8981F1F042800B509A8 /* MShareStaticMethod.h in Headers */,
 				72C838961F09EBD700F373E1 /* AMDShareController.h in Headers */,
 				724F60FB1F3D7FE3000E1AD9 /* SMAlertView.h in Headers */,
 				72C8389E1F09EF4000F373E1 /* AMDShareConfig.h in Headers */,
 				72C838A11F09EF4000F373E1 /* AMDUMSDKManager.h in Headers */,
 				724E77471F3C6F8A00954225 /* SSAppPluginShare.h in Headers */,
+				72127B171F41988A00D668BB /* SMPreviewController.h in Headers */,
 				7217B89B1F1F056200B509A8 /* MShareServiceProtocal.h in Headers */,
 				724E77401F3C50A900954225 /* SMGreatShareViewModel.h in Headers */,
 				72C838D91F0A47C300F373E1 /* AMDShareViewModel.h in Headers */,
@@ -479,7 +495,9 @@
 				72C838971F09EBD700F373E1 /* AMDShareController.m in Sources */,
 				72C838DA1F0A47C300F373E1 /* AMDShareViewModel.m in Sources */,
 				724E773C1F3C50A100954225 /* SMGreatShareController.m in Sources */,
+				72127B181F41988A00D668BB /* SMPreviewController.m in Sources */,
 				724E77411F3C50A900954225 /* SMGreatShareViewModel.m in Sources */,
+				72127B1C1F4198AA00D668BB /* SMPreviewViewModel.m in Sources */,
 				724E77481F3C6F8A00954225 /* SSAppPluginShare.m in Sources */,
 				72C838A21F09EF4000F373E1 /* AMDUMSDKManager.m in Sources */,
 				72C838A01F09EF4000F373E1 /* AMDShareManager.m in Sources */,
@@ -501,6 +519,8 @@
 				72C8387E1F09EA8600F373E1 /* main.m in Sources */,
 				724E773D1F3C50A100954225 /* SMGreatShareController.m in Sources */,
 				7230F6E61F0B898D006A7952 /* AMDShareMaterialViewModel.m in Sources */,
+				72127B1D1F4198C600D668BB /* SMPreviewController.m in Sources */,
+				72127B1E1F4198CA00D668BB /* SMPreviewViewModel.m in Sources */,
 				7230F6C71F0B4007006A7952 /* AMDUMSDKManager.m in Sources */,
 				72C8388A1F09EA8600F373E1 /* ios.xcdatamodeld in Sources */,
 				7230F6C21F0B3FDF006A7952 /* AMDShareViewModel.m in Sources */,

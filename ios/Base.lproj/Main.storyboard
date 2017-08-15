@@ -49,6 +49,13 @@
                                     <action selector="PicShare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oUy-sw-g7m"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4vO-n3-7tS">
+                                <rect key="frame" x="138.5" y="420" width="98" height="30"/>
+                                <state key="normal" title="图片预览TEST"/>
+                                <connections>
+                                    <action selector="showPic:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TyR-gQ-R9G"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -57,7 +64,9 @@
                             <constraint firstItem="OTu-ml-bbO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="If8-nA-CXU"/>
                             <constraint firstItem="pCs-Pq-nDK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KeO-bo-s8m"/>
                             <constraint firstItem="Hkp-fy-i45" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LJO-7g-tjh"/>
+                            <constraint firstItem="4vO-n3-7tS" firstAttribute="top" secondItem="pCs-Pq-nDK" secondAttribute="bottom" constant="24" id="Wex-YS-Mch"/>
                             <constraint firstItem="HFk-Ij-OOT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="140" id="fOc-Je-EXs"/>
+                            <constraint firstItem="4vO-n3-7tS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jW2-JX-kwf"/>
                             <constraint firstItem="Hkp-fy-i45" firstAttribute="top" secondItem="OTu-ml-bbO" secondAttribute="bottom" constant="24" id="owb-QZ-wsp"/>
                             <constraint firstItem="HFk-Ij-OOT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tqq-Qt-qnX"/>
                         </constraints>
