@@ -84,9 +84,12 @@ NSString * const SSPluginShareSina = @"sina";
         }
         else {
             // 调用微信分享
-            NSMutableArray *images = [[NSMutableArray alloc]initWithArray:cachesImages];
+            NSMutableArray *images = [[NSMutableArray alloc]init];
             if (_shareImageObjects.count > 0) {
                 [images addObjectsFromArray:_shareImageObjects];
+            }
+            if (cachesImages.count > 0) {
+                [images addObjectsFromArray:cachesImages];
             }
             [SSAppPluginShare pluginShareWithType:_pluginIder text:_shareContent images:images url:_shareUrl rootController:_senderController completion:^(NSInteger resault) {
                 // ui处理
