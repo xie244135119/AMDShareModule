@@ -75,11 +75,12 @@
         VC = [[SMPreviewController alloc]init];
         VC.callBack = completion;
         NSMutableArray *imagearry = [[NSMutableArray alloc]init];
-        if (imageurls.count > 0) {
-            [imagearry addObjectsFromArray:imageurls];
-        }
+        // 图片加载顺序 本地图片 -> 网络图片
         if (images.count > 0) {
             [imagearry addObjectsFromArray:images];
+        }
+        if (imageurls.count > 0) {
+            [imagearry addObjectsFromArray:imageurls];
         }
         VC.currentImages = imagearry;
         VC.selectImageIndexs = selectImages;

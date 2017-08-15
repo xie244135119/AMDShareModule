@@ -60,15 +60,16 @@
     if (_currentImageArr == nil) {
         _currentImageArr = [[NSMutableArray alloc]init];
     }
+    // uiimage
+    if (_shareImageArray.count > 0) {
+        [_currentImageArr addObjectsFromArray:_shareImageArray];
+    }
+    
     // urls
     if (_shareImageUrlArray.count > 0) {
         [_currentImageArr addObjectsFromArray:_shareImageUrlArray];
     }
     
-    // uiimage
-    if (_shareImageArray.count > 0) {
-        [_currentImageArr addObjectsFromArray:_shareImageArray];
-    }
     _currentSelectedImages = [[NSMutableArray alloc]init];
     _selectImageBtArray = [[NSMutableArray alloc]init];
 }

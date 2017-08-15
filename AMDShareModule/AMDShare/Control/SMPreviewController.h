@@ -12,7 +12,7 @@
 
 
 /**
-展示图片
+展示图片 <优先展示 Image + NSUrl >
 
  @param images 需要展示的图片<image>
  @param imageurls 需要展示的图片<url>

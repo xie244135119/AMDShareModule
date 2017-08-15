@@ -11,7 +11,7 @@
 
 @interface SMGreatShareController : AMDRootViewController
 
-// 优先 展示URL
+// 优先 展示 UIImage 其次为 NSURL
 // 分享的图片URL数组
 @property(nonatomic, strong) NSArray<NSURL*>*shareImageUrlArray;
 // 分享的图片数组
