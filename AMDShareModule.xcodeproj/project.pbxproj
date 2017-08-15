@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		38B2694A61FD6094313403F6 /* Pods_AMDShareModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C9AEA64E89AAF2A6257C37D /* Pods_AMDShareModule.framework */; };
 		57621B78CE8DE0BD57A6B355 /* Pods_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBED50820877C7F6EC0691AD /* Pods_ios.framework */; };
-		72127B171F41988A00D668BB /* SMPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 72127B151F41988A00D668BB /* SMPreviewController.h */; };
+		72127B171F41988A00D668BB /* SMPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 72127B151F41988A00D668BB /* SMPreviewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72127B181F41988A00D668BB /* SMPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B161F41988A00D668BB /* SMPreviewController.m */; };
-		72127B1B1F4198AA00D668BB /* SMPreviewViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72127B191F4198AA00D668BB /* SMPreviewViewModel.h */; };
+		72127B1B1F4198AA00D668BB /* SMPreviewViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 72127B191F4198AA00D668BB /* SMPreviewViewModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		72127B1C1F4198AA00D668BB /* SMPreviewViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B1A1F4198AA00D668BB /* SMPreviewViewModel.m */; };
 		72127B1D1F4198C600D668BB /* SMPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B161F41988A00D668BB /* SMPreviewController.m */; };
 		72127B1E1F4198CA00D668BB /* SMPreviewViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 72127B1A1F4198AA00D668BB /* SMPreviewViewModel.m */; };
