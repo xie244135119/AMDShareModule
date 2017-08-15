@@ -142,11 +142,11 @@
             break;
             case 2://跳转到微信
         {
-//            NSURL * url = [NSURL URLWithString:@"weixin://"];
-//            if ([[UIApplication sharedApplication] canOpenURL:url]) {
-//                [[UIApplication sharedApplication] openURL:url];
-//            }
-            [AMDShareManager openWechat];
+            NSURL * url = [NSURL URLWithString:@"weixin://"];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+//            [AMDShareManager openWechat];
         }
             break;
         default:

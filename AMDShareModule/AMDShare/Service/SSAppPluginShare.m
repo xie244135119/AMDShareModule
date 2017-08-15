@@ -84,7 +84,7 @@ NSString * const SSPluginShareSina = @"sina";
         }
         else {
             // 调用微信分享
-            NSMutableArray *images = [[NSMutableArray alloc]initWithObjects:cachesImages, nil];
+            NSMutableArray *images = [[NSMutableArray alloc]initWithArray:cachesImages];
             if (_shareImageObjects.count > 0) {
                 [images addObjectsFromArray:_shareImageObjects];
             }
@@ -107,6 +107,7 @@ NSString * const SSPluginShareSina = @"sina";
         
         if (_shareImageUrls == nil) {
             _shareImageUrls = [[NSMutableArray alloc]init];
+            _shareImageObjects = [[NSMutableArray alloc]init];
         }
         // 默认清空操作
         [_shareImageUrls removeAllObjects];
@@ -177,7 +178,8 @@ NSString * const SSPluginShareSina = @"sina";
 {
     // 没有图片的情况下
     if (_shareImageUrls.count == 0) {
-        completion(nil, [NSError errorWithDomain:@"没有找到素材相关图片" code:101 userInfo:nil]);
+//        completion(nil, [NSError errorWithDomain:@"没有找到素材相关图片" code:101 userInfo:nil]);
+        completion(nil, nil);
         return;
     }
 
