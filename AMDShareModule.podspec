@@ -50,7 +50,6 @@ Pod::Spec.new do |s|
   #  Specify a social_media_url where others can refer to, for example a twitter
   #  profile URL.
   #
-
   s.author             = { "xieqiang" => "xie244135119@163.com" }
   # Or just: s.author    = "xieqiang"
   # s.authors            = { "xieqiang" => "xieqiang@wdwd.com" }
@@ -89,7 +88,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "AMDShareModule/AMDShareModule.h"
+ # s.source_files  = "AMDShareModule/AMDShareModule.h"
   s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
@@ -139,13 +138,13 @@ Pod::Spec.new do |s|
 	s.subspec "Plugin" do |st|
 
 		st.subspec "Core" do |stt|
-	 	stt.source_files="AMDShareModule/PluginShare/*.{h,m}"
+	 	stt.source_files="AMDShareModule/AMDShare/PluginShare/*.{h,m}"
 		stt.dependency 'AMDShareModule/Plugin/Private'
 		end
 		
 		st.subspec "Private" do |stt|
-	 	stt.source_files="AMDShareModule/PluginShare/*/*.{h,m}"
-		stt.dependency "SDWebImage"
+	 	stt.source_files="AMDShareModule/AMDShare/PluginShare/*/*.{h,m}"
+		#stt.dependency "SDWebImage"
 		stt.dependency "AMDShareModule/Private"
 		end
 		
@@ -156,13 +155,10 @@ Pod::Spec.new do |s|
 	s.subspec "Platform" do |st|
 
 		st.subspec "Core" do |stt|
-	 	stt.source_files="AMDShareModule/PlatformShare/*.{h,m}"
-		stt.dependency 'AMDShareModule/Platform/Private'
-		end
+	 	stt.source_files="AMDShareModule/AMDShare/PlatformShare/*.{h,m}","AMDShareModule/AMDShare/PlatformShare/*/*.{h,m}"
 		
-		st.subspec "Private" do |stt|
-	 	stt.source_files="AMDShareModule/PlatformShare/*/*.{h,m}"
 		stt.dependency "AMDShareModule/Private"
+		stt.dependency "AMDShareModule/Platform/Protrol"
 		stt.dependency "ShareSDK3", '~>3.6.3'
         	# 微信(可选)
 		stt.dependency 'WechatOpenSDK','~>1.7.9'        	
@@ -176,6 +172,16 @@ Pod::Spec.new do |s|
 
 		end
 		
+		st.subspec "Protrol" do |stt|
+                stt.source_files="AMDShareModule/AMDShare/PlatformShare/protrol/*.{h,m}"
+                end		
+
+	end
+
+	#private
+	s.subspec "Private" do |st|
+	    st.source_files="AMDShareModule/AMDShare/Service/*.{h,m}"
+	    st.dependency "SDWebImage"
 	end
 
 end

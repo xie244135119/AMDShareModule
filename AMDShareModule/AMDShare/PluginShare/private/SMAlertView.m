@@ -10,7 +10,7 @@
 #import <Masonry/Masonry.h>
 #import <SSBaseKit/SSBaseKit.h>
 #import "SMConstVar.h"
-#import "AMDShareManager.h"
+
 
 @interface SMAlertView()<UITextViewDelegate>
 {
