@@ -12,7 +12,7 @@
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 #import <ShareSDK/ShareSDK+Base.h>
-#import "MShareStaticMethod.h"
+#import "SMConstVar.h"
 
 
 @interface AMDShareManager()

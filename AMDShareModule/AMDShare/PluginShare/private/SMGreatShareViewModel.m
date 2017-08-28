@@ -10,10 +10,10 @@
 #import <SSBaseKit/SSBaseKit.h>
 #import <Masonry/Masonry.h>
 #import "SSAppPluginShare.h"
-#import "MShareStaticMethod.h"
+#import "SMConstVar.h"
 #import "SMAlertView.h"
-//#import "SMImagePreviewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+
 
 @interface SMGreatShareViewModel()<AMDControllerTransitionDelegate,UITextViewDelegate>
 {
@@ -130,7 +130,7 @@
     //提示内容
     AMDLabelShowView *prompContentView = [[AMDLabelShowView alloc]init];
     prompContentView.titleLabel.textAlignment = NSTextAlignmentRight;
-    prompContentView.titleLabel.font = FontWithName(@"", 12);
+    prompContentView.titleLabel.font = SSFontWithName(@"", 12);
     prompContentView.rightArrowShow = YES;
     [promptingContr addSubview:prompContentView];
     [prompContentView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -145,8 +145,8 @@
     //选择图片标题 数量
     AMDLabelShowView *selectLb = [[AMDLabelShowView alloc]init];
     selectLb.titleLabel.text = @"选择图片";
-    selectLb.titleLabel.font = FontWithName(@"", 15);
-    selectLb.titleLabel.textColor = ColorWithRGB(51, 51, 51, 1);
+    selectLb.titleLabel.font = SSFontWithName(@"", 15);
+    selectLb.titleLabel.textColor = SSColorWithRGB(51, 51, 51, 1);
     selectLb.contentLabel.text = @"已选0张";
     _imageCountLB = selectLb.contentLabel;
     [contentBackView addSubview:selectLb];
@@ -183,7 +183,7 @@
         AMDButton *shareImageView = [[AMDButton alloc]init];
         shareImageView.tag = i;
         shareImageView.layer.borderWidth = .5;
-        shareImageView.layer.borderColor = SMLineColor.CGColor;
+        shareImageView.layer.borderColor = SSColorWithRGB(230, 230, 230, 1).CGColor;
         [shareImageView addTarget:self action:@selector(clickImage:) forControlEvents:UIControlEventTouchUpInside];
         id senderobject = _currentImageArr[i];
         if ([senderobject isKindOfClass:[UIImage class]]) {
@@ -226,8 +226,8 @@
     //编辑文案
     UILabel *editTitleLB = [[UILabel alloc]init];
     editTitleLB.text = @"编辑分享文案";
-    editTitleLB.textColor = ColorWithRGB(51, 51, 51, 1);
-    editTitleLB.font = FontWithName(@"", 15);
+    editTitleLB.textColor = SSColorWithRGB(51, 51, 51, 1);
+    editTitleLB.font = SSFontWithName(@"", 15);
     [contentBackView addSubview:editTitleLB];
     [editTitleLB mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(15);
@@ -238,7 +238,7 @@
     
     UIView *tvBackView = [[UIView alloc]init];
     tvBackView.layer.borderWidth = .5;
-    tvBackView.layer.borderColor = SMLineColor.CGColor;
+    tvBackView.layer.borderColor = SSColorWithRGB(230, 230, 230, 1).CGColor;
     tvBackView.backgroundColor = [UIColor whiteColor];
     [contentBackView addSubview:tvBackView];
     [tvBackView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -253,8 +253,8 @@
     editTV.delegate = self;
     editTV .returnKeyType = UIReturnKeyDone;
     _shareContentTV = editTV;
-    editTV.font = FontWithName(@"", 14);
-    editTV.textColor = ColorWithRGB(79, 79, 79, 1);
+    editTV.font = SSFontWithName(@"", 14);
+    editTV.textColor = SSColorWithRGB(79, 79, 79, 1);
     editTV.text = self.shareContent;
     [contentBackView addSubview:editTV];
     [editTV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -275,9 +275,9 @@
     //复制按钮
     AMDButton *copyBT = [[AMDButton alloc]init];
     copyBT.titleLabel.text = @"仅复制分享文案";
-    copyBT.titleLabel.font = FontWithName(@"", 15);
+    copyBT.titleLabel.font = SSFontWithName(@"", 15);
     copyBT.titleLabel.textAlignment = NSTextAlignmentRight;
-    copyBT.titleLabel.textColor = ColorWithRGB(230, 99, 14, 1);
+    copyBT.titleLabel.textColor = SSColorWithRGB(230, 99, 14, 1);
     [copyBT addTarget:self action:@selector(copyText) forControlEvents:UIControlEventTouchUpInside];
     //    copyBT.layer.borderWidth = 1;
     [contentBackView addSubview:copyBT];
@@ -314,7 +314,7 @@
     }];
     
     AMDLineView *line = [[AMDLineView alloc]init];
-    line.lineColor = SMLineColor;
+    line.lineColor = SSColorWithRGB(230, 230, 230, 1);
     [shareBackView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.offset(0);
@@ -323,8 +323,8 @@
     }];
     
     UILabel *headingLB = [[UILabel alloc]init];
-    headingLB.textColor = ColorWithRGB(51, 51, 51, 1);
-    headingLB.font = FontWithName(@"", 14);
+    headingLB.textColor = SSColorWithRGB(51, 51, 51, 1);
+    headingLB.font = SSFontWithName(@"", 14);
     headingLB.textAlignment = NSTextAlignmentCenter;
     headingLB.backgroundColor = [UIColor whiteColor];
     headingLB.text = @"图文分享到";
@@ -367,7 +367,7 @@
         UILabel *titleLB = [[UILabel alloc]init];
         titleLB.text = titles[i];
         titleLB.textAlignment = NSTextAlignmentCenter;
-        titleLB.font = FontWithName(@"", 12);
+        titleLB.font = SSFontWithName(@"", 12);
         titleLB.textColor = [UIColor grayColor];
         [v addSubview:titleLB];
         [titleLB mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -393,7 +393,7 @@
         //复制文字
         [self pasteText:self.shareContent];
         //弹出提示框
-        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"分享文案已复制" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertCtr = [UIAlertController alertControllerWithTitle:@"请至少选择一张图片" message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
         [alertCtr addAction:cancelAction];
         id<UIApplicationDelegate> app = [[UIApplication sharedApplication] delegate];
@@ -522,13 +522,13 @@
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:countLb.text];
     [attributedString addAttribute:NSKernAttributeName value:@2 range:NSMakeRange(0, countLb.text.length)];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:range];
-    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 15) range:range];
+    [attributedString addAttribute:NSFontAttributeName value:SSFontWithName(@"", 15) range:range];
     NSRange headerRange = NSMakeRange(0, 2);
     NSRange footerRange =  NSMakeRange(countLb.text.length-1, 1);
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:headerRange];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:footerRange];
-    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 15) range:footerRange];
-    [attributedString addAttribute:NSFontAttributeName value:FontWithName(@"", 15) range:headerRange];
+    [attributedString addAttribute:NSFontAttributeName value:SSFontWithName(@"", 15) range:footerRange];
+    [attributedString addAttribute:NSFontAttributeName value:SSFontWithName(@"", 15) range:headerRange];
     countLb.attributedText = attributedString;
 }
 

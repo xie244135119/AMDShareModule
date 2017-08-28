@@ -13,7 +13,7 @@
 #import <WXApi.h>
 //#import "MShareManager.h"
 //#import "AMDShareMaterialController.h"
-#import "MShareStaticMethod.h"
+#import "SMConstVar.h"
 #import "SMPreviewController.h"
 
 

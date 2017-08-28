@@ -21,7 +21,7 @@ NSString * const SSPluginShareSina = @"sina";
 
 @interface SSAppPluginShare()
 {
-    __weak UIView *_backgroundView;         //后背景视图
+    __weak UIView *_backgroundView;                 //后背景视图
     __weak UILabel *_wechatShareLabel;               //分享文案视图
     
     //所有分享的图片 url
@@ -37,14 +37,11 @@ NSString * const SSPluginShareSina = @"sina";
 - (void)dealloc
 {
     self.shareImages = nil;
-//    self.shareImageUrls = nil;
     _shareImageUrls = nil;
     self.shareUrl = nil;
     self.shareContent = nil;
     self.pluginIder = nil;
     _shareImageObjects = nil;
-//    _allCacheImages = nil;
-//    _selectImageArray = nil;
 }
 
 

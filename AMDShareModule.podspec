@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "AMDShareModule"
-  s.version      = "1.0.5.31"
+  s.version      = "1.0.5.33"
   s.summary      = "the module of share"
 
   # This description is used to generate tags and improve search results.
@@ -131,34 +131,51 @@ Pod::Spec.new do |s|
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # s.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$(SDKROOT)/UMSocialCore"}
+    s.default_subspec = 'Plugin'
     s.dependency "SSBaseKit"
     s.dependency "SSBaseLib"
 
-	#Core
-	s.subspec "Core" do |st|
-	 	st.source_files="AMDShareModule/AMDShare/Control"
-		st.dependency 'AMDShareModule/Private'
-		st.dependency 'AMDShareModule/Protrol'
-	end
-	
-	s.subspec "Private" do |st|
-                st.source_files="AMDShareModule/AMDShare/Service", "AMDShareModule/AMDShare/ViewModel","AMDShareModule/AMDShare/View"
-		st.dependency 'AMDShareModule/Protrol'
-		st.dependency "ShareSDK3", '~>3.6.3'
-        	# 微信(可选)
-		st.dependency 'WechatOpenSDK','~>1.7.9'        	
-		# 腾讯QQ(可选)
-        	st.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
-        	#新浪微博
-        	st.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
-        	st.dependency 'SDWebImage'
-        	st.dependency 'UMengUShare/Core', '~>6.4.5'
-        	st.dependency 'UMengUShare/Social/ReducedWeChat'
-        end
-	
-	s.subspec "Protrol" do |st|
-                st.source_files="AMDShareModule/AMDShare/Protrol"
-        end
+	#plugin share
+	s.subspec "Plugin" do |st|
 
+		st.subspec "Core" do |stt|
+	 	stt.source_files="AMDShareModule/PluginShare/*.{h,m}"
+		stt.dependency 'AMDShareModule/Plugin/Private'
+		end
+		
+		st.subspec "Private" do |stt|
+	 	stt.source_files="AMDShareModule/PluginShare/*/*.{h,m}"
+		stt.dependency "SDWebImage"
+		stt.dependency "AMDShareModule/Private"
+		end
+		
+	end
+
+
+	#platform share
+	s.subspec "Platform" do |st|
+
+		st.subspec "Core" do |stt|
+	 	stt.source_files="AMDShareModule/PlatformShare/*.{h,m}"
+		stt.dependency 'AMDShareModule/Platform/Private'
+		end
+		
+		st.subspec "Private" do |stt|
+	 	stt.source_files="AMDShareModule/PlatformShare/*/*.{h,m}"
+		stt.dependency "AMDShareModule/Private"
+		stt.dependency "ShareSDK3", '~>3.6.3'
+        	# 微信(可选)
+		stt.dependency 'WechatOpenSDK','~>1.7.9'        	
+		# 腾讯QQ(可选)
+        	stt.dependency "ShareSDK3/ShareSDKPlatforms/QQ"
+        	#新浪微博
+        	stt.dependency "ShareSDK3/ShareSDKPlatforms/SinaWeibo"
+        	stt.dependency 'SDWebImage'
+        	stt.dependency 'UMengUShare/Core', '~>6.4.5'
+        	stt.dependency 'UMengUShare/Social/ReducedWeChat'
+
+		end
+		
+	end
 
 end

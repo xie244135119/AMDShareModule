@@ -8,8 +8,7 @@
 
 #import "AMDShareViewModel.h"
 #import <Masonry/Masonry.h>
-#import "MShareStaticMethod.h"
-//#import "MShareManager.h"
+#import "SMConstVar.h"
 #import "AMDShareManager.h"
 #import "AMDUMSDKManager.h"
 #import <Social/Social.h>
@@ -75,8 +74,8 @@
     UILabel *titlelb = [[UILabel alloc]init];
     titlelb.text = @"选择分享方式";
     titlelb.textAlignment = NSTextAlignmentCenter;
-    titlelb.textColor = SMDEFAULT_TEXT_GRAY_COLOR;
-    titlelb.font = FontWithName(@"", 14);
+    titlelb.textColor = SSColorWithRGB(119,119,119, 1);
+    titlelb.font = SSFontWithName(@"", 14);
     [middleView addSubview:titlelb];
     _titleLb = titlelb;
     [titlelb mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -86,12 +85,12 @@
     
     // 线条
     AMDLineView *line = [[AMDLineView alloc]init];
-    line.lineColor = SMLineColor;
+    line.lineColor = SSColorWithRGB(230, 230, 230, 1);
     [middleView addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(@0);
         make.top.equalTo(titlelb.mas_bottom);
-        make.height.equalTo(@(SMLineHeight));
+        make.height.equalTo(@(0.5));
     }];
     
     // 加载中间的按钮
@@ -100,15 +99,15 @@
     // 取消按钮
     AMDButton *cancelbt = [[AMDButton alloc]init];
     cancelbt.titleLabel.text = @"取消";
-    cancelbt.titleLabel.font = FontWithName(@"", 15);
+    cancelbt.titleLabel.font = SSFontWithName(@"", 15);
     [cancelbt setBackgroundColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cancelbt setBackgroundColor:SMLineColor forState:UIControlStateHighlighted];
+    [cancelbt setBackgroundColor:SSColorWithRGB(230, 230, 230, 1) forState:UIControlStateHighlighted];
     [cancelbt addTarget:self action:@selector(clickCancelAction:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelbt setTitleColor:SMDEFAULT_TEXT_COLOR forState:UIControlStateNormal];
+    [cancelbt setTitleColor:SSColorWithRGB(51,51,51, 1) forState:UIControlStateNormal];
     [middleView addSubview:cancelbt];
-    cancelbt.layer.borderWidth = SMBorderWidth;
-    cancelbt.layer.borderColor = [SMsummary_text_color CGColor];
-    cancelbt.layer.cornerRadius = SMCornerRadius;
+    cancelbt.layer.borderWidth = 0.5;
+    cancelbt.layer.borderColor = [SSColorWithRGB(153,153,153, 1) CGColor];
+    cancelbt.layer.cornerRadius = 3;
     cancelbt.layer.masksToBounds = YES;
     [cancelbt mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@15);
@@ -170,8 +169,8 @@
         titleLB.text = shareTitles[i];
         titleLB.tag = i;
         titleLB.textAlignment = NSTextAlignmentCenter;
-        titleLB.font = FontWithName(@"", 12);
-        titleLB.textColor = SMDEFAULT_TEXT_GRAY_COLOR;
+        titleLB.font = SSFontWithName(@"", 12);
+        titleLB.textColor = SSColorWithRGB(119,119,119, 1);
         [backView addSubview:titleLB];
         
         [titleLB mas_makeConstraints:^(MASConstraintMaker *make) {

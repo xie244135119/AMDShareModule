@@ -8,9 +8,8 @@
 
 #import "SMAlertView.h"
 #import <Masonry/Masonry.h>
-#import <SSBaseLib/SSBaseLib.h>
 #import <SSBaseKit/SSBaseKit.h>
-#import "MShareStaticMethod.h"
+#import "SMConstVar.h"
 #import "AMDShareManager.h"
 
 @interface SMAlertView()<UITextViewDelegate>
@@ -57,8 +56,8 @@
     UILabel *titleLB = [[UILabel alloc]init];
     titleLB.textAlignment = NSTextAlignmentCenter;
     titleLB.text = @"分享文案已复制";
-    titleLB.textColor = ColorWithRGB(70, 70, 70, 1);
-    titleLB.font = FontWithName(@"", 16);
+    titleLB.textColor = SSColorWithRGB(70, 70, 70, 1);
+    titleLB.font = SSFontWithName(@"", 16);
     [alertBack addSubview:titleLB];
     [titleLB mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.offset(150);
@@ -84,7 +83,7 @@
     }];
     
     UIView *tvBack = [[UIView alloc]init];
-    tvBack.backgroundColor = ColorWithRGB(243, 243, 243, 1);
+    tvBack.backgroundColor = SSColorWithRGB(243, 243, 243, 1);
     [alertBack addSubview:tvBack];
     [tvBack  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(10);
@@ -95,9 +94,9 @@
     
     //内容展示框
     UITextView *contentTextView = [[UITextView alloc]init];
-    contentTextView.font = FontWithName(@"", 14);
-    contentTextView.textColor = ColorWithRGB(70, 70, 70, 1);
-    contentTextView.backgroundColor = ColorWithRGB(243, 243, 243, 1);
+    contentTextView.font = SSFontWithName(@"", 14);
+    contentTextView.textColor = SSColorWithRGB(70, 70, 70, 1);
+    contentTextView.backgroundColor = SSColorWithRGB(243, 243, 243, 1);
     contentTextView.delegate = self;
     _contentTextView = contentTextView;
 //    contentTextView.layer.borderWidth = 1;
@@ -114,8 +113,8 @@
 //    confirmBT.layer.borderWidth = 1;
     [confirmBT addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
     confirmBT.titleLabel.text = @"去微信粘贴";
-    confirmBT.titleLabel.textColor = ColorWithRGB(68, 129, 235, 1);
-    confirmBT.titleLabel.font = FontWithName(@"", 16);
+    confirmBT.titleLabel.textColor = SSColorWithRGB(68, 129, 235, 1);
+    confirmBT.titleLabel.font = SSFontWithName(@"", 16);
     [alertBack addSubview:confirmBT];
     [confirmBT mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.offset(0);
@@ -123,11 +122,11 @@
     }];
     
     AMDLineView *line = [[AMDLineView alloc]init];
-    line.lineColor = SMLineColor;
+    line.lineColor = SSColorWithRGB(230, 230, 230, 1);
     [confirmBT addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.offset(0);
-        make.height.offset(SMLineHeight);
+        make.height.offset(0.5);
     }];
 }
 

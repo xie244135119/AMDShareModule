@@ -18,8 +18,6 @@
                wechatAppKey:(NSString *)wechatAppKey
             wechatAppSecret:(NSString *)wechatAppSecret;
 
-//配置友盟sdk
-//+ (void)config;
 
 
 

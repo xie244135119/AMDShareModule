@@ -6,10 +6,9 @@
 //  Copyright (c) 2015年 SunSet. All rights reserved.
 //
 #import "AMDUMSDKManager.h"
-//#import <UMSocialCore/UMSocialCore.h>
 #import <UMSocialCore/UMSocialCore.h>
 #import "AMDShareManager.h"
-#import "MShareStaticMethod.h"
+#import "SMConstVar.h"
 
 
 @implementation AMDUMSDKManager
@@ -40,14 +39,6 @@
         shareTitle = shareTitle.length > 30?[shareTitle substringToIndex:30]:shareTitle;
         shareContent = shareContent.length > 40?[shareContent substringToIndex:40]:shareContent;
     }
-    
-//    // 分享内容拼接规则
-//    if ( shareType == AMDShareTypeCopy) {
-//        // 如果内容中含有http
-//        if ([shareContent rangeOfString:@"http"].length == 0 && shareUrl.length > 0) {
-//            shareContent = [shareContent stringByAppendingFormat:@" %@",shareUrl];
-//        }
-//    }
     
     //图片裁剪40
     NSString *imagestring = [NSString stringWithFormat:@"%@",shareImageUrl];

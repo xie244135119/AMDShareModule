@@ -8,9 +8,7 @@
 
 #import "AMDShareController.h"
 #import "AMDShareViewModel.h"
-#import "MShareStaticMethod.h"
 #import "AMDShareMaterialViewModel.h"
-#import <SSBaseLib/SSBaseLib.h>
 
 @interface AMDShareController ()
 {

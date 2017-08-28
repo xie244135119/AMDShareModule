@@ -11,7 +11,7 @@
 #import <Masonry/Masonry.h>
 #import <SSBaseLib/SSBaseLib.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "MShareStaticMethod.h"
+#import "SMConstVar.h"
 #import <Photos/Photos.h>
 
 @interface SMPreviewViewModel()<UIScrollViewDelegate>
@@ -108,7 +108,7 @@
     _currentPageControl = pageCtrol;
     pageCtrol.numberOfPages = _showImages.count;
     pageCtrol.currentPageIndicatorTintColor = [UIColor whiteColor];
-    pageCtrol.pageIndicatorTintColor = ColorWithRGB(60, 53, 53, 1);
+    pageCtrol.pageIndicatorTintColor = SSColorWithRGB(60, 53, 53, 1);
     pageCtrol.hidesForSinglePage = YES;
     [pageCtrol addTarget:self action:@selector(clickPageControlAction:) forControlEvents:UIControlEventValueChanged];
     [_senderController.contentView addSubview:pageCtrol];
@@ -136,7 +136,7 @@
 //    imageCountLB.text = @"0";
     imageCountLB.textAlignment = NSTextAlignmentCenter;
     _currentSelectCountLB = imageCountLB;
-    imageCountLB.font = FontWithName(@"", 12);
+    imageCountLB.font = SSFontWithName(@"", 12);
     imageCountLB.backgroundColor = [UIColor redColor];
     imageCountLB.textColor = [UIColor whiteColor];
     imageCountLB.layer.masksToBounds = YES;
