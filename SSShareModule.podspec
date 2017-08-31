@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  s.name         = "AMDShareModule"
+  s.name         = "SSShareModule"
   s.version      = "1.0.5.33"
   s.summary      = "the module of share"
 
@@ -77,7 +77,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://git.wdwd.com/appmodules/amdsharemodule.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/xie244135119/AMDShareModule.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -139,13 +139,13 @@ Pod::Spec.new do |s|
 
 		st.subspec "Core" do |stt|
 	 	stt.source_files="AMDShareModule/AMDShare/PluginShare/*.{h,m}"
-		stt.dependency 'AMDShareModule/Plugin/Private'
+		stt.dependency 'SSShareModule/Plugin/Private'
 		end
 		
 		st.subspec "Private" do |stt|
 	 	stt.source_files="AMDShareModule/AMDShare/PluginShare/*/*.{h,m}"
 		#stt.dependency "SDWebImage"
-		stt.dependency "AMDShareModule/Private"
+		stt.dependency "SSShareModule/Private"
 		end
 		
 	end
@@ -157,8 +157,8 @@ Pod::Spec.new do |s|
 		st.subspec "Core" do |stt|
 	 	stt.source_files="AMDShareModule/AMDShare/PlatformShare/*.{h,m}","AMDShareModule/AMDShare/PlatformShare/*/*.{h,m}"
 		
-		stt.dependency "AMDShareModule/Private"
-		stt.dependency "AMDShareModule/Platform/Protrol"
+		stt.dependency "SSShareModule/Private"
+		stt.dependency "SSShareModule/Platform/Protrol"
 		stt.dependency "ShareSDK3", '~>3.6.3'
         	# 微信(可选)
 		stt.dependency 'WechatOpenSDK','~>1.7.9'        	
